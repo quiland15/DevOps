@@ -1,0 +1,87 @@
+body {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #66a3ff, #ffffff);
+    display: flex;
+    padding-top: 2.5cm;
+    /* align-items: center; */
+    justify-content: center;
+  }
+  /* .card {
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    width: 400px;
+    max-width: 400px;
+  } */
+  /* .logo {
+    width: 70px;
+    height: 70px;
+    object-fit:cover;
+  } */
+  .btn-login {
+    background-color: #4d94ff;
+    border: none;
+  }
+  .btn-login:hover {
+    background-color: #337aff;
+  }
+      /* Responsive Style */
+  @media (max-width: 400px) { /* Mobile */
+    .logo {
+      width: 60px;
+      height: 60px;
+      object-fit:cover;
+    }
+    h4 {
+      font-size: 1rem;
+    }
+    p {
+      font-size: 0.8rem;
+    }
+    .form-label {
+      font-size: 0.8rem;
+    }
+    .form-control {
+      font-size: 0.8rem;
+    }
+    .btn-login {
+      font-size: 0.9rem;
+    }
+    .card {
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    width: 340px;
+    max-width: 400px;
+    }
+  }
+
+  @media (min-width: 401px) { /* Tablet ke atas */
+    .logo {
+    width: 70px;
+    height: 70px;
+    object-fit:cover;
+    }
+    h4 {
+      font-size: 2rem;
+    }
+    p {
+      font-size: 1rem;
+    }
+    .form-label {
+      font-size: 1rem;
+    }
+    .form-control {
+      font-size: 1rem;
+    }
+    .btn-login {
+      font-size: 1.1rem;
+    }
+    .card {
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    width: 400px;
+    max-width: 450px;
+    }
+  }
