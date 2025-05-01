@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-$=l+8vw_5l90*i72h!cl$0&2(rt*phs+$(o76on_3q)ki(qj^$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['udpelita.site']
 
 
 # Application definition
