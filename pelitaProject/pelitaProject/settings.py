@@ -68,7 +68,7 @@ DATABASES = {
         'NAME': 'db_DevOps',
         'USER': 'Quiland',
         'PASSWORD': 'Quiland15september_',
-        'HOST': '103.226.138.171',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
