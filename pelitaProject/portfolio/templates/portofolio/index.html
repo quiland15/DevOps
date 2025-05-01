@@ -1,1 +1,697 @@
 {% extends "base.html"%}
+{% load static %}
+
+{% block style %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+
+    <link rel="icon" href="{% static 'assets/img/logo1-removebg-preview.png' %}">
+    <link href="{% static 'assets/img/apple-touch-icon.png" rel="apple-touch-icon' %}">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="{% static 'assets/css/main.css" rel="stylesheet' %}">
+{% endblock style %}
+
+{% block content %}
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <img src="assets/img/logo1-removebg-preview.png" alt="">
+        <h1 class="sitename">UD.PELITA</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="#hero" class="active">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <!-- <li><a href="#portfolio">Portfolio</a></li> -->
+          <li><a href="#team">Team</a></li>
+          <!-- <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="#">Dropdown 1</a></li>
+              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <ul>
+                  <li><a href="#">Deep Dropdown 1</a></li>
+                  <li><a href="#">Deep Dropdown 2</a></li>
+                  <li><a href="#">Deep Dropdown 3</a></li>
+                  <li><a href="#">Deep Dropdown 4</a></li>
+                  <li><a href="#">Deep Dropdown 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Dropdown 2</a></li>
+              <li><a href="#">Dropdown 3</a></li>
+              <li><a href="#">Dropdown 4</a></li>
+            </ul>
+          </li> -->
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <!-- <a class="btn-getstarted" href="index.html#about">Get Started</a> -->
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="fade-in">
+            <h1>UD.PELITA<br>Toko Pertanian & Peternakan</h1>
+            <p>Pupuk, bibit, pakan ternak, dan alat pertanian terbaik untuk hasil maksimal.</p>
+            <div class="d-flex">
+              <a href="#about" class="btn-get-started">Get Started</a>
+            </div>
+          </div>
+          <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="100">
+            <img src="assets/img/Gambar.png" class="img-fluid animated" alt="">
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /Hero Section -->
+
+    <!-- Clients Section -->
+    <!-- <section id="clients" class="clients section light-background">
+
+      <div class="container">
+
+        <div class="swiper init-swiper">
+          <script type="application/json" class="swiper-config">
+            {
+              "loop": true,
+              "speed": 600,
+              "autoplay": {
+                "delay": 5000
+              },
+              "slidesPerView": "auto",
+              "pagination": {
+                "el": ".swiper-pagination",
+                "type": "bullets",
+                "clickable": true
+              },
+              "breakpoints": {
+                "320": {
+                  "slidesPerView": 2,
+                  "spaceBetween": 40
+                },
+                "480": {
+                  "slidesPerView": 3,
+                  "spaceBetween": 60
+                },
+                "640": {
+                  "slidesPerView": 4,
+                  "spaceBetween": 80
+                },
+                "992": {
+                  "slidesPerView": 6,
+                  "spaceBetween": 120
+                }
+              }
+            }
+          </script>
+          <div class="swiper-wrapper align-items-center">
+            <div class="swiper-slide"><img src="assets/img/clients/client-1.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-2.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-3.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-4.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-5.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-6.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-7.png" class="img-fluid" alt=""></div>
+            <div class="swiper-slide"><img src="assets/img/clients/client-8.png" class="img-fluid" alt=""></div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>/Clients Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-6 position-relative order-lg-last" data-aos="fade-up" data-aos-delay="0">
+            <img src="assets/img/about.jpg" class="img-fluid" alt="">
+            <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn"></a>
+          </div>
+
+          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="0">
+            <h3>About Us</h3>
+            <p>
+              UD.PELITA adalah mitra terpercaya di bidang pertanian dan peternakan yang berdiri sejak tahun 2019 di Kota Bitung. Kami berkomitmen menyediakan produk-produk berkualitas seperti pupuk, bibit unggul, pakan ternak, serta alat pertanian modern untuk menunjang produktivitas petani dan peternak Indonesia.
+            </p>
+            <ul>
+              <li>
+                <i class="bi bi-diagram-3"></i>
+                <div>
+                  <h5> Kemitraan dengan Pemerintah & Swasta </h5>
+                  <p>UD.PELITA aktif menjalin kerja sama dengan Pemerintah Kota Bitung, dinas pertanian untuk mendukung program ketahanan pangan dan kemandirian petani.</p>
+                </div>
+              </li>
+              <li>
+                <i class="bi bi-fullscreen-exit"></i>
+                <div>
+                  <h5>Produk Lengkap dan Berkualitas</h5>
+                  <p>Kami menyediakan produk pertanian dan peternakan pilihan dari merek terpercaya seperti Pupuk Indonesia, bibit hortikultura unggulan, serta pakan ternak berkualitas tinggi.</p>
+                </div>
+              </li>
+              <li>
+                <i class="bi bi-broadcast"></i>
+                <div>
+                  <h5>Mudah Diakses</h5>
+                  <p>Dengan sistem distribusi yang efisien, pelanggan bisa mendapatkan produk langsung di toko UD PELITA</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /About Section -->
+
+    <!-- Featured Services Section -->
+    <section id="featured-services" class="featured-services section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Featured Services</h2>
+        <p>Menyediakan layanan unggulan di bidang pertanian dan peternakan yang mendukung program pemerintah serta meningkatkan kesejahteraan petani dan peternak lokal.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-5">
+
+          <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+            <div class="service-item">
+              <div class="img">
+                <img src="assets/img/5ed8d19e24b74.jpg" class="img-fluid" alt="">
+              </div>
+              <div class="details position-relative">
+                <div class="icon">
+                  <i class="bi bi-activity"></i>
+                </div>
+                <a href="service-details.html" class="stretched-link">
+                  <h3>Penyaluran Pupuk Bersubsidi Resmi</h3>
+                </a>
+                <p>Kami bekerja sama langsung dengan pemerintah untuk menyediakan pupuk bersubsidi Urea dan NPK bagi petani terdaftar sesuai RDKK</p>
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+            <div class="service-item">
+              <div class="img">
+                <img src="assets/img/pt-pupuk-kalimantan-timur-pupuk-kaltim-melalui-loyalty-progr-uhp4.jpg" class="img-fluid" alt="">
+              </div>
+              <div class="details position-relative">
+                <div class="icon">
+                  <i class="bi bi-broadcast"></i>
+                </div>
+                <a href="service-details.html" class="stretched-link">
+                  <h3>Pupuk Non-Subsidi Berkualitas</h3>
+                </a>
+                <p>Menyediakan berbagai jenis pupuk non-subsidi dengan kualitas unggul dari brand ternama. Tersedia untuk semua jenis tanaman dan kebutuhan lahan.</p>
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="400">
+            <div class="service-item">
+              <div class="img">
+                <img src="assets/img/feedstuff.jpg" class="img-fluid" alt="">
+              </div>
+              <div class="details position-relative">
+                <div class="icon">
+                  <i class="bi bi-easel"></i>
+                </div>
+                <a href="service-details.html" class="stretched-link">
+                  <h3>Penjualan Pakan & Obat Hewan Ternak</h3>
+                </a>
+                <p>Menyediakan pakan ternak berkualitas dan obat-obatan hewan legal yang telah terdaftar di dinas terkait. Cocok untuk peternak skala kecil hingga besar.</p>
+              </div>
+            </div>
+          </div><!-- End Service Item -->
+
+          <!-- <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="500">
+            <div class="service-item">
+              <div class="img">
+                <img src="assets/img/services-4.jpg" class="img-fluid" alt="">
+              </div>
+              <div class="details position-relative">
+                <div class="icon">
+                  <i class="bi bi-bounding-box-circles"></i>
+                </div>
+                <a href="service-details.html" class="stretched-link">
+                  <h3>Asperiores Commodit</h3>
+                </a>
+                <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
+                <a href="service-details.html" class="stretched-link"></a>
+              </div>
+            </div>
+          </div>End Service Item -->
+
+          <!-- <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="600">
+            <div class="service-item">
+              <div class="img">
+                <img src="assets/img/services-5.jpg" class="img-fluid" alt="">
+              </div>
+              <div class="details position-relative">
+                <div class="icon">
+                  <i class="bi bi-calendar4-week"></i>
+                </div>
+                <a href="service-details.html" class="stretched-link">
+                  <h3>Velit Doloremque</h3>
+                </a>
+                <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
+                <a href="service-details.html" class="stretched-link"></a>
+              </div>
+            </div>
+          </div>End Service Item -->
+
+          <!-- <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="700">
+            <div class="service-item">
+              <div class="img">
+                <img src="assets/img/services-6.jpg" class="img-fluid" alt="">
+              </div>
+              <div class="details position-relative">
+                <div class="icon">
+                  <i class="bi bi-chat-square-text"></i>
+                </div>
+                <a href="service-details.html" class="stretched-link">
+                  <h3>Dolori Architecto</h3>
+                </a>
+                <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
+                <a href="service-details.html" class="stretched-link"></a>
+              </div>
+            </div>
+          </div> End Service Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Featured Services Section -->
+
+    <!-- Features Section -->
+    <section id="features" class="features section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Features</h2>
+        <p>
+          Solusi lengkap bagi petani dan peternak untuk meningkatkan hasil usaha dengan produk dan layanan terbaik di bidang pertanian dan peternakan.
+        </p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4 align-items-center features-item">
+          <div class="col-md-5 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="100">
+            <img src="assets/img/antarafoto-realisasi-penyaluran-pupuk-subsidi-di-aceh-310723-syf-6_ratio-16x9.jpg" class="img-fluid" alt="">
+          </div>
+          <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
+            <h3> Akses Produk Subsidi Langsung</h3>
+            <p class="fst-italic">
+              Mudah Akses Produk Bersubsidi
+            </p>
+            <p>Petani dan peternak dapat memperoleh pupuk dan bibit bersubsidi melalui sistem RDKK resmi yang terintegrasi dengan dinas terkait.</p>
+            <ul>
+              <li><i class="bi bi-check"></i><span>Petani bisa datang langsung ke toko UD.PELITA atau hubungi tim kami untuk mendapatkan info lengkap dan bantuan terkait produk bersubsidi, tanpa dipungut biaya.</span></li>
+              <li><i class="bi bi-check"></i> <span>Produk bersubsidi dikirimkan sesuai jadwal distribusi yang ditetapkan dinas pertanian setempat, memastikan ketepatan waktu dan kuota.</span></li>
+              <li><i class="bi bi-check"></i> <span>Setiap transaksi tercatat dengan sistem administrasi yang transparan dan dapat diverifikasi, demi akuntabilitas dan kepercayaan petani.</span></li>
+            </ul>
+          </div>
+        </div><!-- Features Item -->
+
+        <div class="row gy-4 align-items-center features-item">
+          <div class="col-md-5 order-1 order-md-2 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
+            <img src="assets/img/02-18-750x450.jpg" class="img-fluid" alt="">
+          </div>
+          <div class="col-md-7 order-2 order-md-1" data-aos="fade-up" data-aos-delay="200">
+            <h3>Layanan Konsultasi Gratis</h3>
+            <p class="fst-italic">
+              Konsultasi dan Edukasi Gratis
+            </p>
+            <p>
+              Tim kami siap mendampingi Anda dalam memilih produk terbaik serta memberi pelatihan teknik pertanian dan peternakan modern.
+            </p>
+          </div>
+        </div><!-- Features Item -->
+
+        <div class="row gy-4 align-items-center features-item">
+          <div class="col-md-5 d-flex align-items-center" data-aos="zoom-out">
+            <img src="assets/img/04102024_pakan_Ternak.jpg" class="img-fluid" alt="">
+          </div>
+          <div class="col-md-7" data-aos="fade-up">
+            <h3>Produk Lengkap dan Terjamin</h3>
+            <p class="fst-italic">Produk Resmi & Berkualitas</p>
+            <p>Kami menyediakan berbagai pilihan produk dari produsen terpercaya seperti Pupuk Indonesia, Medion, dan lainnya.</p>
+            <ul>
+              <li><i class="bi bi-check"></i> <span>Produk non-subsidi selalu tersedia tanpa harus menunggu jadwal distribusi pemerintah, cocok untuk kebutuhan mendesak petani dan peternak.</span></li>
+              <li><i class="bi bi-check"></i><span>Kami sediakan berbagai varian pupuk, bibit, pakan, hingga alat pertanian dari merek-merek terpercaya lokal maupun internasional.</span></li>
+              <li><i class="bi bi-check"></i> <span>Semua produk telah melalui proses seleksi dan pengujian mutu, serta disertai jaminan keaslian dan dukungan teknis dari produsen.</span>.</li>
+            </ul>
+          </div>
+        </div><!-- Features Item -->
+
+        <div class="row gy-4 align-items-center features-item">
+          <div class="col-md-5 order-1 order-md-2 d-flex align-items-center" data-aos="zoom-out">
+            <img src="assets/img/istockphoto-1323264565-170667a.jpg" class="img-fluid" alt="">
+          </div>
+          <div class="col-md-7 order-2 order-md-1" data-aos="fade-up">
+            <h3>Kemitraan Jangka Panjang untuk Petani & Peternak</h3>
+            <p class="fst-italic">
+              Kemitraan Berkelanjutan untuk Masa Depan Pertanian
+            </p>
+            <p>
+              UD.PELITA berkomitmen membangun hubungan jangka panjang dengan petani dan peternak melalui
+              program kemitraan yang berkelanjutan. Kami tidak hanya hadir sebagai penyedia produk, tetapi juga 
+              sebagai mitra strategis dalam setiap proses usaha tani dan ternak. Mulai dari penyediaan kebutuhan 
+              pokok, bimbingan teknis, hingga kerja sama dalam skala kelompok—semuanya dirancang untuk 
+              mendukung kemandirian dan peningkatan hasil panen atau produksi ternak secara optimal.
+            </p>
+          </div>
+        </div><!-- Features Item -->
+
+      </div>
+
+    </section><!-- /Features Section -->
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Services</h2>
+        <p>Memberikan solusi terpadu dan layanan terbaik untuk mendukung produktivitas dan kesejahteraan petani serta peternak.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-item  position-relative">
+              <div class="icon">
+                <i class="bi bi-activity"></i>
+              </div>
+              <a href="#services" class="stretched-link">
+                <h3>Penyedia Pupuk & Obat Tanaman</h3>
+              </a>
+              <p>
+                Kami menyediakan berbagai jenis pupuk dan pestisida berkualitas tinggi untuk membantu pertumbuhan tanaman secara maksimal dan tahan terhadap hama penyakit.
+              </p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-broadcast"></i>
+              </div>
+              <a href="#services" class="stretched-link">
+                <h3>Konsultasi Peternakan & Kesehatan Hewan</h3>
+              </a>
+              <p>
+                Butuh saran untuk ternak kamu? Tim ahli kami siap bantu mulai dari perawatan, pakan, hingga kesehatan hewan ternak.
+              </p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-easel"></i>
+              </div>
+              <a href="#services" class="stretched-link">
+                <h3>Layanan Pengiriman Produk</h3>
+              </a>
+              <p>
+                Pesan produk dari mana saja, kami antar sampai ke lokasi Anda. Proses cepat dan aman karena kami mengerti pentingnya waktu Anda.
+              </p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-bounding-box-circles"></i>
+              </div>
+              <a href="#services" class="stretched-link">
+                <h3>Analisis Tanah & Air</h3>
+              </a>
+              <p>
+                Kami bantu cek kesuburan tanah dan kualitas air agar kamu bisa menentukan langkah tepat dalam bertani atau beternak.
+              </p>
+              <a href="#services" class="stretched-link"></a>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-calendar4-week"></i>
+              </div>
+              <a href="#services" class="stretched-link">
+                <h3>Pelatihan & Edukasi Digital</h3>
+              </a>
+              <p>
+                Kami rutin mengadakan pelatihan seputar pertanian dan peternakan modern, baik online maupun offline. Ilmu terbaru, praktis, dan bisa langsung dipraktikkan.
+              </p>
+              <a href="#services" class="stretched-link"></a>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi bi-chat-square-text"></i>
+              </div>
+              <a href="#services" class="stretched-link">
+                <h3>Service & Maintenance Alat Tani</h3>
+              </a>
+              <p>
+                Peralatan rusak atau butuh perawatan? Tim teknisi kami siap bantu agar alat pertanian kamu tetap optimal dan nggak bikin rugi di musim tanam.
+              </p>
+              <a href="#services" class="stretched-link"></a>
+            </div>
+          </div><!-- End Service Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Services Section -->
+
+    <!-- Portfolio Section -->
+
+    <!-- Team Section -->
+    <section id="team" class="team section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Team</h2>
+        <p>Ini Merupakan Team kami yang mengatur Toko UD.PELITA</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4 justify-content-center">
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+            <div class="team-member">
+              <div class="member-img">
+                <img src="assets/img/team/team-2.jpg" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter-x"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Gledis Makarao</h4>
+                <span>Admin</span>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
+            <div class="team-member">
+              <div class="member-img">
+                <img src="assets/img/team/team-4.jpg" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter-x"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Deisy</h4>
+                <span>Cashier</span>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Team Section -->
+
+    <!-- Pricing Section -->
+
+    <!-- Faq Section -->
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section light-background">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Contact</h2>
+        <p>Jika ada yang ingin di tanyakan atau ingin datang silahkan Hubungi Contact ini</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+          <div class="col-lg-6 ">
+            <div class="row gy-4">
+
+              <div class="col-lg-12">
+                <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="200">
+                  <i class="bi bi-geo-alt"></i>
+                  <h3>Address</h3>
+                  <p>Jln.Wolter Mongnsidi, Kelurahan Sagerat, Kota Bitung</p>
+                </div>
+              </div><!-- End Info Item -->
+
+              <div class="col-md-6">
+                <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
+                  <i class="bi bi-telephone"></i>
+                  <h3>Call Us</h3>
+                  <p>+62 852 9856 2837</p>
+                </div>
+              </div><!-- End Info Item -->
+
+              <div class="col-md-6">
+                <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
+                  <i class="bi bi-envelope"></i>
+                  <h3>Email Us</h3>
+                  <p>pelita@gmail.com</p>
+                </div>
+              </div><!-- End Info Item -->
+
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
+              <div class="row gy-4">
+
+                <div class="col-md-6">
+                  <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                </div>
+
+                <div class="col-md-6 ">
+                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+                </div>
+
+                <div class="col-md-12">
+                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                </div>
+
+                <div class="col-md-12">
+                  <textarea class="form-control" name="message" rows="4" placeholder="Message" required=""></textarea>
+                </div>
+
+                <div class="col-md-12 text-center">
+                  <div class="loading">Loading</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">Your message has been sent. Thank you!</div>
+
+                  <button type="submit">Send Message</button>
+                </div>
+
+              </div>
+            </form>
+          </div><!-- End Contact Form -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Contact Section -->
+
+  </main>
+
+  <footer id="footer" class="footer dark-background">
+    <div class="container">
+      <h3 class="sitename">UD.PELITA</h3>
+      <p>Bersama petani dan peternak, kita bangun masa depan yang mandiri dan berkelanjutan.</p>
+      <div class="social-links d-flex justify-content-center">
+        <a href=""><i class="bi bi-twitter-x"></i></a>
+        <a href=""><i class="bi bi-facebook"></i></a>
+        <a href=""><i class="bi bi-instagram"></i></a>
+        <a href=""><i class="bi bi-skype"></i></a>
+        <a href=""><i class="bi bi-linkedin"></i></a>
+      </div>
+      <div class="copyright">
+        <span>&copy;</span> <strong class="px-1 sitename">UD.PELITA</strong> <span>All Rights Reserved</span>
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+        Designed by <a href="https://www.linkedin.com/in/quiland-wenas-5102a8222/">Quiland Mark Nico Wenas</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+
+  <!-- Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+{% endblock content %}
