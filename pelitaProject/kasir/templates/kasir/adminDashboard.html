@@ -1,0 +1,15 @@
+{% extends "base.html"%}
+{% load static %}
+
+{% block style %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}}</title>
+{% endblock style %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h3>Selamat datang {{ user.username }}!</h3>
+    <p>Ini adalah halaman dashboard.</p>
+  </div>
+{% endblock content %}
