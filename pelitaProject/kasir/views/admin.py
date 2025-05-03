@@ -16,3 +16,23 @@ def cashier_admin_view(request):
 	"user" : request.user
     })
 
+@login_required
+def admin_product_view(request):
+    return render(request, "kasir/product.html", {
+        "title":"Product",
+        "user" : request.user
+    })
+
+@login_required
+def admin_laporan_view(request):
+    return render(request, "kasir/laporan.html", {
+        "title":"Laporan",
+        "user" : request.user
+    })
+
+@login_required
+def admin_settings_view(request):
+    return render(request, "kasir/settings.html", {
+        "title":"Settings",
+        "user" : request.user
+    })
