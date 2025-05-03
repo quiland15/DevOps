@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from kasir.models import UserProfile
-from django.urls import reverse
 
 def login_view(request):
     context = {
@@ -21,9 +20,9 @@ def login_view(request):
             # Cek role dan redirect
             role = user.userprofile.role
             if role == "admin":
-                return redirect(reverse("dashboard"))
+                return redirect("admindashboard")
             elif role == "kasir":
-                return redirect("dashboard")
+                return redirect("kasirdashboard")
             else:
                 messages.error(request, "Role tidak dikenali.")
                 return redirect("login")

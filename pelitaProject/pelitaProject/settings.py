@@ -13,8 +13,13 @@ SECRET_KEY = 'django-insecure-$=l+8vw_5l90*i72h!cl$0&2(rt*phs+$(o76on_3q)ki(qj^$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['udpelita.site']
+ALLOWED_HOSTS = ['udpelita.site', 'www.udpelita.site']
+#SECURE_SSL_REDIRECT = True
 
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
+
+#SECURE_PROXY_SSL_HEADER = {'HTTP_X_FORWARDED_PROTO', 'https'}
 
 # Application definition
 
