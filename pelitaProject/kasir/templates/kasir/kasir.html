@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}}</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+  rel="stylesheet"
+/>
+{% endblock style %}
+
+{% block content %}
+    <!-- Sidebar -->
+    <div class="flex min-h-screen">
+        <aside class="bg-[#0052CC] w-56 flex flex-col justify-between text-white">
+            <div>
+              <div class="font-bold text-white text-lg px-6 border-b border-[#0041A8]" style="padding-top:20px; padding-bottom:20px;">
+                {{user}}
+              </div>
+              <nav class="mt-6 flex flex-col space-y-1 px-2">
+                <a href="{% url 'kasirdashboard' %}" class="flex items-center space-x-3 px-3 py-2 rounded hover:bg-[#0041A8]">
+                  <i class="fas fa-th-large text-sm"></i>
+                  <span class="text-sm">Dashboard</span>
+                </a>
+                <a href="/kasir2.html" class="flex items-center space-x-3 px-3 py-2 rounded bg-[#0041A8]">
+                  <i class="fas fa-cash-register text-sm"></i>
+                  <span class="text-sm">Cashier</span>
+                </a>
+              </nav>
+            </div>
+            <div class="px-6 py-3 border-t border-[#0041A8] flex items-center space-x-2 text-sm cursor-pointer hover:bg-[#0041A8]">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Keluar</span>
+            </div>
+        </aside>
+          
+        <div class="flex-1 flex flex-col">
+        <!-- Main Content -->
+        <!-- <div class="flex-grow-1"> -->
+            <!-- <nav class="navbar navbar-light bg-light shadow-sm">
+                <div class="container-fluid">
+                  <button class="btn d-md-none" onclick="toggleSidebar()">
+                    <i class="bi bi-list fs-3"></i>
+                  </button>
+                  <h5 class="mb-0">Kasir</h5>
+                  <div class="d-flex align-items-center">
+                    <span class="me-2">Kasir Tani</span>
+                    <div class="bg-primary rounded-circle text-white d-flex justify-content-center align-items-center" style="width:40px; height:40px;">KT</div>
+                  </div>
+                </div>
+            </nav> -->
+            <header class="flex items-center justify-between border-b border-[#E6E6E6] bg-white px-6 h-12">
+                <div class="text-sm font-normal text-[#1E1E1E]">Cashier</div>
+                <div class="flex items-center space-x-2">
+                  <div class="w-8 h-8 rounded-full bg-[#0052CC] flex items-center justify-center text-white font-semibold text-xs select-none">
+                    AT
+                  </div>
+                  <span class="text-xs text-[#1E1E1E] font-normal">Admin Tani</span>
+                </div>
+              </header>
+    
+            <div class="content container-fluid mt-4">
+                <div class="row">
+                    <div class="col-md-8 mb-4">
+                        <h5>Katalog Produk</h5>
+                        <input type="text" class="form-control mb-3" placeholder="Cari produk...">
+    
+                        <div class="row" id="product-list">
+                            <!-- Product Cards will be injected here -->
+                        </div>
+                    </div>
+    
+                    <div class="col-md-4">
+                        <div class="card p-3">
+                            <h5><i class="bi bi-cart"></i> Keranjang</h5>
+                            <div class="table-responsive">
+                                <table class="table" id="cart-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Produk</th>
+                                            <th>Harga</th>
+                                            <th>Qty</th>
+                                            <th>Subtotal</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Cart items -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p>Total Items: <span id="total-items">0</span></p>
+                            <p><strong>Total:</strong> <span class="text-primary" id="total-price">Rp 0</span></p>
+                            <input type="text" class="form-control mb-3" placeholder="Masukkan nama pelanggan">
+    
+                            <h6>Metode Pembayaran</h6>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="payment" id="cash" checked>
+                                <label class="form-check-label" for="cash">Tunai</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="payment" id="transfer">
+                                <label class="form-check-label" for="transfer">Transfer</label>
+                            </div>
+                            <div class="form-check form-check-inline mb-3">
+                                <input class="form-check-input" type="radio" name="payment" id="credit">
+                                <label class="form-check-label" for="credit">Kredit</label>
+                            </div>
+    
+                            <button class="btn btn-primary w-100">Proses Pembayaran</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- </div> -->
+        </div>
+        
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const products = [
+            { id: 1, name: "Pupuk NPK", category: "Pertanian", price: 85000, stock: 50 },
+            { id: 2, name: "Bibit Jagung Hibrida", category: "Pertanian", price: 45000, stock: 100 },
+            { id: 3, name: "Pestisida Organik", category: "Pertanian", price: 65000, stock: 30 },
+            { id: 4, name: "Pakan Ternak Ayam", category: "Peternakan", price: 75000, stock: 40 },
+            { id: 5, name: "Obat Ternak", category: "Peternakan", price: 120000, stock: 25 },
+        ];
+    
+        const cart = [];
+    
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('show');
+            document.getElementById('overlay').classList.toggle('show');
+        }
+    
+        function renderProducts() {
+            const list = document.getElementById('product-list');
+            list.innerHTML = "";
+            products.forEach(p => {
+                const div = document.createElement('div');
+                div.className = "col-md-6 col-lg-4 mb-3";
+                div.innerHTML = `
+                    <div class="card-product">
+                        <h6>${p.name}</h6>
+                        <small>${p.category}</small>
+                        <div class="price mt-1">Rp ${p.price.toLocaleString()}</div>
+                        <div class="product-stock">Stock: ${p.stock}</div>
+                        <button class="btn btn-sm btn-primary mt-2 w-100" onclick="addToCart(${p.id})">Tambah</button>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+    
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const existing = cart.find(c => c.id === id);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            renderCart();
+        }
+    
+        function updateQty(id, change) {
+            const item = cart.find(c => c.id === id);
+            if (!item) return;
+            item.qty += change;
+            if (item.qty <= 0) {
+                const idx = cart.findIndex(c => c.id === id);
+                cart.splice(idx, 1);
+            }
+            renderCart();
+        }
+    
+        function removeItem(id) {
+            const idx = cart.findIndex(c => c.id === id);
+            if (idx > -1) {
+                cart.splice(idx, 1);
+            }
+            renderCart();
+        }
+    
+        function renderCart() {
+            const tbody = document.querySelector("#cart-table tbody");
+            tbody.innerHTML = "";
+            let totalItems = 0;
+            let totalPrice = 0;
+            cart.forEach(item => {
+                totalItems += item.qty;
+                totalPrice += item.price * item.qty;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>Rp ${item.price.toLocaleString()}</td>
+                    <td>
+                        <div class="d-flex">
+                            <button class="btn btn-sm btn-light" onclick="updateQty(${item.id}, -1)">-</button>
+                            <div class="mx-2">${item.qty}</div>
+                            <button class="btn btn-sm btn-light" onclick="updateQty(${item.id}, 1)">+</button>
+                        </div>
+                    </td>
+                    <td>Rp ${(item.price * item.qty).toLocaleString()}</td>
+                    <td><button class="btn btn-sm btn-danger" onclick="removeItem(${item.id})">&times;</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+            document.getElementById('total-items').innerText = totalItems;
+            document.getElementById('total-price').innerText = "Rp " + totalPrice.toLocaleString();
+        }
+    
+        renderProducts();
+        renderCart();
+    </script>
+{% endblock content %}
