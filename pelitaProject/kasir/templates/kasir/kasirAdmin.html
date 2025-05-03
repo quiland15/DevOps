@@ -22,27 +22,43 @@
 {% block content %}
     <!-- Sidebar -->
     <div class="flex min-h-screen">
-        <aside class="bg-[#0052CC] w-56 flex flex-col justify-between text-white">
-            <div>
-              <div class="font-bold text-white text-lg px-6 border-b border-[#0041A8]" style="padding-top:20px; padding-bottom:20px;">
-                PELITAKAS
-              </div>
-              <nav class="mt-6 flex flex-col space-y-1 px-2">
-                <a href="{% url 'kasirdashboard' %}" class="flex items-center space-x-3 px-3 py-2 rounded hover:bg-[#0041A8]">
-                  <i class="fas fa-th-large text-sm"></i>
-                  <span class="text-sm">Dashboard</span>
-                </a>
-                <a href="{% url 'kasir' %}" class="flex items-center space-x-3 px-3 py-2 rounded bg-[#0041A8]">
-                  <i class="fas fa-cash-register text-sm"></i>
-                  <span class="text-sm">Cashier</span>
-                </a>
-              </nav>
-            </div>
-            <div class="px-6 py-3 border-t border-[#0041A8] flex items-center space-x-2 text-sm cursor-pointer hover:bg-[#0041A8]">
-              <i class="fas fa-sign-out-alt"></i>
-              <span>Keluar</span>
-            </div>
-        </aside>
+  <aside class="bg-[#0052CC] w-56 flex flex-col justify-between text-white">
+    <div>
+      <div class="font-bold text-white text-lg px-6 border-b border-[#0041A8]" style="padding-top:20px; padding-bottom:20px;">
+        PELITAKAS
+      </div>
+      <nav class="mt-6 flex flex-col space-y-1 px-2">
+        <a href="{% url 'admindashboard' %}" class="flex items-center space-x-3 px-4 py-2 rounded hover:bg-[#0041A8]">
+          <i class="fas fa-th-large text-sm"></i>
+          <span class="text-sm">Dashboard</span>
+        </a>
+        <a href="{% url 'adminKasir' %}" class="flex items-center space-x-3 px-4 py-2 rounded bg-[#0041A8]">
+          <i class="fas fa-cash-register text-sm"></i>
+          <span class="text-sm">Kasir</span>
+        </a>
+        <a href="#" aria-current="page" class="flex items-center space-x-3 px-4 py-2 rounded hover:bg-[#0041A8] font-semibold">
+          <i class="fas fa-box text-sm"></i>
+          <span class="text-sm">Produk</span>
+        </a>
+        <a href="#" class="flex items-center space-x-3 px-4 py-2 rounded hover:bg-[#0041A8]">
+          <i class="fas fa-file-alt text-sm"></i>
+          <span class="text-sm">Laporan</span>
+        </a>
+        <a href="#" class="flex items-center space-x-3 px-4 py-2 rounded hover:bg-[#0041A8]">
+          <i class="fas fa-users text-sm"></i>
+          <span class="text-sm">Pelanggan</span>
+        </a>
+        <a href="#" class="flex items-center space-x-3 px-4 py-2 rounded hover:bg-[#0041A8]">
+          <i class="fas fa-cog text-sm"></i>
+          <span class="text-sm">Pengaturan</span>
+        </a>
+      </nav>
+    </div>
+    <a href="{% url 'login' %}" class="px-6 py-3 border-t border-[#0041A8] flex items-center space-x-2 text-sm cursor-pointer hover:bg-[#0041A8]">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Keluar</span>
+    </a>
+  </aside>
           
         <div class="flex-1 flex flex-col">
         <!-- Main Content -->
