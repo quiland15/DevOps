@@ -58,5 +58,484 @@
       <span>Keluar</span>
     </a>
   </aside>
+
+  <main class="flex-1 p-6 overflow-auto">
+    <header
+      class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4"
+    >
+      <h1 class="text-base font-semibold text-[#1E293B]">Laporan</h1>
+      <div class="flex items-center gap-3">
+        <div
+          class="w-8 h-8 rounded-full bg-[#0B5ED7] text-white flex items-center justify-center font-semibold text-sm"
+        >
+          AT
+        </div>
+        <span class="text-sm text-[#475569]">Admin Tani</span>
+      </div>
+    </header>
+
+    <!-- Date filter -->
+    <section class="mb-6 bg-white rounded border border-[#E2E8F0] p-4 flex flex-col sm:flex-row sm:items-center gap-4">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-1">
+        <label for="filterType" class="text-xs font-semibold text-[#475569]"
+          >Filter Berdasarkan:</label
+        >
+        <select
+          id="filterType"
+          class="border border-[#CBD5E1] rounded px-3 py-2 text-xs text-[#475569] focus:outline-none focus:ring-1 focus:ring-[#0B5ED7]"
+        >
+          <option value="month" selected>Bulan</option>
+          <option value="week">Minggu</option>
+          <option value="day">Hari</option>
+        </select>
+      </div>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-1">
+        <label for="filterDate" class="text-xs font-semibold text-[#475569]"
+          >Pilih Tanggal:</label
+        >
+        <input
+          type="month"
+          id="filterDate"
+          class="border border-[#CBD5E1] rounded px-3 py-2 text-xs text-[#475569] focus:outline-none focus:ring-1 focus:ring-[#0B5ED7]"
+        />
+      </div>
+      <button
+        id="applyFilter"
+        class="bg-[#0B5ED7] text-white px-4 py-2 rounded text-xs font-semibold hover:bg-[#094bb5]"
+      >
+        Terapkan
+      </button>
+    </section>
+
+    <!-- Summary -->
+    <section
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"
+      aria-label="Summary laporan"
+    >
+      <div
+        class="bg-white rounded border border-[#E2E8F0] p-4 flex justify-between items-center"
+      >
+        <div>
+          <p class="text-xs text-[#475569] mb-1">Total Transaksi</p>
+          <p id="totalTransactions" class="text-sm font-semibold text-[#1E293B]">
+            0
+          </p>
+        </div>
+        <button
+          class="w-7 h-7 border border-[#CBD5E1] rounded flex items-center justify-center text-[#475569] hover:bg-[#F1F5F9]"
+          title="Total transaksi"
+        >
+          <i class="fas fa-receipt text-xs"></i>
+        </button>
+      </div>
+      <div
+        class="bg-white rounded border border-[#E2E8F0] p-4 flex justify-between items-center"
+      >
+        <div>
+          <p class="text-xs text-[#475569] mb-1">Total Pendapatan</p>
+          <p id="totalRevenue" class="text-sm font-semibold text-[#1E293B]">
+            Rp 0
+          </p>
+        </div>
+        <div
+          class="w-7 h-7 bg-[#D1FAE5] rounded flex items-center justify-center text-[#22C55E] text-sm font-semibold"
+          title="Pendapatan"
+        >
+          $
+        </div>
+      </div>
+      <div
+        class="bg-white rounded border border-[#E2E8F0] p-4 flex justify-between items-center"
+      >
+        <div>
+          <p class="text-xs text-[#475569] mb-1">Total Pengurangan Stok</p>
+          <p id="totalStockReduction" class="text-sm font-semibold text-[#1E293B]">
+            0
+          </p>
+        </div>
+        <div
+          class="w-7 h-7 bg-[#FEF3C7] rounded flex items-center justify-center text-[#F59E0B] text-sm font-semibold"
+          title="Pengurangan stok"
+        >
+          <i class="fas fa-boxes"></i>
+        </div>
+      </div>
+      <div
+        class="bg-white rounded border border-[#E2E8F0] p-4 flex justify-between items-center"
+      >
+        <div>
+          <p class="text-xs text-[#475569] mb-1">Total Item Terjual</p>
+          <p id="totalItemsSold" class="text-sm font-semibold text-[#1E293B]">
+            0
+          </p>
+        </div>
+        <div
+          class="w-7 h-7 bg-[#F0F9FF] rounded flex items-center justify-center text-[#8B5CF6] text-sm font-semibold"
+          title="Item terjual"
+        >
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- History Sections -->
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+      <!-- History Pengurangan Stock -->
+      <div class="bg-white rounded border border-[#E2E8F0] p-4 overflow-auto max-h-[400px]">
+        <h3 class="font-semibold text-[#1E293B] mb-3">History Pengurangan Stock</h3>
+        <table class="w-full text-xs text-[#475569] border-collapse">
+          <thead>
+            <tr class="bg-[#F1F5F9] text-[#475569]">
+              <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[80px]">Tanggal</th>
+              <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[120px]">Produk</th>
+              <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[60px] text-center">Jumlah</th>
+              <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[100px]">Alasan</th>
+            </tr>
+          </thead>
+          <tbody id="stockReductionBody">
+            <!-- Filled by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- History Pendapatan -->
+      <div class="bg-white rounded border border-[#E2E8F0] p-4 overflow-auto max-h-[400px]">
+        <h3 class="font-semibold text-[#1E293B] mb-3">History Pendapatan</h3>
+        <table class="w-full text-xs text-[#475569] border-collapse">
+          <thead>
+            <tr class="bg-[#F1F5F9] text-[#475569]">
+              <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[80px]">Tanggal</th>
+              <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[120px]">Sumber</th>
+              <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[100px] text-right">Jumlah</th>
+            </tr>
+          </thead>
+          <tbody id="revenueBody">
+            <!-- Filled by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- History Transaksi Kasir -->
+      <div class="bg-white rounded border border-[#E2E8F0] p-4 overflow-auto max-h-[400px] flex flex-col">
+        <h3 class="font-semibold text-[#1E293B] mb-3">History Transaksi Kasir</h3>
+        <input
+          id="searchTransaction"
+          type="text"
+          placeholder="Cari transaksi, pelanggan, atau kasir..."
+          class="mb-3 border border-[#CBD5E1] rounded px-3 py-2 text-xs text-[#475569] placeholder:text-[#94A3B8] focus:outline-none focus:ring-1 focus:ring-[#0B5ED7]"
+        />
+        <div class="overflow-x-auto flex-1">
+          <table class="w-full text-xs text-[#475569] border-collapse">
+            <thead>
+              <tr class="bg-[#F1F5F9] text-[#475569]">
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] w-[40px]">ID</th>
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[90px]">Tanggal</th>
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[120px]">Pelanggan</th>
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[90px]">Kasir</th>
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] w-[40px] text-center">Item</th>
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[90px] text-right">Total</th>
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[90px]">Pembayaran</th>
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[70px]">Status</th>
+              </tr>
+            </thead>
+            <tbody id="transactionBody">
+              <!-- Filled by JS -->
+            </tbody>
+            <tfoot>
+              <tr class="bg-[#F1F5F9] font-semibold text-[#1E293B]">
+                <td colspan="7" class="py-2 px-3 text-right">Total Pendapatan:</td>
+                <td id="transactionTotal" class="py-2 px-3 text-right">Rp 0</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
 </div>
+<script>
+    // Sample data for demonstration
+    const stockReductions = [
+      {
+        date: "2023-08-10",
+        product: "Pupuk Organik",
+        quantity: 5,
+        reason: "Rusak",
+      },
+      {
+        date: "2023-08-15",
+        product: "Bibit Jagung",
+        quantity: 3,
+        reason: "Kadaluarsa",
+      },
+      {
+        date: "2023-09-05",
+        product: "Pakan Ayam",
+        quantity: 10,
+        reason: "Hilang",
+      },
+    ];
+
+    const revenues = [
+      {
+        date: "2023-08-01",
+        source: "Penjualan Produk",
+        amount: 500000,
+      },
+      {
+        date: "2023-08-15",
+        source: "Penjualan Produk",
+        amount: 210000,
+      },
+      {
+        date: "2023-09-05",
+        source: "Penjualan Produk",
+        amount: 710000,
+      },
+    ];
+
+    const transactions = [
+      {
+        id: 1,
+        date: "2023-08-16",
+        customer: "PT Tani Makmur",
+        cashier: "Kasir Tani",
+        items: 8,
+        total: 560000,
+        payment: "Transfer",
+        status: "Selesai",
+      },
+      {
+        id: 2,
+        date: "2023-08-15",
+        customer: "Pak Budi",
+        cashier: "Kasir Tani",
+        items: 2,
+        total: 150000,
+        payment: "Cash",
+        status: "Selesai",
+      },
+      {
+        id: 3,
+        date: "2023-09-10",
+        customer: "Bu Sari",
+        cashier: "Kasir Tani",
+        items: 5,
+        total: 350000,
+        payment: "Cash",
+        status: "Selesai",
+      },
+      {
+        id: 4,
+        date: "2023-09-12",
+        customer: "Pak Joko",
+        cashier: "Kasir Tani",
+        items: 3,
+        total: 210000,
+        payment: "Transfer",
+        status: "Selesai",
+      },
+    ];
+
+    // Utility to format currency
+    function formatCurrency(num) {
+      return (
+        "Rp " +
+        num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      );
+    }
+
+    // Render stock reduction history
+    function renderStockReductions(data) {
+      const tbody = document.getElementById("stockReductionBody");
+      tbody.innerHTML = "";
+      if (data.length === 0) {
+        tbody.innerHTML =
+          '<tr><td colspan="4" class="py-2 px-3 text-center text-[#94A3B8]">Tidak ada data</td></tr>';
+        return;
+      }
+      data.forEach((item) => {
+        const tr = document.createElement("tr");
+        tr.className = "border-b border-[#E2E8F0]";
+        tr.innerHTML = `
+          <td class="py-2 px-3">${new Date(item.date).toLocaleDateString("id-ID")}</td>
+          <td class="py-2 px-3">${item.product}</td>
+          <td class="py-2 px-3 text-center font-semibold">${item.quantity}</td>
+          <td class="py-2 px-3">${item.reason}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Render revenue history
+    function renderRevenues(data) {
+      const tbody = document.getElementById("revenueBody");
+      tbody.innerHTML = "";
+      if (data.length === 0) {
+        tbody.innerHTML =
+          '<tr><td colspan="3" class="py-2 px-3 text-center text-[#94A3B8]">Tidak ada data</td></tr>';
+        return;
+      }
+      data.forEach((item) => {
+        const tr = document.createElement("tr");
+        tr.className = "border-b border-[#E2E8F0]";
+        tr.innerHTML = `
+          <td class="py-2 px-3">${new Date(item.date).toLocaleDateString("id-ID")}</td>
+          <td class="py-2 px-3">${item.source}</td>
+          <td class="py-2 px-3 text-right font-semibold">${formatCurrency(item.amount)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Render transactions with optional filter and search
+    function renderTransactions(data, searchTerm = "") {
+      const tbody = document.getElementById("transactionBody");
+      tbody.innerHTML = "";
+      let totalRevenue = 0;
+      const filtered = data.filter((t) => {
+        const term = searchTerm.toLowerCase();
+        return (
+          t.customer.toLowerCase().includes(term) ||
+          t.cashier.toLowerCase().includes(term) ||
+          t.payment.toLowerCase().includes(term) ||
+          t.status.toLowerCase().includes(term) ||
+          t.id.toString().includes(term) ||
+          new Date(t.date).toLocaleDateString("id-ID").includes(term)
+        );
+      });
+      if (filtered.length === 0) {
+        tbody.innerHTML =
+          '<tr><td colspan="8" class="py-2 px-3 text-center text-[#94A3B8]">Tidak ada data</td></tr>';
+      } else {
+        filtered.forEach((t) => {
+          totalRevenue += t.total;
+          const tr = document.createElement("tr");
+          tr.className = "border-b border-[#E2E8F0]";
+          tr.innerHTML = `
+            <td class="py-2 px-3 font-semibold text-[#475569]">#${t.id}</td>
+            <td class="py-2 px-3">${new Date(t.date).toLocaleDateString("id-ID")}</td>
+            <td class="py-2 px-3">${t.customer}</td>
+            <td class="py-2 px-3">${t.cashier}</td>
+            <td class="py-2 px-3 font-semibold text-[#475569] text-center">${t.items}</td>
+            <td class="py-2 px-3 font-semibold text-[#1E293B] text-right">${formatCurrency(t.total)}</td>
+            <td class="py-2 px-3">${t.payment}</td>
+            <td class="py-2 px-3">
+              <span class="text-[10px] bg-[#DCFCE7] text-[#22C55E] px-2 py-0.5 rounded-full font-semibold">${t.status}</span>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+      document.getElementById("transactionTotal").textContent = formatCurrency(totalRevenue);
+      document.getElementById("totalRevenue").textContent = formatCurrency(totalRevenue);
+      document.getElementById("totalTransactions").textContent = filtered.length;
+      // Calculate total items sold
+      const totalItems = filtered.reduce((acc, cur) => acc + cur.items, 0);
+      document.getElementById("totalItemsSold").textContent = totalItems;
+      // Calculate total stock reduction for filtered period
+      const filteredStock = filterByDate(stockReductions, currentFilterType, currentFilterDate);
+      const totalStock = filteredStock.reduce((acc, cur) => acc + cur.quantity, 0);
+      document.getElementById("totalStockReduction").textContent = totalStock;
+    }
+
+    // Filter data by date based on filterType and filterDate
+    function filterByDate(data, filterType, filterDate) {
+      if (!filterDate) return data;
+      const dateObj = new Date(filterDate);
+      return data.filter((item) => {
+        const itemDate = new Date(item.date);
+        if (filterType === "month") {
+          return (
+            itemDate.getFullYear() === dateObj.getFullYear() &&
+            itemDate.getMonth() === dateObj.getMonth()
+          );
+        } else if (filterType === "week") {
+          // Get week number of itemDate and filterDate
+          const getWeekNumber = (d) => {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            const dayNum = d.getUTCDay() || 7;
+            d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            return Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+          };
+          return (
+            itemDate.getFullYear() === dateObj.getFullYear() &&
+            getWeekNumber(itemDate) === getWeekNumber(dateObj)
+          );
+        } else if (filterType === "day") {
+          return (
+            itemDate.getFullYear() === dateObj.getFullYear() &&
+            itemDate.getMonth() === dateObj.getMonth() &&
+            itemDate.getDate() === dateObj.getDate()
+          );
+        }
+        return true;
+      });
+    }
+
+    // Global current filter state
+    let currentFilterType = "month";
+    let currentFilterDate = null;
+
+    // Apply filter and render all data accordingly
+    function applyFilter() {
+      const filteredTransactions = filterByDate(transactions, currentFilterType, currentFilterDate);
+      const filteredRevenues = filterByDate(revenues, currentFilterType, currentFilterDate);
+      const filteredStock = filterByDate(stockReductions, currentFilterType, currentFilterDate);
+
+      renderStockReductions(filteredStock);
+      renderRevenues(filteredRevenues);
+      renderTransactions(filteredTransactions, document.getElementById("searchTransaction").value.trim());
+    }
+
+    // Initialize date input type and value based on filter type
+    function updateDateInputType() {
+      const filterTypeSelect = document.getElementById("filterType");
+      const filterDateInput = document.getElementById("filterDate");
+      currentFilterType = filterTypeSelect.value;
+
+      if (currentFilterType === "month") {
+        filterDateInput.type = "month";
+        // Set default to current month
+        const now = new Date();
+        filterDateInput.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+      } else if (currentFilterType === "week") {
+        filterDateInput.type = "date";
+        // Set default to current date
+        const now = new Date();
+        filterDateInput.value = now.toISOString().slice(0, 10);
+      } else if (currentFilterType === "day") {
+        filterDateInput.type = "date";
+        // Set default to current date
+        const now = new Date();
+        filterDateInput.value = now.toISOString().slice(0, 10);
+      }
+      currentFilterDate = filterDateInput.value;
+    }
+
+    // Event listeners
+    document.getElementById("filterType").addEventListener("change", () => {
+      updateDateInputType();
+    });
+
+    document.getElementById("filterDate").addEventListener("change", (e) => {
+      currentFilterDate = e.target.value;
+    });
+
+    document.getElementById("applyFilter").addEventListener("click", () => {
+      applyFilter();
+    });
+
+    document.getElementById("searchTransaction").addEventListener("input", (e) => {
+      renderTransactions(
+        filterByDate(transactions, currentFilterType, currentFilterDate),
+        e.target.value.trim()
+      );
+    });
+
+    // Initial render
+    updateDateInputType();
+    applyFilter();
+  </script>  
 {% endblock content %}
