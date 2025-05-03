@@ -20,6 +20,7 @@
 {% endblock style %}
 
 {% block content %}
+<div class="flex min-h-screen">
 <aside class="bg-[#0052CC] w-56 flex flex-col justify-between text-white">
     <div>
       <div class="font-bold text-white text-lg px-6 border-b border-[#0041A8]" style="padding-top:20px; padding-bottom:20px;">
@@ -30,11 +31,11 @@
           <i class="fas fa-th-large text-sm"></i>
           <span class="text-sm">Dashboard</span>
         </a>
-        <a href="{% url 'adminKasir' %}" class="flex items-center space-x-3 px-4 py-2 rounded bg-[#0041A8]">
+        <a href="{% url 'adminKasir' %}" class="flex items-center space-x-3 px-4 py-2 rounded hover:bg-[#0041A8]">
           <i class="fas fa-cash-register text-sm"></i>
           <span class="text-sm">Kasir</span>
         </a>
-        <a href="#" aria-current="page" class="flex items-center space-x-3 px-4 py-2 rounded hover:bg-[#0041A8] font-semibold">
+        <a href="#" aria-current="page" class="flex items-center space-x-3 px-4 py-2 rounded bg-[#0041A8] font-semibold">
           <i class="fas fa-box text-sm"></i>
           <span class="text-sm">Produk</span>
         </a>
@@ -65,9 +66,9 @@
       <div class="text-sm font-normal text-[#1E1E1E]">Produk</div>
       <div class="flex items-center space-x-2">
         <div class="w-8 h-8 rounded-full bg-[#0052CC] flex items-center justify-center text-white font-semibold text-xs select-none">
-          AT
+          AD
         </div>
-        <span class="text-xs text-[#1E1E1E] font-normal">Admin Tani</span>
+        <span class="text-xs text-[#1E1E1E] font-normal">{{user}}</span>
       </div>
     </header>
 
@@ -108,7 +109,7 @@
             </select>
             <button
               id="btnTambahProduk"
-              class="bg-[#0052CC] text-white text-xs font-semibold rounded px-4 py-2 hover:bg-[#003D99] transition-colors"
+              class="bg-[#0052CC] text-white text-xs font-semibold rounded px-4 py-2 mb-3 hover:bg-[#003D99] transition-colors"
               type="button"
             >
               + Tambah Produk
@@ -224,295 +225,5 @@
   </div>
 </div>
 
-<script>
-  let products = [
-    {
-      name: "Pupuk NPK",
-      category: "Pertanian",
-      price: "Rp 85,000",
-      stock: 15,
-      popular: true,
-      expiryDate: "2024-12-31",
-    },
-    {
-      name: "Bibit Jagung Hibrida",
-      category: "Pertanian",
-      price: "Rp 45,000",
-      stock: 100,
-      popular: true,
-      expiryDate: "2025-01-15",
-    },
-    {
-      name: "Pestisida Organik",
-      category: "Pertanian",
-      price: "Rp 65,000",
-      stock: 30,
-      popular: false,
-      expiryDate: "2024-11-20",
-    },
-    {
-      name: "Pakan Ternak Ayam",
-      category: "Peternakan",
-      price: "Rp 75,000",
-      stock: 40,
-      popular: true,
-      expiryDate: "2024-10-10",
-    },
-    {
-      name: "Obat Ternak",
-      category: "Peternakan",
-      price: "Rp 120,000",
-      stock: 25,
-      popular: false,
-      expiryDate: "2025-02-28",
-    },
-    {
-      name: "Vitamin Ternak",
-      category: "Peternakan",
-      price: "Rp 50,000",
-      stock: 10,
-      popular: false,
-      expiryDate: "2024-09-15",
-    },
-    {
-      name: "Pupuk Organik Cair",
-      category: "Pertanian",
-      price: "Rp 55,000",
-      stock: 8,
-      popular: false,
-      expiryDate: "2024-08-30",
-    },
-    {
-      name: "Obat Cacing",
-      category: "Peternakan",
-      price: "Rp 30,000",
-      stock: 5,
-      popular: false,
-      expiryDate: "2024-07-20",
-    }
-  ];
-
-  const productBody = document.getElementById("productBody");
-  const btnSemua = document.getElementById("btn-semua");
-  const btnStok = document.getElementById("btn-stok");
-  const searchInput = document.getElementById("searchInput");
-  const categoryFilter = document.getElementById("categoryFilter");
-  const btnTambahProduk = document.getElementById("btnTambahProduk");
-  const modalBackdrop = document.getElementById("modalBackdrop");
-  const closeModalBtn = document.getElementById("closeModal");
-  const cancelBtn = document.getElementById("cancelBtn");
-  const addProductForm = document.getElementById("addProductForm");
-  const modalTitle = document.getElementById("modalTitle");
-
-  let editIndex = null; // null means add mode, otherwise edit mode
-
-  // Render products based on filter and search
-  function renderProducts(filter = "all") {
-    const searchTerm = searchInput.value.toLowerCase();
-    const categoryTerm = categoryFilter.value;
-
-    let filteredProducts = products;
-
-    // Filter by stock menipis if needed
-    if (filter === "stok") {
-      filteredProducts = filteredProducts.filter((p) => p.stock <= 10);
-    }
-
-    // Filter by category if not all
-    if (categoryTerm !== "all") {
-      filteredProducts = filteredProducts.filter((p) => p.category === categoryTerm);
-    }
-
-    // Filter by search term
-    if (searchTerm) {
-      filteredProducts = filteredProducts.filter((p) =>
-        p.name.toLowerCase().includes(searchTerm)
-      );
-    }
-
-    productBody.innerHTML = "";
-
-    if (filteredProducts.length === 0) {
-      productBody.innerHTML = `<tr><td colspan="5" class="py-4 px-3 text-center text-[#6B7280]">Tidak ada produk ditemukan</td></tr>`;
-      return;
-    }
-
-    filteredProducts.forEach((product, idx) => {
-      const tr = document.createElement("tr");
-      tr.className = "border-t border-[#E6E6E6]";
-
-      // Produk cell with popular badge if any
-      const popularBadge = product.popular
-        ? `<span class="ml-2 text-[10px] font-semibold text-[#B45309] bg-[#FEF3C7] rounded px-1.5 py-0.5 select-none">Popular</span>`
-        : "";
-
-      tr.innerHTML = `
-        <td class="py-2 px-3 border-r border-[#E6E6E6] font-semibold">
-          ${product.name} ${popularBadge}
-        </td>
-        <td class="py-2 px-3 border-r border-[#E6E6E6] text-[#6B7280]">${product.category}</td>
-        <td class="py-2 px-3 border-r border-[#E6E6E6]">${product.price}</td>
-        <td class="py-2 px-3 border-r border-[#E6E6E6]">${product.stock}</td>
-        <td class="py-2 px-3 flex space-x-2 text-[#6B7280]">
-          <button aria-label="Naikkan stok" class="hover:text-[#0052CC]" data-action="up" data-index="${idx}">
-            <i class="fas fa-arrow-up"></i>
-          </button>
-          <button aria-label="Turunkan stok" class="hover:text-[#0052CC]" data-action="down" data-index="${idx}">
-            <i class="fas fa-arrow-down"></i>
-          </button>
-          <button aria-label="Edit produk" class="hover:text-[#0052CC]" data-action="edit" data-index="${idx}">
-            <i class="fas fa-edit"></i>
-          </button>
-          <button aria-label="Hapus produk" class="text-[#EF4444] hover:text-[#B91C1C]" data-action="delete" data-index="${idx}">
-            <i class="fas fa-trash-alt"></i>
-          </button>
-        </td>
-      `;
-      productBody.appendChild(tr);
-    });
-  }
-
-  // Initial render all products
-  renderProducts("all");
-
-  // Button click handlers
-  btnSemua.addEventListener("click", () => {
-    btnSemua.classList.add("bg-white", "border", "border-[#D1D5DB]", "text-[#1E1E1E]");
-    btnSemua.classList.remove("bg-[#E6E6E6]", "text-[#9CA3AF]");
-    btnStok.classList.remove("bg-white", "border", "border-[#D1D5DB]", "text-[#1E1E1E]");
-    btnStok.classList.add("bg-[#E6E6E6]", "text-[#9CA3AF]");
-    renderProducts("all");
-  });
-
-  btnStok.addEventListener("click", () => {
-    btnStok.classList.add("bg-white", "border", "border-[#D1D5DB]", "text-[#1E1E1E]");
-    btnStok.classList.remove("bg-[#E6E6E6]", "text-[#9CA3AF]");
-    btnSemua.classList.remove("bg-white", "border", "border-[#D1D5DB]", "text-[#1E1E1E]");
-    btnSemua.classList.add("bg-[#E6E6E6]", "text-[#9CA3AF]");
-    renderProducts("stok");
-  });
-
-  // Search input event
-  searchInput.addEventListener("input", () => {
-    if (btnSemua.classList.contains("bg-white")) {
-      renderProducts("all");
-    } else {
-      renderProducts("stok");
-    }
-  });
-
-  // Category filter event
-  categoryFilter.addEventListener("change", () => {
-    if (btnSemua.classList.contains("bg-white")) {
-      renderProducts("all");
-    } else {
-      renderProducts("stok");
-    }
-  });
-
-  // Show modal for add or edit
-  btnTambahProduk.addEventListener("click", () => {
-    editIndex = null;
-    modalTitle.textContent = "Tambah Produk";
-    addProductForm.reset();
-    modalBackdrop.classList.remove("hidden");
-  });
-
-  // Close modal
-  function closeModal() {
-    modalBackdrop.classList.add("hidden");
-    editIndex = null;
-  }
-  closeModalBtn.addEventListener("click", closeModal);
-  cancelBtn.addEventListener("click", closeModal);
-  modalBackdrop.addEventListener("click", (e) => {
-    if (e.target === modalBackdrop) closeModal();
-  });
-
-  // Add or Edit product form submit
-  addProductForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const name = addProductForm.productName.value.trim();
-    const category = addProductForm.category.value;
-    const price = addProductForm.price.value.trim();
-    const stock = parseInt(addProductForm.stock.value, 10);
-    const expiryDate = addProductForm.expiryDate.value;
-
-    if (!name || !category || !price || isNaN(stock) || !expiryDate) {
-      alert("Mohon isi semua field dengan benar.");
-      return;
-    }
-
-    if (editIndex === null) {
-      // Add new product
-      products.push({
-        name,
-        category,
-        price,
-        stock,
-        popular: false,
-        expiryDate,
-      });
-    } else {
-      // Edit existing product
-      products[editIndex] = {
-        ...products[editIndex],
-        name,
-        category,
-        price,
-        stock,
-        expiryDate,
-      };
-    }
-
-    closeModal();
-
-    // Reset filters to show all and clear search
-    btnSemua.click();
-    searchInput.value = "";
-    categoryFilter.value = "all";
-
-    renderProducts("all");
-  });
-
-  // Handle action buttons in table (up, down, edit, delete)
-  productBody.addEventListener("click", (e) => {
-    const btn = e.target.closest("button");
-    if (!btn) return;
-
-    const action = btn.getAttribute("data-action");
-    const index = parseInt(btn.getAttribute("data-index"), 10);
-    if (isNaN(index) || !action) return;
-
-    if (action === "up") {
-      // Increase stock by 1
-      products[index].stock++;
-      renderProducts(btnSemua.classList.contains("bg-white") ? "all" : "stok");
-    } else if (action === "down") {
-      // Decrease stock by 1 but not below 0
-      if (products[index].stock > 0) {
-        products[index].stock--;
-        renderProducts(btnSemua.classList.contains("bg-white") ? "all" : "stok");
-      }
-    } else if (action === "edit") {
-      // Open modal with product data for editing
-      editIndex = index;
-      modalTitle.textContent = "Edit Produk";
-      const p = products[index];
-      addProductForm.productName.value = p.name;
-      addProductForm.category.value = p.category;
-      addProductForm.price.value = p.price;
-      addProductForm.stock.value = p.stock;
-      addProductForm.expiryDate.value = p.expiryDate || "";
-      modalBackdrop.classList.remove("hidden");
-    } else if (action === "delete") {
-      // Confirm and delete product
-      if (confirm(`Hapus produk "${products[index].name}"?`)) {
-        products.splice(index, 1);
-        renderProducts(btnSemua.classList.contains("bg-white") ? "all" : "stok");
-      }
-    }
-  });
-</script>
+<script src="{% static 'js/product.js' %}"></script>
 {% endblock content %}

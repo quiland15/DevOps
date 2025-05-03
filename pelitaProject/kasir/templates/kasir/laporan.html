@@ -20,6 +20,7 @@
 {% endblock style %}
 
 {% block content %}
+<div class="flex min-h-screen">
 <aside class="bg-[#0052CC] w-56 flex flex-col justify-between text-white">
     <div>
       <div class="font-bold text-white text-lg px-6 border-b border-[#0041A8]" style="padding-top:20px; padding-bottom:20px;">
@@ -30,7 +31,7 @@
           <i class="fas fa-th-large text-sm"></i>
           <span class="text-sm">Dashboard</span>
         </a>
-        <a href="{% url 'adminKasir' %}" class="flex items-center space-x-3 px-4 py-2 rounded bg-[#0041A8]">
+        <a href="{% url 'adminKasir' %}" class="flex items-center space-x-3 px-4 py-2 rounded hover:bg-[#0041A8]">
           <i class="fas fa-cash-register text-sm"></i>
           <span class="text-sm">Kasir</span>
         </a>
@@ -38,7 +39,7 @@
           <i class="fas fa-box text-sm"></i>
           <span class="text-sm">Produk</span>
         </a>
-        <a href="#" class="flex items-center space-x-3 px-4 py-2 rounded hover:bg-[#0041A8]">
+        <a href="{% url 'laporan' %}" class="flex items-center space-x-3 px-4 py-2 rounded bg-[#0041A8]">
           <i class="fas fa-file-alt text-sm"></i>
           <span class="text-sm">Laporan</span>
         </a>
@@ -57,4 +58,5 @@
       <span>Keluar</span>
     </a>
   </aside>
+</div>
 {% endblock content %}
