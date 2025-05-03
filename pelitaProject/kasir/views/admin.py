@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
+from django.http import JsonResponse
+from kasir.models import Product
 
 def is_admin(user):
     return user.is_authenticated and user.is_superuser
@@ -36,3 +38,19 @@ def admin_settings_view(request):
         "title":"Settings",
         "user" : request.user
     })
+
+def get_products(request):
+    products = Product.objects.select_related('category').all()
+    data = []
+
+    for product in products:
+        data.append({
+            "name": product.name,
+            "category": product.category.name if product.category else "Tidak Ada Kategori",
+            "price": f"Rp {product.price:,.0f}".replace(",", "."),
+            "stock": product.stock,
+            "popular": product.stock <= 10,  # logika 'popular' bisa disesuaikan
+            "expiryDate": product.expired_at.strftime('%Y-%m-%d') if product.expired_at else None,
+        })
+
+    return JsonResponse(data, safe=False)

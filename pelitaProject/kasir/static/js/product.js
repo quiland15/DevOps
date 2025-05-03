@@ -1,69 +1,18 @@
-let products = [
-    {
-      name: "Pupuk NPK",
-      category: "Pertanian",
-      price: "Rp 85,000",
-      stock: 15,
-      popular: true,
-      expiryDate: "2024-12-31",
-    },
-    {
-      name: "Bibit Jagung Hibrida",
-      category: "Pertanian",
-      price: "Rp 45,000",
-      stock: 100,
-      popular: true,
-      expiryDate: "2025-01-15",
-    },
-    {
-      name: "Pestisida Organik",
-      category: "Pertanian",
-      price: "Rp 65,000",
-      stock: 30,
-      popular: false,
-      expiryDate: "2024-11-20",
-    },
-    {
-      name: "Pakan Ternak Ayam",
-      category: "Peternakan",
-      price: "Rp 75,000",
-      stock: 40,
-      popular: true,
-      expiryDate: "2024-10-10",
-    },
-    {
-      name: "Obat Ternak",
-      category: "Peternakan",
-      price: "Rp 120,000",
-      stock: 25,
-      popular: false,
-      expiryDate: "2025-02-28",
-    },
-    {
-      name: "Vitamin Ternak",
-      category: "Peternakan",
-      price: "Rp 50,000",
-      stock: 10,
-      popular: false,
-      expiryDate: "2024-09-15",
-    },
-    {
-      name: "Pupuk Organik Cair",
-      category: "Pertanian",
-      price: "Rp 55,000",
-      stock: 8,
-      popular: false,
-      expiryDate: "2024-08-30",
-    },
-    {
-      name: "Obat Cacing",
-      category: "Peternakan",
-      price: "Rp 30,000",
-      stock: 5,
-      popular: false,
-      expiryDate: "2024-07-20",
-    }
-  ];
+let products = [];
+
+async function fetchProducts() {
+  try {
+    const response = await fetch("/api/products/");
+    if (!response.ok) throw new Error("Gagal memuat produk");
+    products = await response.json();
+    renderProducts("all");
+  } catch (err) {
+    console.error(err);
+    alert("Terjadi kesalahan saat mengambil data produk.");
+  }
+}
+
+fetchProducts();
 
   const productBody = document.getElementById("productBody");
   const btnSemua = document.getElementById("btn-semua");
