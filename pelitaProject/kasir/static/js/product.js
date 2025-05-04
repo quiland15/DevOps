@@ -2,7 +2,7 @@ let products = [];
 
 async function fetchProducts() {
   try {
-    const response = await fetch("/api/products/");
+    const response = await fetch("/kasir/api/products/");
     if (!response.ok) throw new Error("Gagal memuat produk");
     products = await response.json();
     renderProducts("all");
@@ -12,7 +12,26 @@ async function fetchProducts() {
   }
 }
 
-fetchProducts();
+async function loadCategories() {
+  const res = await fetch("/kasir/api/categories/");
+  const categories = await res.json();
+
+  const categorySelect = document.getElementById("category");
+  categorySelect.innerHTML = '<option value="" disabled selected>Pilih kategori</option>';
+
+  categories.forEach(cat => {
+    const opt = document.createElement("option");
+    opt.value = cat.id;
+    opt.textContent = cat.name;
+    categorySelect.appendChild(opt);
+  });
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetchProducts();
+  loadCategories();
+});
 
   const productBody = document.getElementById("productBody");
   const btnSemua = document.getElementById("btn-semua");
@@ -76,12 +95,6 @@ fetchProducts();
         <td class="py-2 px-3 border-r border-[#E6E6E6]">${product.price}</td>
         <td class="py-2 px-3 border-r border-[#E6E6E6]">${product.stock}</td>
         <td class="py-2 px-3 flex space-x-2 text-[#6B7280]">
-          <button aria-label="Naikkan stok" class="hover:text-[#0052CC]" data-action="up" data-index="${idx}">
-            <i class="fas fa-arrow-up"></i>
-          </button>
-          <button aria-label="Turunkan stok" class="hover:text-[#0052CC]" data-action="down" data-index="${idx}">
-            <i class="fas fa-arrow-down"></i>
-          </button>
           <button aria-label="Edit produk" class="hover:text-[#0052CC]" data-action="edit" data-index="${idx}">
             <i class="fas fa-edit"></i>
           </button>
@@ -146,59 +159,53 @@ fetchProducts();
     editIndex = null;
   }
   closeModalBtn.addEventListener("click", closeModal);
-  cancelBtn.addEventListener("click", closeModal);
+    document.getElementById("cancelBtn").addEventListener("click", () => {
+    editIndex = null;
+    document.getElementById("addProductForm").reset();
+    modalBackdrop.classList.add("hidden"); // tutup modal
+  });
   modalBackdrop.addEventListener("click", (e) => {
     if (e.target === modalBackdrop) closeModal();
   });
 
   // Add or Edit product form submit
-  addProductForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+document.getElementById("addProductForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
 
-    const name = addProductForm.productName.value.trim();
-    const category = addProductForm.category.value;
-    const price = addProductForm.price.value.trim();
-    const stock = parseInt(addProductForm.stock.value, 10);
-    const expiryDate = addProductForm.expiryDate.value;
+  const productData = {
+    name: document.getElementById("productName").value,
+    category: parseInt(document.getElementById("category").value),
+    price: parseInt(document.getElementById("price").value),
+    stock: parseInt(document.getElementById("stock").value),
+    expiryDate: document.getElementById("expiryDate").value
+  };
 
-    if (!name || !category || !price || isNaN(stock) || !expiryDate) {
-      alert("Mohon isi semua field dengan benar.");
-      return;
-    }
+  const url = "/kasir/api/manageProducts/";
+  const method = editIndex !== null ? "PUT" : "POST";
 
-    if (editIndex === null) {
-      // Add new product
-      products.push({
-        name,
-        category,
-        price,
-        stock,
-        popular: false,
-        expiryDate,
-      });
-    } else {
-      // Edit existing product
-      products[editIndex] = {
-        ...products[editIndex],
-        name,
-        category,
-        price,
-        stock,
-        expiryDate,
-      };
-    }
+  if (editIndex !== null) {
+    productData.id = products[editIndex].id;
+  }
 
-    closeModal();
+  try {
+    const res = await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(productData)
+    });
 
-    // Reset filters to show all and clear search
-    btnSemua.click();
-    searchInput.value = "";
-    categoryFilter.value = "all";
+    if (!res.ok) throw new Error("Gagal menyimpan produk");
 
-    renderProducts("all");
-  });
-
-  // Handle action buttons in table (up, down, edit, delete)
+    document.getElementById("addProductForm").reset();
+    editIndex = null;
+    modalBackdrop.classList.add("hidden");
+    await fetchProducts();
+  } catch (err) {
+    alert("Gagal menyimpan data produk");
+    console.error(err);
+  }
+});
+  // Handle action buttons in table (edit, delete)
   productBody.addEventListener("click", (e) => {
     const btn = e.target.closest("button");
     if (!btn) return;
@@ -207,17 +214,7 @@ fetchProducts();
     const index = parseInt(btn.getAttribute("data-index"), 10);
     if (isNaN(index) || !action) return;
 
-    if (action === "up") {
-      // Increase stock by 1
-      products[index].stock++;
-      renderProducts(btnSemua.classList.contains("bg-white") ? "all" : "stok");
-    } else if (action === "down") {
-      // Decrease stock by 1 but not below 0
-      if (products[index].stock > 0) {
-        products[index].stock--;
-        renderProducts(btnSemua.classList.contains("bg-white") ? "all" : "stok");
-      }
-    } else if (action === "edit") {
+    if (action === "edit") {
       // Open modal with product data for editing
       editIndex = index;
       modalTitle.textContent = "Edit Produk";
@@ -229,10 +226,18 @@ fetchProducts();
       addProductForm.expiryDate.value = p.expiryDate || "";
       modalBackdrop.classList.remove("hidden");
     } else if (action === "delete") {
-      // Confirm and delete product
-      if (confirm(`Hapus produk "${products[index].name}"?`)) {
-        products.splice(index, 1);
-        renderProducts(btnSemua.classList.contains("bg-white") ? "all" : "stok");
-      }
-    }
+  	const product = products[index];
+  	if (confirm(`Hapus produk "${product.name}"?`)) {
+    		try {
+      			await fetch("/kasir/api/manageProducts/", {
+        			method: "DELETE",
+        			headers: { "Content-Type": "application/json" },
+        			body: JSON.stringify({ id: product.id })
+      			});
+      			await fetchProducts(); // Refresh list
+    			} catch (err) {
+      				alert("Gagal menghapus produk");
+    			}
+  		}
+	}
   });
