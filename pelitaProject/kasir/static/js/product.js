@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Add or Edit product form submit
-document.getElementById("addProductForm").addEventListener("submit", async function (e) {
+addProductForm.addEventListener("submit", async function (e) {
   e.preventDefault();
 
   const productData = {
@@ -180,7 +180,7 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
     expiryDate: document.getElementById("expiryDate").value
   };
 
-  const url = "/kasir/api/manageProducts/";
+  const url = "api/manageProducts/";
   const method = editIndex !== null ? "PUT" : "POST";
 
   if (editIndex !== null) {

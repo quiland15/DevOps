@@ -2,7 +2,7 @@ from django.urls import path
 from .views.auth import login_view, logout_view
 from .views.dashboard import adminDashboard_view, kasirDashboard_view
 from .views.cashier import cashier_menu_view
-from .views.admin import cashier_admin_view, admin_product_view, admin_laporan_view, get_products, manage_products
+from .views.admin import cashier_admin_view, admin_product_view, admin_laporan_view, get_products, manage_products, get_categories
 
 urlpatterns = [
     path("login/", login_view, name="login"),
@@ -15,5 +15,5 @@ urlpatterns = [
     path("laporan/", admin_laporan_view, name="laporan"),
     path("api/products/", get_products, name='get_products'),
     path("api/manageProducts/", manage_products, name='manage_products'),
-
+    path("api/categories/", get_categories, name='get_categories'),
 ]

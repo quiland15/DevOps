@@ -49,6 +49,7 @@ def get_products(request):
 
     for product in products:
         data.append({
+	    "id": product.id,
             "name": product.name,
             "category": product.category.name if product.category else "Tidak Ada Kategori",
             "price": f"Rp {product.price:,.0f}".replace(",", "."),
