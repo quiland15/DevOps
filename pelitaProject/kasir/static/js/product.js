@@ -169,18 +169,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Add or Edit product form submit
-addProductForm.addEventListener("submit", async function (e) {
+document.getElementById("addProductForm").addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  const productData = {
-    name: document.getElementById("productName").value,
-    category: parseInt(document.getElementById("category").value),
-    price: parseInt(document.getElementById("price").value),
-    stock: parseInt(document.getElementById("stock").value),
-    expiryDate: document.getElementById("expiryDate").value
-  };
+const productData = {
+  id: editIndex !== null ? products[editIndex].id : undefined,
+  name: document.getElementById("productName").value.trim(),
+  category_id: parseInt(document.getElementById("category").value),
+  price: parseInt(document.getElementById("price").value),
+  stock: parseInt(document.getElementById("stock").value),
+  expiryDate: document.getElementById("expiryDate").value || null
+};
 
-  const url = "api/manageProducts/";
+  const url = "/kasir/api/manageProducts/";
   const method = editIndex !== null ? "PUT" : "POST";
 
   if (editIndex !== null) {
@@ -220,24 +221,16 @@ addProductForm.addEventListener("submit", async function (e) {
       modalTitle.textContent = "Edit Produk";
       const p = products[index];
       addProductForm.productName.value = p.name;
-      addProductForm.category.value = p.category;
+      addProductForm.category.value = p.category_id;
       addProductForm.price.value = p.price;
       addProductForm.stock.value = p.stock;
       addProductForm.expiryDate.value = p.expiryDate || "";
       modalBackdrop.classList.remove("hidden");
     } else if (action === "delete") {
-  	const product = products[index];
-  	if (confirm(`Hapus produk "${product.name}"?`)) {
-    		try {
-      			await fetch("/kasir/api/manageProducts/", {
-        			method: "DELETE",
-        			headers: { "Content-Type": "application/json" },
-        			body: JSON.stringify({ id: product.id })
-      			});
-      			await fetchProducts(); // Refresh list
-    			} catch (err) {
-      				alert("Gagal menghapus produk");
-    			}
-  		}
-	}
+      // Confirm and delete product
+      if (confirm(`Hapus produk "${products[index].name}"?`)) {
+        products.splice(index, 1);
+        renderProducts(btnSemua.classList.contains("bg-white") ? "all" : "stok");
+      }
+    }
   });

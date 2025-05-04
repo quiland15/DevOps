@@ -49,12 +49,13 @@ def get_products(request):
 
     for product in products:
         data.append({
-	    "id": product.id,
+            "id": product.id,
             "name": product.name,
             "category": product.category.name if product.category else "Tidak Ada Kategori",
+            "category_id": product.category.id if product.category else None,
             "price": f"Rp {product.price:,.0f}".replace(",", "."),
             "stock": product.stock,
-            "popular": product.stock <= 10,  # logika 'popular' bisa disesuaikan
+            "popular": product.stock <= 10,
             "expiryDate": product.expired_at.strftime('%Y-%m-%d') if product.expired_at else None,
         })
 
@@ -68,33 +69,31 @@ def get_categories(request):
 
 @csrf_exempt
 def manage_products(request):
-    if request.method == "GET":
-        products = Product.objects.select_related('category').all()
-        data = [
-            {
-                "id": p.id,
-                "name": p.name,
-                "category": p.category.name if p.category else None,
-                "category_id": p.category.id if p.category else None,
-                "price": p.price,
-                "stock": p.stock,
-                "expiryDate": p.expired_at.strftime('%Y-%m-%d') if p.expired_at else None
-            } for p in products
-        ]
-        return JsonResponse(data, safe=False)
-
-    elif request.method == "POST":
+    if request.method == "POST":
         try:
             data = json.loads(request.body)
-            category = Category.objects.get(id=data["category_id"])
+            name = data.get("name")
+            category_id = data.get("category_id")
+            price = data.get("price")
+            stock = data.get("stock")
+            expiry = data.get("expiryDate")
+
+            # Validasi minimal
+            if not all([name, category_id, price, stock]):
+                raise ValueError("Semua field wajib diisi.")
+
+            category = Category.objects.get(id=int(category_id))
+            expired_at = expiry if expiry else None
+
             product = Product.objects.create(
-                name=data["name"],
+                name=name,
                 category=category,
-                price=data["price"],
-                stock=data["stock"],
-                expired_at=data["expiryDate"]
+                price=int(price),
+                stock=int(stock),
+                expired_at=expired_at
             )
             return JsonResponse({"status": "success", "id": product.id})
+
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
@@ -102,12 +101,14 @@ def manage_products(request):
         try:
             data = json.loads(request.body)
             product = Product.objects.get(id=data["id"])
+
             product.name = data["name"]
-            product.category = Category.objects.get(id=data["category_id"])
-            product.price = data["price"]
-            product.stock = data["stock"]
-            product.expired_at = data["expiryDate"]
+            product.category = Category.objects.get(id=int(data["category_id"]))
+            product.price = int(data["price"])
+            product.stock = int(data["stock"])
+            product.expired_at = data["expiryDate"] or None
             product.save()
+
             return JsonResponse({"status": "success"})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
@@ -118,9 +119,7 @@ def manage_products(request):
             product = Product.objects.get(id=data["id"])
             product.delete()
             return JsonResponse({"status": "success"})
-        except Product.DoesNotExist:
-            return JsonResponse({"status": "error", "message": "Produk tidak ditemukan"}, status=404)
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
-    return JsonResponse({"status": "error", "message": "Metode tidak diizinkan"}, status=405)
+    return JsonResponse({"status": "error", "message": "Method not allowed"}, status=405)
