@@ -2,9 +2,12 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.http import JsonResponse
-from kasir.models import Product, Category
+from kasir.models import Product, Category, Transaction, InventoryLog, TransactionItem
 from django.views.decorators.csrf import csrf_exempt
+from django.core.serializers.json import DjangoJSONEncoder
 import json
+from django.db.models import Sum
+from datetime import datetime
 
 
 def is_admin(user):
@@ -98,19 +101,32 @@ def manage_products(request):
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
     elif request.method == "PUT":
-        try:
+    	try:
             data = json.loads(request.body)
             product = Product.objects.get(id=data["id"])
+
+            old_stock = product.stock  # ?? stok sebelum diubah
+            new_stock = int(data["stock"])
+            diff = new_stock - old_stock
 
             product.name = data["name"]
             product.category = Category.objects.get(id=int(data["category_id"]))
             product.price = int(data["price"])
-            product.stock = int(data["stock"])
+            product.stock = new_stock
             product.expired_at = data["expiryDate"] or None
             product.save()
 
+            # ? Tambahkan log stok
+            if diff != 0:
+                InventoryLog.objects.create(
+                    product=product,
+                    type='in' if diff > 0 else 'out',
+                    quantity=abs(diff),
+                    description='Update stok manual oleh admin'
+                )
+
             return JsonResponse({"status": "success"})
-        except Exception as e:
+    	except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
     elif request.method == "DELETE":
@@ -123,3 +139,61 @@ def manage_products(request):
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
     return JsonResponse({"status": "error", "message": "Method not allowed"}, status=405)
+
+
+@login_required
+def admin_laporan_view(request):
+    transactions = Transaction.objects.all()
+    inventory_logs = InventoryLog.objects.filter(type='out')
+    transaction_items = TransactionItem.objects.select_related('transaction', 'product')
+
+    # Total Summary
+    total_revenue = transactions.aggregate(total=Sum('total_amount'))['total'] or 0
+    total_stock_out = inventory_logs.aggregate(total=Sum('quantity'))['total'] or 0
+    total_items_sold = transaction_items.aggregate(total=Sum('quantity'))['total'] or 0
+    total_transactions = transactions.count()
+
+    # JSON-friendly structure
+    transactions_data = [
+        {
+            "id": t.id,
+            "date": t.created_at.strftime("%Y-%m-%d"),
+            "customer": "Umum",  # bisa diubah kalau kamu punya data pelanggan
+            "cashier": t.cashier.username if t.cashier else "Tidak diketahui",
+            "items": TransactionItem.objects.filter(transaction=t).aggregate(total=Sum('quantity'))['total'] or 0,
+            "total": float(t.total_amount),
+            "payment": t.payment_method,
+            "status": "Selesai",  # bisa diubah sesuai field status jika kamu punya
+        } for t in transactions
+    ]
+
+    revenue_data = [
+        {
+            "date": t.created_at.strftime("%Y-%m-%d"),
+            "source": "Penjualan Produk",
+            "amount": float(t.total_amount)
+        } for t in transactions
+    ]
+
+    stock_data = [
+        {
+            "date": s.created_at.strftime("%Y-%m-%d"),
+            "product": s.product.name,
+            "quantity": s.quantity,
+            "reason": s.description
+        } for s in inventory_logs
+    ]
+
+    context = {
+        "title": "Laporan",
+        "user": request.user,
+        "total_revenue": total_revenue,
+        "total_stock_out": total_stock_out,
+        "total_items_sold": total_items_sold,
+        "total_transactions": total_transactions,
+        "transactions": json.dumps(transactions_data, cls=DjangoJSONEncoder),
+        "revenues": json.dumps(revenue_data, cls=DjangoJSONEncoder),
+        "inventory_logs": json.dumps(stock_data, cls=DjangoJSONEncoder),
+    }
+
+    return render(request, "kasir/laporan.html", context)

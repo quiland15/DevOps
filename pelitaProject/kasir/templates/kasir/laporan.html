@@ -68,9 +68,9 @@
         <div
           class="w-8 h-8 rounded-full bg-[#0B5ED7] text-white flex items-center justify-center font-semibold text-sm"
         >
-          AT
+          AD
         </div>
-        <span class="text-sm text-[#475569]">Admin Tani</span>
+        <span class="text-sm text-[#475569]">{{user}}</span>
       </div>
     </header>
 
@@ -118,7 +118,7 @@
         <div>
           <p class="text-xs text-[#475569] mb-1">Total Transaksi</p>
           <p id="totalTransactions" class="text-sm font-semibold text-[#1E293B]">
-            0
+            {{total_transactions}}
           </p>
         </div>
         <button
@@ -134,7 +134,7 @@
         <div>
           <p class="text-xs text-[#475569] mb-1">Total Pendapatan</p>
           <p id="totalRevenue" class="text-sm font-semibold text-[#1E293B]">
-            Rp 0
+            Rp {{ total_revenue|floatformat:0 }}
           </p>
         </div>
         <div
@@ -150,7 +150,7 @@
         <div>
           <p class="text-xs text-[#475569] mb-1">Total Pengurangan Stok</p>
           <p id="totalStockReduction" class="text-sm font-semibold text-[#1E293B]">
-            0
+            {{ total_stock_out }}
           </p>
         </div>
         <div
@@ -166,7 +166,7 @@
         <div>
           <p class="text-xs text-[#475569] mb-1">Total Item Terjual</p>
           <p id="totalItemsSold" class="text-sm font-semibold text-[#1E293B]">
-            0
+            {{ total_items_sold }}
           </p>
         </div>
         <div
@@ -194,6 +194,16 @@
           </thead>
           <tbody id="stockReductionBody">
             <!-- Filled by JS -->
+	    {% for log in inventory_logs %}
+  	    <tr class="border-b border-[#E2E8F0]">
+    		<td class="py-2 px-3">{{ log.created_at|date:"d/m/Y" }}</td>
+    		<td class="py-2 px-3">{{ log.product.name }}</td>
+    		<td class="py-2 px-3 text-center font-semibold">{{ log.quantity }}</td>
+    		<td class="py-2 px-3">{{ log.description }}</td>
+  	    </tr>
+  	    {% empty %}
+  	    <tr><td colspan="4" class="py-2 px-3 text-center text-[#94A3B8]">Tidak ada data</td></tr>
+  	    {% endfor %}
           </tbody>
         </table>
       </div>
@@ -211,6 +221,15 @@
           </thead>
           <tbody id="revenueBody">
             <!-- Filled by JS -->
+  	    {% for trx in transactions %}
+ 	    <tr class="border-b border-[#E2E8F0]">
+    		<td class="py-2 px-3">{{ trx.created_at|date:"d/m/Y" }}</td>
+    		<td class="py-2 px-3">Penjualan Produk</td>
+    		<td class="py-2 px-3 text-right font-semibold">Rp {{ trx.total_amount|floatformat:0 }}</td>
+  	    </tr>
+  	    {% empty %}
+  	    <tr><td colspan="3" class="py-2 px-3 text-center text-[#94A3B8]">Tidak ada data</td></tr>
+  	    {% endfor %}
           </tbody>
         </table>
       </div>
@@ -254,88 +273,10 @@
   </main>
 </div>
 <script>
-    // Sample data for demonstration
-    const stockReductions = [
-      {
-        date: "2023-08-10",
-        product: "Pupuk Organik",
-        quantity: 5,
-        reason: "Rusak",
-      },
-      {
-        date: "2023-08-15",
-        product: "Bibit Jagung",
-        quantity: 3,
-        reason: "Kadaluarsa",
-      },
-      {
-        date: "2023-09-05",
-        product: "Pakan Ayam",
-        quantity: 10,
-        reason: "Hilang",
-      },
-    ];
 
-    const revenues = [
-      {
-        date: "2023-08-01",
-        source: "Penjualan Produk",
-        amount: 500000,
-      },
-      {
-        date: "2023-08-15",
-        source: "Penjualan Produk",
-        amount: 210000,
-      },
-      {
-        date: "2023-09-05",
-        source: "Penjualan Produk",
-        amount: 710000,
-      },
-    ];
-
-    const transactions = [
-      {
-        id: 1,
-        date: "2023-08-16",
-        customer: "PT Tani Makmur",
-        cashier: "Kasir Tani",
-        items: 8,
-        total: 560000,
-        payment: "Transfer",
-        status: "Selesai",
-      },
-      {
-        id: 2,
-        date: "2023-08-15",
-        customer: "Pak Budi",
-        cashier: "Kasir Tani",
-        items: 2,
-        total: 150000,
-        payment: "Cash",
-        status: "Selesai",
-      },
-      {
-        id: 3,
-        date: "2023-09-10",
-        customer: "Bu Sari",
-        cashier: "Kasir Tani",
-        items: 5,
-        total: 350000,
-        payment: "Cash",
-        status: "Selesai",
-      },
-      {
-        id: 4,
-        date: "2023-09-12",
-        customer: "Pak Joko",
-        cashier: "Kasir Tani",
-        items: 3,
-        total: 210000,
-        payment: "Transfer",
-        status: "Selesai",
-      },
-    ];
+    const stockReductions = {{ inventory_logs|safe }};
+    const revenues = {{ revenues|safe }};
+    const transactions = {{ transactions|safe }};
 
     // Utility to format currency
     function formatCurrency(num) {

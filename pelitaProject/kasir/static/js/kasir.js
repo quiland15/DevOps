@@ -1,11 +1,3 @@
-const products = [
-            { id: 1, name: "Pupuk NPK", category: "Pertanian", price: 85000, stock: 50 },
-            { id: 2, name: "Bibit Jagung Hibrida", category: "Pertanian", price: 45000, stock: 100 },
-            { id: 3, name: "Pestisida Organik", category: "Pertanian", price: 65000, stock: 30 },
-            { id: 4, name: "Pakan Ternak Ayam", category: "Peternakan", price: 75000, stock: 40 },
-            { id: 5, name: "Obat Ternak", category: "Peternakan", price: 120000, stock: 25 },
-        ];
-    
         const cart = [];
     
         function toggleSidebar() {
