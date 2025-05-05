@@ -147,6 +147,5 @@ function getCookie(name) {
     return cookieValue;
 }
 
-    
         renderProducts();
         renderCart();
