@@ -81,6 +81,72 @@
             document.getElementById('total-items').innerText = totalItems;
             document.getElementById('total-price').innerText = "Rp " + totalPrice.toLocaleString();
         }
+
+document.querySelector(".btn.btn-primary.w-100").addEventListener("click", function () {
+    const namaPelanggan = document.querySelector('input[placeholder="Masukkan nama pelanggan"]').value.trim();
+    const metodePembayaran = document.querySelector('input[name="payment"]:checked')?.id || "cash";
+    const totalPrice = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+    const bayarDariInput = totalPrice; // bisa ganti dengan input field pembayaran nanti
+
+    // Validasi keranjang
+    if (cart.length === 0) {
+        alert("Keranjang masih kosong!");
+        return;
+    }
+
+    // Validasi stok
+    const stokKurang = cart.find(item => item.qty > item.stock);
+    if (stokKurang) {
+        alert(`Stok produk "${stokKurang.name}" tidak cukup!`);
+        return;
+    }
+
+    fetch("/kasir/checkout/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken")
+        },
+        body: JSON.stringify({
+            items: cart,
+            total: totalPrice,
+            paid_amount: bayarDariInput,
+            payment_method: metodePembayaran,
+            customer: namaPelanggan
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "success") {
+            alert("Transaksi berhasil!");
+            cart.length = 0;
+            renderCart();
+            renderProducts(); // untuk update stok visual
+        } else {
+            alert("Gagal: " + data.message);
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Terjadi kesalahan saat memproses pembayaran.");
+    });
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + "=")) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
     
         renderProducts();
         renderCart();

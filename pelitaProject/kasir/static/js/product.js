@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cancelBtn = document.getElementById("cancelBtn");
   const addProductForm = document.getElementById("addProductForm");
   const modalTitle = document.getElementById("modalTitle");
+  const btnDownloadLowStock = document.getElementById("downloadLowStockBtn");
 
   let editIndex = null; // null means add mode, otherwise edit mode
 
@@ -111,22 +112,26 @@ document.addEventListener("DOMContentLoaded", () => {
   renderProducts("all");
 
   // Button click handlers
-  btnSemua.addEventListener("click", () => {
-    btnSemua.classList.add("bg-white", "border", "border-[#D1D5DB]", "text-[#1E1E1E]");
-    btnSemua.classList.remove("bg-[#E6E6E6]", "text-[#9CA3AF]");
-    btnStok.classList.remove("bg-white", "border", "border-[#D1D5DB]", "text-[#1E1E1E]");
-    btnStok.classList.add("bg-[#E6E6E6]", "text-[#9CA3AF]");
-    renderProducts("all");
-  });
+btnSemua.addEventListener("click", () => {
+  btnSemua.classList.add("bg-white", "border", "border-[#D1D5DB]", "text-[#1E1E1E]");
+  btnSemua.classList.remove("bg-[#E6E6E6]", "text-[#9CA3AF]");
+  btnStok.classList.remove("bg-white", "border", "border-[#D1D5DB]", "text-[#1E1E1E]");
+  btnStok.classList.add("bg-[#E6E6E6]", "text-[#9CA3AF]");
+  renderProducts("all");
 
-  btnStok.addEventListener("click", () => {
-    btnStok.classList.add("bg-white", "border", "border-[#D1D5DB]", "text-[#1E1E1E]");
-    btnStok.classList.remove("bg-[#E6E6E6]", "text-[#9CA3AF]");
-    btnSemua.classList.remove("bg-white", "border", "border-[#D1D5DB]", "text-[#1E1E1E]");
-    btnSemua.classList.add("bg-[#E6E6E6]", "text-[#9CA3AF]");
-    renderProducts("stok");
-  });
+  // Sembunyikan tombol download PDF
+  btnDownloadLowStock.classList.add("hidden");
+});
+btnStok.addEventListener("click", () => {
+  btnStok.classList.add("bg-white", "border", "border-[#D1D5DB]", "text-[#1E1E1E]");
+  btnStok.classList.remove("bg-[#E6E6E6]", "text-[#9CA3AF]");
+  btnSemua.classList.remove("bg-white", "border", "border-[#D1D5DB]", "text-[#1E1E1E]");
+  btnSemua.classList.add("bg-[#E6E6E6]", "text-[#9CA3AF]");
+  renderProducts("stok");
 
+  // Tampilkan tombol download PDF
+  btnDownloadLowStock.classList.remove("hidden");
+});
   // Search input event
   searchInput.addEventListener("input", () => {
     if (btnSemua.classList.contains("bg-white")) {

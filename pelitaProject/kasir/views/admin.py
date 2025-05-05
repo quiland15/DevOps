@@ -6,6 +6,11 @@ from kasir.models import Product, Category, Transaction, InventoryLog, Transacti
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
 import json
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import cm
+from reportlab.lib.pagesizes import A4
+from django.http import HttpResponse
+from decimal import Decimal
 from django.db.models import Sum
 from datetime import datetime
 
@@ -19,9 +24,11 @@ def admin_panel_view(request):
 
 @login_required
 def cashier_admin_view(request):
+    products = Product.objects.select_related('category').all()
     return render(request, "kasir/kasirAdmin.html", {
 	"title":"Kasir Admin",
-	"user" : request.user
+	"user" : request.user,
+	"products": products,
     })
 
 @login_required
@@ -197,3 +204,110 @@ def admin_laporan_view(request):
     }
 
     return render(request, "kasir/laporan.html", context)
+
+@csrf_exempt
+@login_required
+def checkout(request):
+    if request.method != "POST":
+        return JsonResponse({"status": "error", "message": "Method not allowed"}, status=405)
+
+    try:
+        data = json.loads(request.body)
+
+        items = data.get("items", [])
+        total = Decimal(data.get("total", 0))
+        payment_method = data.get("payment_method", "Tunai")
+        paid_amount = Decimal(data.get("paid_amount", 0))
+        customer_name = data.get("customer", "")
+
+        if not items or total <= 0:
+            return JsonResponse({"status": "error", "message": "Data tidak valid."}, status=400)
+
+        change_amount = paid_amount - total
+
+        # Buat transaksi
+        trx = Transaction.objects.create(
+            cashier=request.user,
+            total_amount=total,
+            payment_method=payment_method,
+            paid_amount=paid_amount,
+            change_amount=change_amount,
+        )
+
+        # Simpan item dan update stok
+        for item in items:
+            product_id = item.get("id")
+            qty = int(item.get("qty"))
+            product = Product.objects.get(id=product_id)
+
+            subtotal = product.price * qty
+
+            TransactionItem.objects.create(
+                transaction=trx,
+                product=product,
+                quantity=qty,
+                price=product.price,
+                subtotal=subtotal
+            )
+
+            # Kurangi stok
+            product.stock -= qty
+            product.save()
+
+            # Simpan log stok keluar
+            InventoryLog.objects.create(
+                product=product,
+                type="out",
+                quantity=qty,
+                description=f"Penjualan kepada {customer_name}"
+            )
+
+        return JsonResponse({"status": "success", "transaction_id": trx.id})
+
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+@login_required
+def download_low_stock_pdf(request):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="stok_menipis.pdf"'
+
+    # PDF Setup
+    p = canvas.Canvas(response, pagesize=A4)
+    width, height = A4
+    y = height - 3 * cm
+
+    # Judul
+    p.setFont("Helvetica-Bold", 14)
+    p.drawString(2 * cm, y, "Laporan Produk dengan Stok Menipis")
+    y -= 1 * cm
+
+    # Header Tabel
+    p.setFont("Helvetica-Bold", 10)
+    p.drawString(2 * cm, y, "No")
+    p.drawString(3.5 * cm, y, "Nama Produk")
+    p.drawString(12 * cm, y, "Jumlah Stok")
+    y -= 0.5 * cm
+
+    # Garis horizontal di bawah header
+    p.line(2 * cm, y + 0.3 * cm, 18 * cm, y + 0.3 * cm)
+
+    # Ambil data produk dengan stok <= 10
+    low_stock_products = Product.objects.filter(stock__lte=10)
+
+    # Tampilkan isi tabel
+    p.setFont("Helvetica", 10)
+    no = 1
+    for product in low_stock_products:
+        if y < 3 * cm:
+            p.showPage()
+            y = height - 3 * cm
+        p.drawString(2 * cm, y, str(no))
+        p.drawString(3.5 * cm, y, product.name)
+        p.drawString(12 * cm, y, str(product.stock))
+        y -= 0.5 * cm
+        no += 1
+
+    p.showPage()
+    p.save()
+    return response

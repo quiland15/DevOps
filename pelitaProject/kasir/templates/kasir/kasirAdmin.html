@@ -144,5 +144,18 @@
     
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const products = [
+            {% for p in products %}
+            {
+                id: {{ p.id }},
+                name: "{{ p.name|escapejs }}",
+                category: "{{ p.category.name|default:'-'|escapejs }}",
+                price: {{ p.price }},
+                stock: {{ p.stock }}
+            }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+    	];
+    </script>
     <script src="{% static 'js/kasir.js' %}"></script>
 {% endblock content %}

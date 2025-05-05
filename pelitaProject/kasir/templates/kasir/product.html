@@ -83,6 +83,11 @@
           <button id="btn-stok" class="text-xs font-normal bg-[#E6E6E6] rounded px-3 py-1 text-[#9CA3AF]">
             Stok Menipis
           </button>
+	  <a href="{% url 'download_low_stock_pdf' %}" 
+   	    id="downloadLowStockBtn"
+   	    class="btn btn-danger hidden text-xs bg-red-600 text-white px-3 py-2 rounded hover:bg-red-700 transition">
+ 	   <i class="bi bi-download"></i> Download Stok Menipis (PDF)
+	  </a>
         </div>
 
         <div class="bg-white rounded border border-[#E6E6E6] p-5">
