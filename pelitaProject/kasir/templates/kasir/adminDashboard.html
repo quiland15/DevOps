@@ -44,7 +44,7 @@
           <i class="fas fa-file-alt text-sm"></i>
           <span class="text-sm">Laporan</span>
         </a>
-        <a href="#" class="flex items-center space-x-3 px-4 py-2 rounded hover:bg-[#0041A8]">
+        <a href="{% url 'pengaturan' %}" class="flex items-center space-x-3 px-4 py-2 rounded hover:bg-[#0041A8]">
           <i class="fas fa-cog text-sm"></i>
           <span class="text-sm">Pengaturan</span>
         </a>
@@ -117,6 +117,9 @@
               <h5>Tren Penjualan</h5>
               <small>Penjualan produk pertanian dan peternakan 6 bulan terakhir</small>
               <canvas id="salesChart" style="max-width: 100%; height: auto;"></canvas>
+	      {{ labels|json_script:"labels-data" }}
+  	      {{ sales_pertanian|json_script:"pertanian-data" }}
+  	      {{ sales_peternakan|json_script:"peternakan-data" }}
             </div>
           </div>
         </div>
@@ -203,10 +206,5 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  const chartLabels = {{ labels|safe }};
-  const salesPertanian = {{ sales_pertanian|safe }};
-  const salesPeternakan = {{ sales_peternakan|safe }};
-</script>
 <script src="{% static 'js/script.js' %}"></script>
 {% endblock content %}

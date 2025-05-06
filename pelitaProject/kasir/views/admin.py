@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.http import JsonResponse
-from kasir.models import Product, Category, Transaction, InventoryLog, TransactionItem
+from kasir.models import Product, Category, Transaction, InventoryLog, TransactionItem, UserProfile
+from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
 import json
@@ -13,6 +14,7 @@ from django.http import HttpResponse
 from decimal import Decimal
 from django.db.models import Sum
 from datetime import datetime
+from django.views.decorators.http import require_http_methods
 
 
 def is_admin(user):
@@ -51,6 +53,78 @@ def admin_settings_view(request):
         "title":"Settings",
         "user" : request.user
     })
+
+@csrf_exempt
+@login_required
+@require_http_methods(["GET", "POST", "PUT", "DELETE"])
+def manage_users(request):
+    if request.method == "GET":
+        users = User.objects.filter(userprofile__isnull=False, is_superuser=False).select_related('userprofile')
+        data = [
+            {
+                "id": u.id,
+                "name": u.get_full_name(),
+                "email": u.email,
+                "role": u.userprofile.role if hasattr(u, 'userprofile') else "",
+            } for u in users
+        ]
+        return JsonResponse(data, safe=False)
+
+    data = json.loads(request.body)
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            name = data.get("name")
+            email = data.get("email")
+            role = data.get("role")
+            password = data.get("password")
+
+            if not all([name, email, role, password]):
+                return JsonResponse({"status": "error", "message": "Semua field wajib diisi"}, status=400)
+
+            user = User.objects.create_user(
+                username=name,  # atau generate username unik
+                email=email,
+                password=password,
+                first_name=name
+            )
+
+            # Buat user profile dan simpan role
+            UserProfile.objects.create(
+                user=user,
+                role=role
+            )
+
+            return JsonResponse({"status": "success", "id": user.id})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+    elif request.method == "PUT":
+        try:
+            user = User.objects.get(id=data["id"])
+            user.first_name = data.get("name")
+            user.email = data.get("email")
+            user.username = data.get("email")
+
+            if data.get("password"):
+                user.set_password(data.get("password"))
+            user.save()
+
+            profile, _ = UserProfile.objects.get_or_create(user=user)
+            profile.role = data.get("role")
+            profile.save()
+
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+
+    elif request.method == "DELETE":
+        try:
+            user = User.objects.get(id=data["id"])
+            user.delete()
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
 
 @login_required
 def get_products(request):
