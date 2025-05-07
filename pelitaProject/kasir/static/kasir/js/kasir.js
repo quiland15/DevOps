@@ -83,14 +83,14 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            renderProducts();
+            renderProducts(); // Tampilkan semua dulu
             renderCart();
           
             document.querySelector("#searchProduct").addEventListener("input", function (e) {
               const keyword = e.target.value.toLowerCase();
           
               if (keyword === "") {
-                renderProducts();
+                renderProducts(); // Reset ke semua produk
                 return;
               }
           
@@ -103,7 +103,6 @@
             });
           });
           
-        
         
         function renderFilteredProducts(filteredList) {
             const list = document.getElementById('product-list');
@@ -128,7 +127,7 @@
                 `;
                 list.appendChild(div);
             });
-        }      
+        }    
 
 document.querySelector(".btn.btn-primary.w-100").addEventListener("click", function () {
     const namaPelanggan = document.querySelector('input[placeholder="Masukkan nama pelanggan"]').value.trim();
