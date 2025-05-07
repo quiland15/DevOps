@@ -16,7 +16,7 @@
   href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
   rel="stylesheet"
 />
-<link href="{% static 'css/kasir.css' %}" rel="stylesheet">
+<link href="{% static 'kasir/css/kasir.css' %}" rel="stylesheet">
 {% endblock style %}
 
 {% block content %}
@@ -273,5 +273,5 @@
     const revenues = {{ revenues|safe }};
     const transactions = {{ transactions|safe }};
 </script>
-<script src="{% static 'js/laporan.js' %}"></script>  
+<script src="{% static 'kasir/js/laporan.js' %}"></script>  
 {% endblock content %}
