@@ -47,22 +47,6 @@
             });
         }
         
-        document.addEventListener("DOMContentLoaded", function () {
-            renderProducts(); // Tampilkan semua produk awalnya
-            renderCart();
-        
-            document.querySelector("#searchProduct").addEventListener("input", function (e) {
-                const keyword = e.target.value.toLowerCase();
-        
-                if (keyword === "") {
-                    renderProducts(); // Reset ke semua produk
-                    return;
-                }
-        
-                renderProducts("all"); // Untuk reset dan menampilkan semua produk
-            });
-        });
-        
     
         function addToCart(id) {
             const product = products.find(p => p.id === id);
@@ -123,25 +107,20 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            renderProducts(); // Tampilkan semua dulu
+            renderProducts(); // Tampilkan semua produk awalnya
             renderCart();
-          
+        
             document.querySelector("#searchProduct").addEventListener("input", function (e) {
-              const keyword = e.target.value.toLowerCase();
-          
-              if (keyword === "") {
-                renderProducts(); // Reset ke semua produk
-                return;
-              }
-          
-              const filtered = products.filter(p =>
-                p.name.toLowerCase().includes(keyword) ||
-                p.category.toLowerCase().includes(keyword)
-              );
-          
-              renderFilteredProducts(filtered);
+                const keyword = e.target.value.toLowerCase();
+        
+                if (keyword === "") {
+                    renderProducts(); // Reset ke semua produk
+                    return;
+                }
+        
+                renderProducts("all"); // Untuk reset dan menampilkan semua produk
             });
-          });
+        });
           
         
         // function renderFilteredProducts(filteredList) {
