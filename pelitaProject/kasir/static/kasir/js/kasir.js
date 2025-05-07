@@ -114,7 +114,7 @@
                 `;
                 list.appendChild(div);
             });
-        }        
+        }      
 
 document.querySelector(".btn.btn-primary.w-100").addEventListener("click", function () {
     const namaPelanggan = document.querySelector('input[placeholder="Masukkan nama pelanggan"]').value.trim();
