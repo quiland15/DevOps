@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'kasir',
     'portfolio',
-    #'django_extensions',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
