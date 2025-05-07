@@ -5,10 +5,33 @@
             document.getElementById('overlay').classList.toggle('show');
         }
     
-        function renderProducts() {
+        function renderProducts(filter = "all") {
+            const searchTerm = document.querySelector("#searchProduct").value.toLowerCase();
+        
+            let filteredProducts = products;
+        
+            // Filter by stock menipis if needed
+            if (filter === "stok") {
+                filteredProducts = filteredProducts.filter((p) => p.stock <= 10);
+            }
+        
+            // Filter by search term
+            if (searchTerm) {
+                filteredProducts = filteredProducts.filter((p) =>
+                    p.name.toLowerCase().includes(searchTerm) ||
+                    p.category.toLowerCase().includes(searchTerm)
+                );
+            }
+        
             const list = document.getElementById('product-list');
             list.innerHTML = "";
-            products.forEach(p => {
+        
+            if (filteredProducts.length === 0) {
+                list.innerHTML = `<p class="text-muted">Tidak ada produk ditemukan.</p>`;
+                return;
+            }
+        
+            filteredProducts.forEach(p => {
                 const div = document.createElement('div');
                 div.className = "col-md-6 col-lg-4 mb-3";
                 div.innerHTML = `
@@ -23,6 +46,7 @@
                 list.appendChild(div);
             });
         }
+        
     
         function addToCart(id) {
             const product = products.find(p => p.id === id);
@@ -81,6 +105,48 @@
             document.getElementById('total-items').innerText = totalItems;
             document.getElementById('total-price').innerText = "Rp " + totalPrice.toLocaleString();
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            renderProducts(); // Tampilkan semua produk awalnya
+            renderCart();
+        
+            document.querySelector("#searchProduct").addEventListener("input", function (e) {
+                const keyword = e.target.value.toLowerCase();
+        
+                if (keyword === "") {
+                    renderProducts(); // Reset ke semua produk
+                    return;
+                }
+        
+                renderProducts("all"); // Untuk reset dan menampilkan semua produk
+            });
+        });
+          
+        
+        // function renderFilteredProducts(filteredList) {
+        //     const list = document.getElementById('product-list');
+        //     list.innerHTML = "";
+        
+        //     if (filteredList.length === 0) {
+        //         list.innerHTML = `<p class="text-muted">Tidak ada produk ditemukan.</p>`;
+        //         return;
+        //     }
+        
+        //     filteredList.forEach(p => {
+        //         const div = document.createElement('div');
+        //         div.className = "col-md-6 col-lg-4 mb-3";
+        //         div.innerHTML = `
+        //             <div class="card-product">
+        //                 <h6>${p.name}</h6>
+        //                 <small>${p.category}</small>
+        //                 <div class="price mt-1">Rp ${p.price.toLocaleString()}</div>
+        //                 <div class="product-stock">Stock: ${p.stock}</div>
+        //                 <button class="btn btn-sm btn-primary mt-2 w-100" onclick="addToCart(${p.id})">Tambah</button>
+        //             </div>
+        //         `;
+        //         list.appendChild(div);
+        //     });
+        // }      
 
 document.querySelector(".btn.btn-primary.w-100").addEventListener("click", function () {
     const namaPelanggan = document.querySelector('input[placeholder="Masukkan nama pelanggan"]').value.trim();
@@ -147,5 +213,5 @@ function getCookie(name) {
     return cookieValue;
 }
 
-        renderProducts();
-        renderCart();
+        // renderProducts();
+        // renderCart();
