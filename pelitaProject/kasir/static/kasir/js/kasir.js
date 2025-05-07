@@ -82,14 +82,21 @@
             document.getElementById('total-price').innerText = "Rp " + totalPrice.toLocaleString();
         }
 
-        document.querySelector("searchProduct").addEventListener("input", function (e) {
+        document.querySelector("#searchProduct").addEventListener("input", function (e) {
             const keyword = e.target.value.toLowerCase();
+        
+            if (keyword === "") {
+                renderProducts(); // Reset ke semua produk
+                return;
+            }
+        
             const filtered = products.filter(p =>
                 p.name.toLowerCase().includes(keyword) ||
                 p.category.toLowerCase().includes(keyword)
             );
             renderFilteredProducts(filtered);
         });
+        
         
         function renderFilteredProducts(filteredList) {
             const list = document.getElementById('product-list');
