@@ -82,7 +82,7 @@
             document.getElementById('total-price').innerText = "Rp " + totalPrice.toLocaleString();
         }
 
-        document.querySelector('input[placeholder="Cari produk..."]').addEventListener("input", function (e) {
+        document.querySelector("searchProduct").addEventListener("input", function (e) {
             const keyword = e.target.value.toLowerCase();
             const filtered = products.filter(p =>
                 p.name.toLowerCase().includes(keyword) ||
