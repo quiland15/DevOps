@@ -22,7 +22,7 @@
 {% block content %}
     <!-- Sidebar -->
     <div class="flex min-h-screen">
-        <aside class="bg-[#0052CC] w-56 flex flex-col justify-between text-white">
+        <aside class="sidebar bg-[#0052CC] flex flex-col justify-between text-white" id="sidebar">
             <div>
               <div class="font-bold text-white text-lg px-6 border-b border-[#0041A8]" style="padding-top:20px; padding-bottom:20px;">
                 PELITAKAS
@@ -44,14 +44,14 @@
             </a>
         </aside>
           
-        <div class="flex-1 flex flex-col">
+        <div class="content flex-1 flex flex-col">
         <!-- Main Content -->
         <!-- <div class="flex-grow-1"> -->
             <!-- <nav class="navbar navbar-light bg-light shadow-sm">
                 <div class="container-fluid">
-                  <button class="btn d-md-none" onclick="toggleSidebar()">
-                    <i class="bi bi-list fs-3"></i>
-                  </button>
+      		  <button class="hamburger block md:hidden text-xl" onclick="toggleSidebar()">
+        	    <i class="fas fa-bars"></i>
+      		  </button>
                   <h5 class="mb-0">Kasir</h5>
                   <div class="d-flex align-items-center">
                     <span class="me-2">{{user}}</span>
@@ -60,6 +60,9 @@
                 </div>
             </nav> -->
             <header class="flex items-center justify-between border-b border-[#E6E6E6] bg-white px-6 h-12">
+      		<button class="hamburger block md:hidden text-xl" onclick="toggleSidebar()">
+        	  <i class="fas fa-bars"></i>
+      		</button>
                 <div class="text-sm font-normal text-[#1E1E1E]">Cashier</div>
                 <div class="flex items-center space-x-2">
                   <div class="w-8 h-8 rounded-full bg-[#0052CC] flex items-center justify-center text-white font-semibold text-xs select-none">
