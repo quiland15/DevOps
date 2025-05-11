@@ -40,6 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const roleError = document.getElementById("roleError");
     const passwordError = document.getElementById("passwordError");
 
+    function toggleSidebar() {
+    	const sidebar = document.getElementById("sidebar");
+    	const content = document.querySelector(".content");
+
+    	sidebar.classList.toggle("collapsed");
+    	content.classList.toggle("full");
+    }
+
     // Render users in table
     function renderUsers() {
       userTableBody.innerHTML = "";
