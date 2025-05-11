@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Filter by stock menipis if needed
     if (filter === "stok") {
-      filteredProducts = filteredProducts.filter((p) => p.stock <= 10);
+      filteredProducts = filteredProducts.filter((p) => p.stock <= 3);
     }
 
     // Filter by category if not all
