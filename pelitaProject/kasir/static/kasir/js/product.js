@@ -49,15 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
     const content = document.querySelector(".content");
-    const overlay = document.getElementById("overlay");
-  
-    if (window.innerWidth <= 768) {
-      sidebar.classList.toggle("show");
-      overlay.classList.toggle("show");
-    } else {
-      sidebar.classList.toggle("collapsed");
-      content.classList.toggle("full");
-    }
+
+    sidebar.classList.toggle("collapsed");
+    content.classList.toggle("full");
   }
   
 
