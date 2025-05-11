@@ -35,18 +35,36 @@ async function deleteProduct(id) {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken")  // Tambahkan ini
       },
       body: JSON.stringify({ id }),
     });
 
     if (!res.ok) throw new Error("Gagal menghapus produk");
 
-    await fetchProducts(); // Refresh data setelah delete
+    await fetchProducts();
   } catch (err) {
     console.error(err);
     alert("Gagal menghapus produk");
   }
 }
+
+// Helper function untuk ambil CSRF Token
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + "=")) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
