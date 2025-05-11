@@ -22,7 +22,7 @@
 {% block content %}
 <div class="flex min-h-screen">
   <!-- Sidebar -->
-  <aside class="bg-[#0052CC] w-56 flex flex-col justify-between text-white">
+  <aside class="bg-[#0052CC] w-56 flex flex-col justify-between text-white" id="sidebar">
     <div>
       <div class="font-bold text-white text-lg px-6 border-b border-[#0041A8]" style="padding-top:20px; padding-bottom:20px;">
         PELITAKAS
@@ -46,6 +46,10 @@
 
   <!-- Overlay for Mobile -->
   <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+  <button class="hamburger block md:hidden text-xl" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </button>
+
 
   <!-- Main Content -->
   <div class="flex-grow-1">
