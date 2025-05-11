@@ -1,9 +1,4 @@
 /* Sidebar Expand/Collapse Behavior */
-body {
-    background-color: #f8f9fa;
-    font-family: 'Inter', sans-serif;
-  }
-
 #sidebar {
     width: 250px;
     height: 100vh;
