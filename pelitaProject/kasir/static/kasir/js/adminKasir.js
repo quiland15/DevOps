@@ -1,12 +1,20 @@
         const cart = [];
     
-	function toggleSidebar() {
-    	   const sidebar = document.getElementById("sidebar");
-    	   const content = document.querySelector(".content");
-
-    	   sidebar.classList.toggle("collapsed");
-    	   content.classList.toggle("full");
-	}
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const content = document.querySelector(".content");
+          
+            // Untuk mobile
+            if (window.innerWidth <= 768) {
+              sidebar.classList.toggle("show");
+              content.classList.toggle("full");
+            } else {
+              // Untuk desktop
+              sidebar.classList.toggle("collapsed");
+              content.classList.toggle("full");
+            }
+          }
+          
     
         function renderProducts(filter = "all") {
             const searchTerm = document.querySelector("#searchProduct").value.toLowerCase();
