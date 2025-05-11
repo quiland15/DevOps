@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'kasir',
     'portfolio',
     'django_extensions',
+    'MyPortofolio',
 ]
 
 MIDDLEWARE = [
