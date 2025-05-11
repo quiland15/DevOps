@@ -27,6 +27,28 @@ async function loadCategories() {
   });
 }
 
+async function deleteProduct(id) {
+  if (!confirm("Yakin ingin menghapus produk ini?")) return;
+
+  try {
+    const res = await fetch("/kasir/api/manageProducts/", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+
+    if (!res.ok) throw new Error("Gagal menghapus produk");
+
+    await fetchProducts();
+  } catch (err) {
+    console.error(err);
+    alert("Gagal menghapus produk");
+  }
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
   fetchProducts();
   loadCategories();
@@ -240,9 +262,6 @@ const productData = {
       modalBackdrop.classList.remove("hidden");
     } else if (action === "delete") {
       // Confirm and delete product
-      if (confirm(`Hapus produk "${products[index].name}"?`)) {
-        products.splice(index, 1);
-        renderProducts(btnSemua.classList.contains("bg-white") ? "all" : "stok");
-      }
+      deleteProduct(products[index].id);
     }
   });
