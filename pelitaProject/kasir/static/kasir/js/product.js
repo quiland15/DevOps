@@ -1,11 +1,3 @@
-function toggleSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  const content = document.querySelector(".content");
-
-  sidebar.classList.toggle("collapsed");
-  content.classList.toggle("full");
-}
-
 let products = [];
 
 async function fetchProducts() {
@@ -53,6 +45,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnDownloadLowStock = document.getElementById("downloadLowStockBtn");
 
   let editIndex = null; // null means add mode, otherwise edit mode
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const content = document.querySelector(".content");
+    const overlay = document.getElementById("overlay");
+  
+    if (window.innerWidth <= 768) {
+      sidebar.classList.toggle("show");
+      overlay.classList.toggle("show");
+    } else {
+      sidebar.classList.toggle("collapsed");
+      content.classList.toggle("full");
+    }
+  }
+  
 
   // Render products based on filter and search
   function renderProducts(filter = "all") {
