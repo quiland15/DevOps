@@ -1,3 +1,11 @@
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const content = document.querySelector(".content");
+
+  sidebar.classList.toggle("collapsed");
+  content.classList.toggle("full");
+}
+
 let products = [];
 
 async function fetchProducts() {
@@ -26,15 +34,6 @@ async function loadCategories() {
     categorySelect.appendChild(opt);
   });
 }
-
-function toggleSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  const content = document.querySelector(".content");
-
-  sidebar.classList.toggle("collapsed");
-  content.classList.toggle("full");
-}
-
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchProducts();
