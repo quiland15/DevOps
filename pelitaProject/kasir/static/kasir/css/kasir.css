@@ -1,7 +1,4 @@
-body {
-  background-color: #f8f9fa;
-  font-family: 'Inter', sans-serif;
-}
+/* Sidebar Expand/Collapse Behavior */
 #sidebar {
     width: 250px;
     height: 100vh;
@@ -30,12 +27,14 @@ body {
     margin-left: 250px;
     padding: 20px;
     transition: margin-left 0.3s, width 0.3s;
-    width: calc(100% - 250px);
+    width: 100%;
 }
+
 .content.full {
     margin-left: 80px;
     width: calc(100% - 80px);
 }
+
 .card-product {
     border: 1px solid #e0e0e0;
     border-radius: 10px;

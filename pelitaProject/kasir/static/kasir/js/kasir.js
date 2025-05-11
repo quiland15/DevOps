@@ -1,4 +1,4 @@
-        const cart = [];
+        
     
 	function toggleSidebar() {
     	   const sidebar = document.getElementById("sidebar");
@@ -8,6 +8,8 @@
     	   content.classList.toggle("full");
 	}
     
+    const cart = [];
+
         function renderProducts() {
             const list = document.getElementById('product-list');
             list.innerHTML = "";
