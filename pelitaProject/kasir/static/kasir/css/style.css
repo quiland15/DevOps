@@ -27,15 +27,16 @@
     margin-left: 250px;
     padding: 20px;
     transition: margin-left 0.3s, width 0.3s;
-    width: calc(100% - 250px);
+    width: 100%;
 }
+
 .content.full {
     margin-left: 80px;
     width: calc(100% - 80px);
 }
 
 /* Mobile Responsive */
-@media (max-width: 400px) {
+@media (max-width: 768px) {
     #sidebar {
         left: -250px;
     }
