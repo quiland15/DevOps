@@ -33,6 +33,14 @@ document.addEventListener("DOMContentLoaded", () => {
   loadCategories();
 });
 
+function toggleSidebar() {
+   const sidebar = document.getElementById("sidebar");
+   const content = document.querySelector(".content");
+
+   sidebar.classList.toggle("collapsed");
+   content.classList.toggle("full");
+ }
+
   const productBody = document.getElementById("productBody");
   const btnSemua = document.getElementById("btn-semua");
   const btnStok = document.getElementById("btn-stok");
@@ -45,14 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const addProductForm = document.getElementById("addProductForm");
   const modalTitle = document.getElementById("modalTitle");
   const btnDownloadLowStock = document.getElementById("downloadLowStockBtn");
-
-  function toggleSidebar() {
-    const sidebar = document.getElementById("sidebar");
-    const content = document.querySelector(".content");
-
-    sidebar.classList.toggle("collapsed");
-    content.classList.toggle("full");
-  }
 
   let editIndex = null; // null means add mode, otherwise edit mode
 
