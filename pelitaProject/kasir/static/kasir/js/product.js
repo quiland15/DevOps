@@ -41,7 +41,7 @@ async function deleteProduct(id) {
 
     if (!res.ok) throw new Error("Gagal menghapus produk");
 
-    await fetchProducts();
+    await fetchProducts(); // Refresh data setelah delete
   } catch (err) {
     console.error(err);
     alert("Gagal menghapus produk");
