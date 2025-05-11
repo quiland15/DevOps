@@ -33,7 +33,7 @@
 	<link rel="stylesheet" href="{% static 'MyPortofolio/css/style.css' %}">
 
 	<!-- Modernizr JS -->
-	<script src="js/modernizr-2.6.2.min.js"></script>
+	<script src="{% static 'MyPortofolio/js/modernizr-2.6.2.min.js' %}"></script>
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="{% static 'MyPortofolio/js/respond.min.js' %}"></script>
@@ -44,14 +44,14 @@
 <div class="fh5co-loader"></div>
 	
 	<div id="page">	
-	<header id="fh5co-header" class="fh5co-cover js-fullheight" role="banner" style="background-image:url(images/photo-1461749280684-dccba630e2f6.avif);" data-stellar-background-ratio="0.5">
+	<header id="fh5co-header" class="fh5co-cover js-fullheight" role="banner" style="background-image:url({% static 'MyPortofolio/images/photo-1461749280684-dccba630e2f6.avif' %});" data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center">
 					<div class="display-t js-fullheight">
 						<div class="display-tc js-fullheight animate-box" data-animate-effect="fadeIn">
-							<div class="profile-thumb" style="background: url(images/299332889_3209029129411135_7537361851767170704_n.jpg);"></div>
+							<div class="profile-thumb" style="background: url({% static 'MyPortofolio/images/299332889_3209029129411135_7537361851767170704_n.jpg' %});"></div>
 							<h1><span>Quiland Wenas</span></h1>
 							<h3><span>BackEnd Developer & Cloud Engineer</span></h3>
 							<p>
