@@ -1,4 +1,9 @@
 /* Sidebar Expand/Collapse Behavior */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Inter', sans-serif;
+  }
+
 #sidebar {
     width: 250px;
     height: 100vh;
@@ -45,20 +50,5 @@
     .content {
         margin-left: 0;
         width: 100%;
-    }
-    
-    #overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 900;
-        display: none;
-    }
-
-    #overlay.show {
-        display: block;
     }
 }
