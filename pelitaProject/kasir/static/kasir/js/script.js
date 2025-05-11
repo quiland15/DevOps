@@ -1,7 +1,10 @@
 function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('show');
-    document.getElementById('overlay').classList.toggle('show');
-  }
+    const sidebar = document.getElementById("sidebar");
+    const content = document.querySelector(".content");
+
+    sidebar.classList.toggle("collapsed");
+    content.classList.toggle("full");
+}
 
   // Chart.js Example
 document.addEventListener("DOMContentLoaded", () => {
