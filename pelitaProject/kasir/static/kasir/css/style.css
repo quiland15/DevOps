@@ -34,7 +34,7 @@ body {
   #sidebar.show {
     left: 0;
   }
-  #overlay {
+  .overlay {
     position: fixed;
     display: none;
     top: 0;
@@ -44,7 +44,7 @@ body {
     background: rgba(0,0,0,0.5);
     z-index: 999;
   }
-  #overlay.show {
+  .overlay.show {
     display: block;
   }
 }
