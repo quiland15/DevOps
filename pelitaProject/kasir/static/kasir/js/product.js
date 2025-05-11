@@ -27,20 +27,19 @@ async function loadCategories() {
   });
 }
 
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const content = document.querySelector(".content");
+
+  sidebar.classList.toggle("collapsed");
+  content.classList.toggle("full");
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchProducts();
   loadCategories();
 });
-
-function toggleSidebar() {
-   const sidebar = document.getElementById("sidebar");
-   const content = document.querySelector(".content");
-
-   sidebar.classList.toggle("collapsed");
-   content.classList.toggle("full");
- }
-
   const productBody = document.getElementById("productBody");
   const btnSemua = document.getElementById("btn-semua");
   const btnStok = document.getElementById("btn-stok");
