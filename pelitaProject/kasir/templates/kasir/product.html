@@ -61,10 +61,10 @@
   <!-- Main content -->
   <div class="flex-1 flex flex-col">
     <!-- Top bar -->
-    <header class="flex items-center justify-between border-b border-[#E6E6E6] bg-white px-6 h-12">
-      <button class="hamburger block md:hidden text-xl" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-      </button>      
+    <button class="hamburger block md:hidden text-xl" onclick="toggleSidebar()">
+      <i class="fas fa-bars"></i>
+    </button> 
+    <header class="flex items-center justify-between border-b border-[#E6E6E6] bg-white px-6 h-12">     
       <div class="text-sm font-normal text-[#1E1E1E]">Produk</div>
       <div class="flex items-center space-x-2">
         <div class="w-8 h-8 rounded-full bg-[#0052CC] flex items-center justify-center text-white font-semibold text-xs select-none">
@@ -75,13 +75,13 @@
     </header>
 
     <!-- Content -->
-    <main class="content flex-1 overflow-auto p-6 bg-[#F8FCFC]">
-      <button id="btn-semua" class="text-xs font-normal bg-white border border-[#D1D5DB] rounded px-3 py-1 text-[#1E1E1E]">
-        Semua Produk
-      </button>
+    <main class="flex-1 overflow-auto p-6 bg-[#F8FCFC]">
       <section>
         <h2 class="font-semibold text-[#1E1E1E] text-base mb-3">Manajemen Produk</h2>
         <div class="mb-6 flex space-x-2">
+          <button id="btn-semua" class="text-xs font-normal bg-white border border-[#D1D5DB] rounded px-3 py-1 text-[#1E1E1E]">
+            Semua Produk
+          </button>
           <button id="btn-stok" class="text-xs font-normal bg-[#E6E6E6] rounded px-3 py-1 text-[#9CA3AF]">
             Stok Menipis
           </button>
