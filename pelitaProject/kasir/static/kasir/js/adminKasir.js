@@ -3,17 +3,22 @@
         function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
             const content = document.querySelector(".content");
+            const overlay = document.getElementById("overlay");
           
-            // Untuk mobile
             if (window.innerWidth <= 768) {
               sidebar.classList.toggle("show");
-              content.classList.toggle("full");
+              overlay.classList.toggle("show");
             } else {
-              // Untuk desktop
               sidebar.classList.toggle("collapsed");
               content.classList.toggle("full");
             }
           }
+          
+          
+          document.getElementById("overlay").addEventListener("click", () => {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.remove("show");
+          });
           
     
         function renderProducts(filter = "all") {
