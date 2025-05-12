@@ -119,11 +119,6 @@
         document.addEventListener("DOMContentLoaded", function () {
             renderProducts(); // Tampilkan semua produk awalnya
             renderCart();
-            
-            document.getElementById("overlay").addEventListener("click", () => {
-                const sidebar = document.getElementById("sidebar");
-                sidebar.classList.remove("show");
-              });
         
             document.querySelector("#searchProduct").addEventListener("input", function (e) {
                 const keyword = e.target.value.toLowerCase();
@@ -136,8 +131,11 @@
                 renderProducts("all"); // Untuk reset dan menampilkan semua produk
             });
         });
-          
-        
+
+        document.getElementById("overlay").addEventListener("click", () => {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.remove("show");
+        });
         // function renderFilteredProducts(filteredList) {
         //     const list = document.getElementById('product-list');
         //     list.innerHTML = "";
