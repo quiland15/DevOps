@@ -101,21 +101,6 @@
             document.getElementById('total-price').innerText = "Rp " + totalPrice.toLocaleString();
         }
 
-        function toggleSidebar() {
-            const sidebar = document.getElementById("sidebar");
-            const content = document.querySelector(".content");
-          
-            // Untuk mobile
-            if (window.innerWidth <= 768) {
-              sidebar.classList.toggle("show");
-              content.classList.toggle("full");
-            } else {
-              // Untuk desktop
-              sidebar.classList.toggle("collapsed");
-              content.classList.toggle("full");
-            }
-        }
-
         document.addEventListener("DOMContentLoaded", function () {
             renderProducts(); // Tampilkan semua produk awalnya
             renderCart();
@@ -130,12 +115,27 @@
         
                 renderProducts("all"); // Untuk reset dan menampilkan semua produk
             });
+
+            document.getElementById("overlay").addEventListener("click", () => {
+                const sidebar = document.getElementById("sidebar");
+                sidebar.classList.remove("show");
+            });
         });
 
-        document.getElementById("overlay").addEventListener("click", () => {
+        function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
-            sidebar.classList.remove("show");
-        });
+            const content = document.querySelector(".content");
+          
+            // Untuk mobile
+            if (window.innerWidth <= 768) {
+              sidebar.classList.toggle("show");
+              content.classList.toggle("full");
+            } else {
+              // Untuk desktop
+              sidebar.classList.toggle("collapsed");
+              content.classList.toggle("full");
+            }
+          }
         // function renderFilteredProducts(filteredList) {
         //     const list = document.getElementById('product-list');
         //     list.innerHTML = "";
