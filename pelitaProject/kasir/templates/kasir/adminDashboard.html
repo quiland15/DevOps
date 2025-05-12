@@ -134,7 +134,7 @@
 	      <ul class="list-group list-group-flush mt-3">
   		  {% for p in produk_populer %}
     		    <li class="list-group-item d-flex justify-content-between align-items-center">
-      			{{ p.product__name }} <span>Total = Rp {{ p.harga|floatformat:0 }}, Item = {{ p.jumlah }}</span>
+      			{{ p.product__name }} <span>Total: Rp.{{ p.harga|floatformat:0 }}, Item: {{ p.jumlah }}</span>
     		    </li>
   		  {% empty %}
     		    <li class="list-group-item text-muted">Tidak ada data</li>
