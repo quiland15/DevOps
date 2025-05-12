@@ -1,4 +1,17 @@
 /* Sidebar Expand/Collapse Behavior */
+#sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #0052CC;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    transition: width 0.3s;
+    z-index: 1000;
+}
 #sidebar.collapsed {
     width: 80px;
 }
