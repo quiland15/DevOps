@@ -1,20 +1,5 @@
         const cart = [];
     
-        function toggleSidebar() {
-            const sidebar = document.getElementById("sidebar");
-            const content = document.querySelector(".content");
-          
-            // Untuk mobile
-            if (window.innerWidth <= 768) {
-              sidebar.classList.toggle("show");
-              content.classList.toggle("full");
-            } else {
-              // Untuk desktop
-              sidebar.classList.toggle("collapsed");
-              content.classList.toggle("full");
-            }
-        }
-    
         function renderProducts(filter = "all") {
             const searchTerm = document.querySelector("#searchProduct").value.toLowerCase();
         
@@ -116,9 +101,29 @@
             document.getElementById('total-price').innerText = "Rp " + totalPrice.toLocaleString();
         }
 
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const content = document.querySelector(".content");
+          
+            // Untuk mobile
+            if (window.innerWidth <= 768) {
+              sidebar.classList.toggle("show");
+              content.classList.toggle("full");
+            } else {
+              // Untuk desktop
+              sidebar.classList.toggle("collapsed");
+              content.classList.toggle("full");
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
             renderProducts(); // Tampilkan semua produk awalnya
             renderCart();
+            
+            document.getElementById("overlay").addEventListener("click", () => {
+                const sidebar = document.getElementById("sidebar");
+                sidebar.classList.remove("show");
+              });
         
             document.querySelector("#searchProduct").addEventListener("input", function (e) {
                 const keyword = e.target.value.toLowerCase();
