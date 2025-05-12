@@ -3,23 +3,17 @@
         function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
             const content = document.querySelector(".content");
-            const overlay = document.getElementById("overlay");
           
+            // Untuk mobile
             if (window.innerWidth <= 768) {
               sidebar.classList.toggle("show");
-              overlay.classList.toggle("show");
+              content.classList.toggle("full");
             } else {
+              // Untuk desktop
               sidebar.classList.toggle("collapsed");
               content.classList.toggle("full");
             }
-          }
-          
-          
-          document.getElementById("overlay").addEventListener("click", () => {
-            const sidebar = document.getElementById("sidebar");
-            sidebar.classList.remove("show");
-          });
-          
+        }
     
         function renderProducts(filter = "all") {
             const searchTerm = document.querySelector("#searchProduct").value.toLowerCase();
