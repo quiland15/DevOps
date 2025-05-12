@@ -47,7 +47,13 @@ async function deleteProduct(id) {
     alert("Gagal menghapus produk");
   }
 }
+async function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const content = document.querySelector(".content");
 
+  sidebar.classList.toggle("collapsed");
+  content.classList.toggle("full");
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchProducts();
@@ -67,15 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnDownloadLowStock = document.getElementById("downloadLowStockBtn");
 
   let editIndex = null; // null means add mode, otherwise edit mode
-
-  function toggleSidebar() {
-    const sidebar = document.getElementById("sidebar");
-    const content = document.querySelector(".content");
-
-    sidebar.classList.toggle("collapsed");
-    content.classList.toggle("full");
-  }
-  
 
   // Render products based on filter and search
   function renderProducts(filter = "all") {
