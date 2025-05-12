@@ -1,22 +1,22 @@
 function toggleSidebar() {
   const sidebar = document.getElementById("sidebar");
   const content = document.querySelector(".content");
+  const overlay = document.getElementById("overlay");
 
   if (window.innerWidth <= 768) {
-    // MODE MOBILE - toggle show/hide
     sidebar.classList.toggle("show");
+    overlay.classList.toggle("show");
   } else {
-    // MODE DESKTOP - toggle collapse/expand
     sidebar.classList.toggle("collapsed");
     content.classList.toggle("full");
   }
 }
 
+
 document.getElementById("overlay").addEventListener("click", () => {
   const sidebar = document.getElementById("sidebar");
   sidebar.classList.remove("show");
 });
-
 
   // Chart.js Example
 document.addEventListener("DOMContentLoaded", () => {
