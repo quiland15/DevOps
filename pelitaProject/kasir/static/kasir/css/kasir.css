@@ -39,30 +39,30 @@
     color: grey;
     float: right;
 }
-  @media (max-width: 400px) {
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -250px;
-      width: 200px;
-      height: 100%;
-      transition: all 0.3s;
-      z-index: 1000;
-    }
-    .sidebar.show {
-      left: 0;
-    }
-    .overlay {
-      position: fixed;
-      display: none;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 999;
-    }
-    .overlay.show {
-      display: block;
-    }
+@media (max-width: 400px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 200px;
+    height: 100%;
+    transition: all 0.3s;
+    z-index: 1000;
   }
+  .sidebar.show {
+    left: 0;
+  }
+  .overlay {
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+  }
+  .overlay.show {
+    display: block;
+  }
+}
