@@ -116,10 +116,7 @@
                 renderProducts("all"); // Untuk reset dan menampilkan semua produk
             });
 
-            document.getElementById("overlay").addEventListener("click", () => {
-                const sidebar = document.getElementById("sidebar");
-                sidebar.classList.remove("show");
-            });
+            document.getElementById("hamburger").addEventListener("click", toggleSidebar);
         });
 
         function toggleSidebar() {

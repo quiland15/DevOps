@@ -55,10 +55,13 @@
     </a>
   </aside>
 
+  <!-- Overlay for Mobile -->
+  <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+
   <main class="content flex-1 p-6 overflow-auto">
     <header
       class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-      <button class="hamburger block md:hidden text-xl" onclick="toggleSidebar()">
+      <button class="hamburger block md:hidden text-xl" id="hamburger">
         <i class="fas fa-bars"></i>
       </button>
       <h1 class="text-base font-semibold text-[#1E293B]">Laporan</h1>

@@ -1,12 +1,17 @@
-    function toggleSidebar() {
+    async function toggleSidebar() {
       const sidebar = document.getElementById("sidebar");
       const content = document.querySelector(".content");
-
-      sidebar.classList.toggle("collapsed");
-      content.classList.toggle("full");
+      const overlay = document.getElementById("overlay");
+    
+      if (window.innerWidth <= 768) {
+        sidebar.classList.toggle("show");
+        overlay.classList.toggle("show");
+      } else {
+        sidebar.classList.toggle("collapsed");
+        content.classList.toggle("full");
+      }
     }
- 
-   
+
    // Utility to format currency
     function formatCurrency(num) {
       return (
@@ -203,6 +208,8 @@
         e.target.value.trim()
       );
     });
+
+    document.getElementById("hamburger").addEventListener("click", toggleSidebar);
 
     // Initial render
     updateDateInputType();
