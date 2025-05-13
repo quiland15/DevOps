@@ -58,219 +58,219 @@
   <!-- Overlay for Mobile -->
   <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
 
-  <main class="content flex-1 p-6 overflow-auto">
-    <header
-      class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+  <div class="flex-1 flex flex-col">
+    <header class="flex items-center justify-between border-b border-[#E6E6E6] bg-white px-6 h-12">
       <button class="hamburger block md:hidden text-xl" id="hamburger">
         <i class="fas fa-bars"></i>
-      </button>
-      <h1 class="text-base font-semibold text-[#1E293B]">Laporan</h1>
-      <div class="flex items-center gap-3">
-        <div
-          class="w-8 h-8 rounded-full bg-[#0B5ED7] text-white flex items-center justify-center font-semibold text-sm">
+      </button>      
+      <div class="text-sm font-normal text-[#1E1E1E]">Produk</div>
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-full bg-[#0052CC] flex items-center justify-center text-white font-semibold text-xs select-none">
           AD
         </div>
-        <span class="text-sm text-[#475569]">{{user}}</span>
+        <span class="text-xs text-[#1E1E1E] font-normal">{{user}}</span>
       </div>
     </header>
-
-    <!-- Date filter -->
-    <section class="mb-6 bg-white rounded border border-[#E2E8F0] p-4 flex flex-col sm:flex-row sm:items-center gap-4">
-      <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-1">
-        <label for="filterType" class="text-xs font-semibold text-[#475569]"
-          >Filter Berdasarkan:</label
-        >
-        <select
-          id="filterType"
-          class="border border-[#CBD5E1] rounded px-3 py-2 text-xs text-[#475569] focus:outline-none focus:ring-1 focus:ring-[#0B5ED7]"
-        >
-          <option value="month" selected>Bulan</option>
-          <option value="week">Minggu</option>
-          <option value="day">Hari</option>
-        </select>
-      </div>
-      <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-1">
-        <label for="filterDate" class="text-xs font-semibold text-[#475569]"
-          >Pilih Tanggal:</label
-        >
-        <input
-          type="month"
-          id="filterDate"
-          class="border border-[#CBD5E1] rounded px-3 py-2 text-xs text-[#475569] focus:outline-none focus:ring-1 focus:ring-[#0B5ED7]"
-        />
-      </div>
-      <button
-        id="applyFilter"
-        class="bg-[#0B5ED7] text-white px-4 py-2 rounded text-xs font-semibold hover:bg-[#094bb5]"
-      >
-        Terapkan
-      </button>
-    </section>
-
-    <!-- Summary -->
-    <section
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"
-      aria-label="Summary laporan"
-    >
-      <div
-        class="bg-white rounded border border-[#E2E8F0] p-4 flex justify-between items-center"
-      >
-        <div>
-          <p class="text-xs text-[#475569] mb-1">Total Transaksi</p>
-          <p id="totalTransactions" class="text-sm font-semibold text-[#1E293B]">
-            {{total_transactions}}
-          </p>
+    
+    <main class="content flex-1 p-6 overflow-auto">
+      <!-- Date filter -->
+      <section class="mb-6 bg-white rounded border border-[#E2E8F0] p-4 flex flex-col sm:flex-row sm:items-center gap-4">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-1">
+          <label for="filterType" class="text-xs font-semibold text-[#475569]"
+            >Filter Berdasarkan:</label
+          >
+          <select
+            id="filterType"
+            class="border border-[#CBD5E1] rounded px-3 py-2 text-xs text-[#475569] focus:outline-none focus:ring-1 focus:ring-[#0B5ED7]"
+          >
+            <option value="month" selected>Bulan</option>
+            <option value="week">Minggu</option>
+            <option value="day">Hari</option>
+          </select>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3 flex-1">
+          <label for="filterDate" class="text-xs font-semibold text-[#475569]"
+            >Pilih Tanggal:</label
+          >
+          <input
+            type="month"
+            id="filterDate"
+            class="border border-[#CBD5E1] rounded px-3 py-2 text-xs text-[#475569] focus:outline-none focus:ring-1 focus:ring-[#0B5ED7]"
+          />
         </div>
         <button
-          class="w-7 h-7 border border-[#CBD5E1] rounded flex items-center justify-center text-[#475569] hover:bg-[#F1F5F9]"
-          title="Total transaksi"
+          id="applyFilter"
+          class="bg-[#0B5ED7] text-white px-4 py-2 rounded text-xs font-semibold hover:bg-[#094bb5]"
         >
-          <i class="fas fa-receipt text-xs"></i>
+          Terapkan
         </button>
-      </div>
-      <div
-        class="bg-white rounded border border-[#E2E8F0] p-4 flex justify-between items-center"
+      </section>
+
+      <!-- Summary -->
+      <section
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"
+        aria-label="Summary laporan"
       >
-        <div>
-          <p class="text-xs text-[#475569] mb-1">Total Pendapatan</p>
-          <p id="totalRevenue" class="text-sm font-semibold text-[#1E293B]">
-            Rp {{ total_revenue|floatformat:0 }}
-          </p>
+        <div
+          class="bg-white rounded border border-[#E2E8F0] p-4 flex justify-between items-center"
+        >
+          <div>
+            <p class="text-xs text-[#475569] mb-1">Total Transaksi</p>
+            <p id="totalTransactions" class="text-sm font-semibold text-[#1E293B]">
+              {{total_transactions}}
+            </p>
+          </div>
+          <button
+            class="w-7 h-7 border border-[#CBD5E1] rounded flex items-center justify-center text-[#475569] hover:bg-[#F1F5F9]"
+            title="Total transaksi"
+          >
+            <i class="fas fa-receipt text-xs"></i>
+          </button>
         </div>
         <div
-          class="w-7 h-7 bg-[#D1FAE5] rounded flex items-center justify-center text-[#22C55E] text-sm font-semibold"
-          title="Pendapatan"
+          class="bg-white rounded border border-[#E2E8F0] p-4 flex justify-between items-center"
         >
-          $
-        </div>
-      </div>
-      <div
-        class="bg-white rounded border border-[#E2E8F0] p-4 flex justify-between items-center"
-      >
-        <div>
-          <p class="text-xs text-[#475569] mb-1">Total Pengurangan Stok</p>
-          <p id="totalStockReduction" class="text-sm font-semibold text-[#1E293B]">
-            {{ total_stock_out }}
-          </p>
+          <div>
+            <p class="text-xs text-[#475569] mb-1">Total Pendapatan</p>
+            <p id="totalRevenue" class="text-sm font-semibold text-[#1E293B]">
+              Rp {{ total_revenue|floatformat:0 }}
+            </p>
+          </div>
+          <div
+            class="w-7 h-7 bg-[#D1FAE5] rounded flex items-center justify-center text-[#22C55E] text-sm font-semibold"
+            title="Pendapatan"
+          >
+            $
+          </div>
         </div>
         <div
-          class="w-7 h-7 bg-[#FEF3C7] rounded flex items-center justify-center text-[#F59E0B] text-sm font-semibold"
-          title="Pengurangan stok"
+          class="bg-white rounded border border-[#E2E8F0] p-4 flex justify-between items-center"
         >
-          <i class="fas fa-boxes"></i>
-        </div>
-      </div>
-      <div
-        class="bg-white rounded border border-[#E2E8F0] p-4 flex justify-between items-center"
-      >
-        <div>
-          <p class="text-xs text-[#475569] mb-1">Total Item Terjual</p>
-          <p id="totalItemsSold" class="text-sm font-semibold text-[#1E293B]">
-            {{ total_items_sold }}
-          </p>
+          <div>
+            <p class="text-xs text-[#475569] mb-1">Total Pengurangan Stok</p>
+            <p id="totalStockReduction" class="text-sm font-semibold text-[#1E293B]">
+              {{ total_stock_out }}
+            </p>
+          </div>
+          <div
+            class="w-7 h-7 bg-[#FEF3C7] rounded flex items-center justify-center text-[#F59E0B] text-sm font-semibold"
+            title="Pengurangan stok"
+          >
+            <i class="fas fa-boxes"></i>
+          </div>
         </div>
         <div
-          class="w-7 h-7 bg-[#F0F9FF] rounded flex items-center justify-center text-[#8B5CF6] text-sm font-semibold"
-          title="Item terjual"
+          class="bg-white rounded border border-[#E2E8F0] p-4 flex justify-between items-center"
         >
-          <i class="fas fa-shopping-cart"></i>
+          <div>
+            <p class="text-xs text-[#475569] mb-1">Total Item Terjual</p>
+            <p id="totalItemsSold" class="text-sm font-semibold text-[#1E293B]">
+              {{ total_items_sold }}
+            </p>
+          </div>
+          <div
+            class="w-7 h-7 bg-[#F0F9FF] rounded flex items-center justify-center text-[#8B5CF6] text-sm font-semibold"
+            title="Item terjual"
+          >
+            <i class="fas fa-shopping-cart"></i>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- History Sections -->
-    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-      <!-- History Pengurangan Stock -->
-      <div class="bg-white rounded border border-[#E2E8F0] p-4 overflow-auto max-h-[400px]">
-        <h3 class="font-semibold text-[#1E293B] mb-3">History Pengurangan Stock</h3>
-        <table class="w-full text-xs text-[#475569] border-collapse">
-          <thead>
-            <tr class="bg-[#F1F5F9] text-[#475569]">
-              <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[80px]">Tanggal</th>
-              <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[120px]">Produk</th>
-              <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[60px] text-center">Jumlah</th>
-              <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[100px]">Alasan</th>
-            </tr>
-          </thead>
-          <tbody id="stockReductionBody">
-            <!-- Filled by JS -->
-	    {% for log in inventory_logs %}
-  	    <tr class="border-b border-[#E2E8F0]">
-    		<td class="py-2 px-3">{{ log.created_at|date:"d/m/Y" }}</td>
-    		<td class="py-2 px-3">{{ log.product.name }}</td>
-    		<td class="py-2 px-3 text-center font-semibold">{{ log.quantity }}</td>
-    		<td class="py-2 px-3">{{ log.description }}</td>
-  	    </tr>
-  	    {% empty %}
-  	    <tr><td colspan="4" class="py-2 px-3 text-center text-[#94A3B8]">Tidak ada data</td></tr>
-  	    {% endfor %}
-          </tbody>
-        </table>
-      </div>
-
-      <!-- History Pendapatan -->
-      <div class="bg-white rounded border border-[#E2E8F0] p-4 overflow-auto max-h-[400px]">
-        <h3 class="font-semibold text-[#1E293B] mb-3">History Pendapatan</h3>
-        <table class="w-full text-xs text-[#475569] border-collapse">
-          <thead>
-            <tr class="bg-[#F1F5F9] text-[#475569]">
-              <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[80px]">Tanggal</th>
-              <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[120px]">Sumber</th>
-              <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[100px] text-right">Jumlah</th>
-            </tr>
-          </thead>
-          <tbody id="revenueBody">
-            <!-- Filled by JS -->
-  	    {% for trx in transactions %}
- 	    <tr class="border-b border-[#E2E8F0]">
-    		<td class="py-2 px-3">{{ trx.created_at|date:"d/m/Y" }}</td>
-    		<td class="py-2 px-3">Penjualan Produk</td>
-    		<td class="py-2 px-3 text-right font-semibold">Rp {{ trx.total_amount|floatformat:0 }}</td>
-  	    </tr>
-  	    {% empty %}
-  	    <tr><td colspan="3" class="py-2 px-3 text-center text-[#94A3B8]">Tidak ada data</td></tr>
-  	    {% endfor %}
-          </tbody>
-        </table>
-      </div>
-
-      <!-- History Transaksi Kasir -->
-      <div class="bg-white rounded border border-[#E2E8F0] p-4 overflow-auto max-h-[400px] flex flex-col">
-        <h3 class="font-semibold text-[#1E293B] mb-3">History Transaksi Kasir</h3>
-        <input
-          id="searchTransaction"
-          type="text"
-          placeholder="Cari transaksi, pelanggan, atau kasir..."
-          class="mb-3 border border-[#CBD5E1] rounded px-3 py-2 text-xs text-[#475569] placeholder:text-[#94A3B8] focus:outline-none focus:ring-1 focus:ring-[#0B5ED7]"
-        />
-        <div class="overflow-x-auto flex-1">
+      <!-- History Sections -->
+      <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+        <!-- History Pengurangan Stock -->
+        <div class="bg-white rounded border border-[#E2E8F0] p-4 overflow-auto max-h-[400px]">
+          <h3 class="font-semibold text-[#1E293B] mb-3">History Pengurangan Stock</h3>
           <table class="w-full text-xs text-[#475569] border-collapse">
             <thead>
               <tr class="bg-[#F1F5F9] text-[#475569]">
-                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] w-[40px]">ID</th>
-                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[90px]">Tanggal</th>
-                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[120px]">Pelanggan</th>
-                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[90px]">Kasir</th>
-                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] w-[40px] text-center">Item</th>
-                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[90px] text-right">Total</th>
-                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[90px]">Pembayaran</th>
-                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[70px]">Status</th>
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[80px]">Tanggal</th>
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[120px]">Produk</th>
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[60px] text-center">Jumlah</th>
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[100px]">Alasan</th>
               </tr>
             </thead>
-            <tbody id="transactionBody">
+            <tbody id="stockReductionBody">
               <!-- Filled by JS -->
+	      {% for log in inventory_logs %}
+    	    <tr class="border-b border-[#E2E8F0]">
+      		<td class="py-2 px-3">{{ log.created_at|date:"d/m/Y" }}</td>
+      		<td class="py-2 px-3">{{ log.product.name }}</td>
+      		<td class="py-2 px-3 text-center font-semibold">{{ log.quantity }}</td>
+      		<td class="py-2 px-3">{{ log.description }}</td>
+    	    </tr>
+    	    {% empty %}
+    	    <tr><td colspan="4" class="py-2 px-3 text-center text-[#94A3B8]">Tidak ada data</td></tr>
+    	    {% endfor %}
             </tbody>
-            <tfoot>
-              <tr class="bg-[#F1F5F9] font-semibold text-[#1E293B]">
-                <td colspan="7" class="py-2 px-3 text-right">Total Pendapatan:</td>
-                <td id="transactionTotal" class="py-2 px-3 text-right">Rp 0</td>
-              </tr>
-            </tfoot>
           </table>
         </div>
-      </div>
-    </section>
-  </main>
+
+        <!-- History Pendapatan -->
+        <div class="bg-white rounded border border-[#E2E8F0] p-4 overflow-auto max-h-[400px]">
+          <h3 class="font-semibold text-[#1E293B] mb-3">History Pendapatan</h3>
+          <table class="w-full text-xs text-[#475569] border-collapse">
+            <thead>
+              <tr class="bg-[#F1F5F9] text-[#475569]">
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[80px]">Tanggal</th>
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[120px]">Sumber</th>
+                <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[100px] text-right">Jumlah</th>
+              </tr>
+            </thead>
+            <tbody id="revenueBody">
+              <!-- Filled by JS -->
+    	    {% for trx in transactions %}
+ 	      <tr class="border-b border-[#E2E8F0]">
+      		<td class="py-2 px-3">{{ trx.created_at|date:"d/m/Y" }}</td>
+      		<td class="py-2 px-3">Penjualan Produk</td>
+      		<td class="py-2 px-3 text-right font-semibold">Rp {{ trx.total_amount|floatformat:0 }}</td>
+    	    </tr>
+    	    {% empty %}
+    	    <tr><td colspan="3" class="py-2 px-3 text-center text-[#94A3B8]">Tidak ada data</td></tr>
+    	    {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- History Transaksi Kasir -->
+        <div class="bg-white rounded border border-[#E2E8F0] p-4 overflow-auto max-h-[400px] flex flex-col">
+          <h3 class="font-semibold text-[#1E293B] mb-3">History Transaksi Kasir</h3>
+          <input
+            id="searchTransaction"
+            type="text"
+            placeholder="Cari transaksi, pelanggan, atau kasir..."
+            class="mb-3 border border-[#CBD5E1] rounded px-3 py-2 text-xs text-[#475569] placeholder:text-[#94A3B8] focus:outline-none focus:ring-1 focus:ring-[#0B5ED7]"
+          />
+          <div class="overflow-x-auto flex-1">
+            <table class="w-full text-xs text-[#475569] border-collapse">
+              <thead>
+                <tr class="bg-[#F1F5F9] text-[#475569]">
+                  <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] w-[40px]">ID</th>
+                  <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[90px]">Tanggal</th>
+                  <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[120px]">Pelanggan</th>
+                  <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[90px]">Kasir</th>
+                  <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] w-[40px] text-center">Item</th>
+                  <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[90px] text-right">Total</th>
+                  <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[90px]">Pembayaran</th>
+                  <th class="py-2 px-3 text-left font-normal border-b border-[#E2E8F0] min-w-[70px]">Status</th>
+                </tr>
+              </thead>
+              <tbody id="transactionBody">
+                <!-- Filled by JS -->
+              </tbody>
+              <tfoot>
+                <tr class="bg-[#F1F5F9] font-semibold text-[#1E293B]">
+                  <td colspan="7" class="py-2 px-3 text-right">Total Pendapatan:</td>
+                  <td id="transactionTotal" class="py-2 px-3 text-right">Rp 0</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
 </div>
 <script>
     const stockReductions = {{ inventory_logs|safe }};
