@@ -50,9 +50,15 @@ async function deleteProduct(id) {
 async function toggleSidebar() {
   const sidebar = document.getElementById("sidebar");
   const content = document.querySelector(".content");
+  const overlay = document.getElementById("overlay");
 
-  sidebar.classList.toggle("collapsed");
-  content.classList.toggle("full");
+  if (window.innerWidth <= 768) {
+    sidebar.classList.toggle("show");
+    overlay.classList.toggle("show");
+  } else {
+    sidebar.classList.toggle("collapsed");
+    content.classList.toggle("full");
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
