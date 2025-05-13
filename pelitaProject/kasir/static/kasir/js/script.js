@@ -12,12 +12,6 @@ function toggleSidebar() {
   }
 }
 
-
-document.getElementById("overlay").addEventListener("click", () => {
-  const sidebar = document.getElementById("sidebar");
-  sidebar.classList.remove("show");
-});
-
   // Chart.js Example
 document.addEventListener("DOMContentLoaded", () => {
   const labels = JSON.parse(document.getElementById("labels-data").textContent);
@@ -47,4 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
       maintainAspectRatio: true
     }
   });
+
+  document.getElementById("hamburger").addEventListener("click", toggleSidebar);
 });

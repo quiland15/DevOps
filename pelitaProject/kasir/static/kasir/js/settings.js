@@ -4,7 +4,23 @@ function getCSRFToken() {
     .split("; ")
     .find(row => row.startsWith(name + "="));
   return cookie ? decodeURIComponent(cookie.split("=")[1]) : "";
-}    
+} 
+
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const content = document.querySelector(".content");
+  const overlay = document.getElementById("overlay");
+
+  if (window.innerWidth <= 768) {
+    sidebar.classList.toggle("show");
+    overlay.classList.toggle("show");
+  } else {
+    sidebar.classList.toggle("collapsed");
+    content.classList.toggle("full");
+  }
+}
+
+document.getElementById("hamburger").addEventListener("click", toggleSidebar);
 
 // Sample initial users data
     let users = [];
@@ -39,14 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailError = document.getElementById("emailError");
     const roleError = document.getElementById("roleError");
     const passwordError = document.getElementById("passwordError");
-
-    function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      const content = document.querySelector(".content");
-  
-      sidebar.classList.toggle("collapsed");
-      content.classList.toggle("full");
-    }
 
     // Render users in table
     function renderUsers() {
