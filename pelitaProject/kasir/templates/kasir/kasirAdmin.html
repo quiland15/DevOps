@@ -55,90 +55,77 @@
           <span>Keluar</span>
         </a>
       </aside>
+
+      <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
           
-        <div class="flex-grow-1">
-          <!-- Overlay for Mobile -->
-          <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
-        <!-- Main Content -->
-        <!-- <div class="flex-grow-1"> -->
-            <!-- <nav class="navbar navbar-light bg-light shadow-sm">
-                <div class="container-fluid">
-                  <button class="btn d-md-none" onclick="toggleSidebar()">
-                    <i class="bi bi-list fs-3"></i>
-                  </button>
-                  <h5 class="mb-0">Kasir</h5>
-                  <div class="d-flex align-items-center">
-                    <span class="me-2">{{user}}</span>
-                    <div class="bg-primary rounded-circle text-white d-flex justify-content-center align-items-center" style="width:40px; height:40px;">KS</div>
+      <div class="flex-1 flex flex-col">
+          <header class="flex items-center justify-between border-b border-[#E6E6E6] bg-white px-6 h-12">
+      	      <button class="hamburger block md:hidden text-xl" onclick="toggleSidebar()">
+      	        <i class="fas fa-bars"></i>
+      	      </button>
+              <div class="text-sm font-normal text-[#1E1E1E]">Cashier</div>
+              <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-full bg-[#0052CC] flex items-center justify-center text-white font-semibold text-xs select-none">
+                  AD
+                </div>
+                <span class="text-xs text-[#1E1E1E] font-normal">{{user}}</span>
+              </div>
+          </header>
+  
+          <div class="content container-fluid mt-4">
+              <div class="row">
+                  <div class="col-md-8 mb-4">
+                      <h5>Katalog Produk</h5>
+                      <input type="text" id="searchProduct" class="form-control mb-3" placeholder="Cari produk...">
+  
+                      <div class="row" id="product-list">
+                          <!-- Product Cards will be injected here -->
+                      </div>
                   </div>
-                </div>
-            </nav> -->
-            <header class="flex items-center justify-between border-b border-[#E6E6E6] bg-white px-6 h-12">
-      		      <button class="hamburger block md:hidden text-xl" onclick="toggleSidebar()">
-        	        <i class="fas fa-bars"></i>
-      		      </button>
-                <div class="text-sm font-normal text-[#1E1E1E]">Cashier</div>
-                <div class="flex items-center space-x-2">
-                  <div class="w-8 h-8 rounded-full bg-[#0052CC] flex items-center justify-center text-white font-semibold text-xs select-none">
-                    AD
+  
+                  <div class="col-md-4">
+                      <div class="card p-3">
+                          <h5><i class="bi bi-cart"></i> Keranjang</h5>
+                          <div class="table-responsive">
+                              <table class="table" id="cart-table">
+                                  <thead>
+                                      <tr>
+                                          <th>Produk</th>
+                                          <th>Harga</th>
+                                          <th>Qty</th>
+                                          <th>Subtotal</th>
+                                          <th></th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <!-- Cart items -->
+                                  </tbody>
+                              </table>
+                          </div>
+                          <p>Total Items: <span id="total-items">0</span></p>
+                          <p><strong>Total:</strong> <span class="text-primary" id="total-price">Rp 0</span></p>
+                          <input type="text" class="form-control mb-3" placeholder="Masukkan nama pelanggan">
+  
+                          <h6>Metode Pembayaran</h6>
+                          <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="payment" id="cash" checked>
+                              <label class="form-check-label" for="cash">Tunai</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="payment" id="transfer">
+                              <label class="form-check-label" for="transfer">Transfer</label>
+                          </div>
+                          <div class="form-check form-check-inline mb-3">
+                              <input class="form-check-input" type="radio" name="payment" id="credit">
+                              <label class="form-check-label" for="credit">Kredit</label>
+                          </div>
+  
+                          <button class="btn btn-primary w-100">Proses Pembayaran</button>
+                      </div>
                   </div>
-                  <span class="text-xs text-[#1E1E1E] font-normal">{{user}}</span>
-                </div>
-            </header>
-    
-            <div class="content container-fluid mt-4">
-                <div class="row">
-                    <div class="col-md-8 mb-4">
-                        <h5>Katalog Produk</h5>
-                        <input type="text" id="searchProduct" class="form-control mb-3" placeholder="Cari produk...">
-    
-                        <div class="row" id="product-list">
-                            <!-- Product Cards will be injected here -->
-                        </div>
-                    </div>
-    
-                    <div class="col-md-4">
-                        <div class="card p-3">
-                            <h5><i class="bi bi-cart"></i> Keranjang</h5>
-                            <div class="table-responsive">
-                                <table class="table" id="cart-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Produk</th>
-                                            <th>Harga</th>
-                                            <th>Qty</th>
-                                            <th>Subtotal</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Cart items -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <p>Total Items: <span id="total-items">0</span></p>
-                            <p><strong>Total:</strong> <span class="text-primary" id="total-price">Rp 0</span></p>
-                            <input type="text" class="form-control mb-3" placeholder="Masukkan nama pelanggan">
-    
-                            <h6>Metode Pembayaran</h6>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="payment" id="cash" checked>
-                                <label class="form-check-label" for="cash">Tunai</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="payment" id="transfer">
-                                <label class="form-check-label" for="transfer">Transfer</label>
-                            </div>
-                            <div class="form-check form-check-inline mb-3">
-                                <input class="form-check-input" type="radio" name="payment" id="credit">
-                                <label class="form-check-label" for="credit">Kredit</label>
-                            </div>
-    
-                            <button class="btn btn-primary w-100">Proses Pembayaran</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+              </div>
+          </div>
+      </div>
     </div>
     
     <!-- Scripts -->
