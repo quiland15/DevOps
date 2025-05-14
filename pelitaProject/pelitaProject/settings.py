@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'portfolio',
     'django_extensions',
     'MyPortofolio',
-    'decouple',
 ]
 
 MIDDLEWARE = [
