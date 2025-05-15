@@ -110,10 +110,9 @@
           
               renderFilteredProducts(filtered);
             });
-
-            document.getElementById("hamburger").addEventListener("click", toggleSidebar);
-          });
+        });
           
+        document.getElementById("hamburger").addEventListener("click", toggleSidebar);
         
         function renderFilteredProducts(filteredList) {
             const list = document.getElementById('product-list');

@@ -64,8 +64,10 @@ async function toggleSidebar() {
 document.addEventListener("DOMContentLoaded", () => {
   fetchProducts();
   loadCategories();
-  document.getElementById("hamburger").addEventListener("click", toggleSidebar);
 });
+
+document.getElementById("hamburger").addEventListener("click", toggleSidebar);
+
   const productBody = document.getElementById("productBody");
   const btnSemua = document.getElementById("btn-semua");
   const btnStok = document.getElementById("btn-stok");
