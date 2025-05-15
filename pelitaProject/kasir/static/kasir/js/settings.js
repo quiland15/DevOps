@@ -1,3 +1,18 @@
+// Sample initial users data
+    let users = [];
+
+async function fetchUsers() {
+  try {
+    const res = await fetch("/kasir/api/users/");
+    if (!res.ok) throw new Error("Gagal memuat pengguna");
+    users = await res.json();
+    renderUsers();
+  } catch (err) {
+    alert("Gagal mengambil data pengguna.");
+    console.error(err);
+  }
+}
+
 function getCSRFToken() {
   const name = "csrftoken";
   const cookie = document.cookie
@@ -20,26 +35,11 @@ function toggleSidebar() {
   }
 }
 
-document.getElementById("hamburger").addEventListener("click", toggleSidebar);
-
-// Sample initial users data
-    let users = [];
-
-async function fetchUsers() {
-  try {
-    const res = await fetch("/kasir/api/users/");
-    if (!res.ok) throw new Error("Gagal memuat pengguna");
-    users = await res.json();
-    renderUsers();
-  } catch (err) {
-    alert("Gagal mengambil data pengguna.");
-    console.error(err);
-  }
-}
 document.addEventListener("DOMContentLoaded", () => {
   fetchUsers();
 });
 
+document.getElementById("hamburger").addEventListener("click", toggleSidebar);
 
     const userTableBody = document.getElementById("userTableBody");
     const userForm = document.getElementById("userForm");
