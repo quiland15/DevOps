@@ -12,6 +12,8 @@
       }
     }
 
+    document.getElementById("hamburger").addEventListener("click", toggleSidebar);
+
    // Utility to format currency
     function formatCurrency(num) {
       return (
@@ -209,7 +211,7 @@
       );
     });
 
-    document.getElementById("hamburger").addEventListener("click", toggleSidebar);
+    
 
     // Initial render
     updateDateInputType();
