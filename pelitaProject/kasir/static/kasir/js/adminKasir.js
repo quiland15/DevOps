@@ -130,8 +130,10 @@
                 renderProducts("all"); // Untuk reset dan menampilkan semua produk
             });
 
-            document.getElementById("hamburger").addEventListener("click", toggleSidebar);
+            
         });
+
+        document.getElementById("hamburger").addEventListener("click", toggleSidebar);
         // function renderFilteredProducts(filteredList) {
         //     const list = document.getElementById('product-list');
         //     list.innerHTML = "";
