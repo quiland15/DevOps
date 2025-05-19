@@ -17,7 +17,7 @@
 .content {
   padding: 20px;
 }
-@media (max-width: 400px) {
+@media (max-width: 768px) {
   .sidebar {
     position: fixed;
     top: 0;
