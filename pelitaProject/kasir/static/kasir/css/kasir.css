@@ -39,7 +39,7 @@
     color: grey;
     float: right;
 }
-@media (max-width: 400px) {
+@media (max-width: 768px) {
   .sidebar {
     position: fixed;
     top: 0;
