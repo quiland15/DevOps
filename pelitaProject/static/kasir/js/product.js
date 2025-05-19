@@ -27,11 +27,46 @@ async function loadCategories() {
   });
 }
 
+async function deleteProduct(id) {
+  if (!confirm("Yakin ingin menghapus produk ini?")) return;
+
+  try {
+    const res = await fetch("/kasir/api/manageProducts/", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+
+    if (!res.ok) throw new Error("Gagal menghapus produk");
+
+    await fetchProducts(); // Refresh data setelah delete
+  } catch (err) {
+    console.error(err);
+    alert("Gagal menghapus produk");
+  }
+}
+async function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const content = document.querySelector(".content");
+  const overlay = document.getElementById("overlay");
+
+  if (window.innerWidth <= 768) {
+    sidebar.classList.toggle("show");
+    overlay.classList.toggle("show");
+  } else {
+    sidebar.classList.toggle("collapsed");
+    content.classList.toggle("full");
+  }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchProducts();
   loadCategories();
 });
+
+document.getElementById("hamburger").addEventListener("click", toggleSidebar);
 
   const productBody = document.getElementById("productBody");
   const btnSemua = document.getElementById("btn-semua");
@@ -57,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Filter by stock menipis if needed
     if (filter === "stok") {
-      filteredProducts = filteredProducts.filter((p) => p.stock <= 10);
+      filteredProducts = filteredProducts.filter((p) => p.stock <= 3);
     }
 
     // Filter by category if not all
@@ -233,9 +268,6 @@ const productData = {
       modalBackdrop.classList.remove("hidden");
     } else if (action === "delete") {
       // Confirm and delete product
-      if (confirm(`Hapus produk "${products[index].name}"?`)) {
-        products.splice(index, 1);
-        renderProducts(btnSemua.classList.contains("bg-white") ? "all" : "stok");
-      }
+      deleteProduct(products[index].id);
     }
   });

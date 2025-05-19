@@ -1,11 +1,3 @@
-function getCSRFToken() {
-  const name = "csrftoken";
-  const cookie = document.cookie
-    .split("; ")
-    .find(row => row.startsWith(name + "="));
-  return cookie ? decodeURIComponent(cookie.split("=")[1]) : "";
-}    
-
 // Sample initial users data
     let users = [];
 
@@ -20,10 +12,34 @@ async function fetchUsers() {
     console.error(err);
   }
 }
+
+function getCSRFToken() {
+  const name = "csrftoken";
+  const cookie = document.cookie
+    .split("; ")
+    .find(row => row.startsWith(name + "="));
+  return cookie ? decodeURIComponent(cookie.split("=")[1]) : "";
+} 
+
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const content = document.querySelector(".content");
+  const overlay = document.getElementById("overlay");
+
+  if (window.innerWidth <= 768) {
+    sidebar.classList.toggle("show");
+    overlay.classList.toggle("show");
+  } else {
+    sidebar.classList.toggle("collapsed");
+    content.classList.toggle("full");
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   fetchUsers();
 });
 
+document.getElementById("hamburger").addEventListener("click", toggleSidebar);
 
     const userTableBody = document.getElementById("userTableBody");
     const userForm = document.getElementById("userForm");

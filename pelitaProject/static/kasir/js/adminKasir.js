@@ -1,10 +1,5 @@
         const cart = [];
     
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('show');
-            document.getElementById('overlay').classList.toggle('show');
-        }
-    
         function renderProducts(filter = "all") {
             const searchTerm = document.querySelector("#searchProduct").value.toLowerCase();
         
@@ -106,6 +101,20 @@
             document.getElementById('total-price').innerText = "Rp " + totalPrice.toLocaleString();
         }
 
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const content = document.querySelector(".content");
+            const overlay = document.getElementById("overlay");
+          
+            if (window.innerWidth <= 768) {
+              sidebar.classList.toggle("show");
+              overlay.classList.toggle("show");
+            } else {
+              sidebar.classList.toggle("collapsed");
+              content.classList.toggle("full");
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
             renderProducts(); // Tampilkan semua produk awalnya
             renderCart();
@@ -120,9 +129,11 @@
         
                 renderProducts("all"); // Untuk reset dan menampilkan semua produk
             });
+
+            
         });
-          
-        
+
+        document.getElementById("hamburger").addEventListener("click", toggleSidebar);
         // function renderFilteredProducts(filteredList) {
         //     const list = document.getElementById('product-list');
         //     list.innerHTML = "";
