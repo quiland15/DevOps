@@ -124,28 +124,6 @@
             }
         }
 
-        function confirmAddToCart() {
-            const qty = parseFloat(document.getElementById("input-qty").value);
-            if (!selectedProduct || isNaN(qty) || qty <= 0) {
-                alert("Input tidak valid.");
-                return;
-            }
-        
-            const existing = cart.find(c => c.id === selectedProduct.id);
-            if (existing) {
-                existing.qty += qty;
-            } else {
-                cart.push({ ...selectedProduct, qty });
-            }
-        
-            renderCart();
-            selectedProduct = null;
-        
-            // Reset form
-            document.getElementById("input-uang").value = "";
-            document.getElementById("input-qty").value = "";
-        }
-
         document.addEventListener("DOMContentLoaded", function () {
             renderProducts(); // Tampilkan semua dulu
             renderCart();
@@ -170,7 +148,13 @@
         document.getElementById('toggle-nominal').addEventListener('change', function () {
             const uangInput = document.getElementById('input-uang');
             const qtyInput = document.getElementById('input-qty');
-
+                
+            if (!selectedProduct) {
+                alert("Pilih produk terlebih dahulu.");
+                this.checked = false;
+                return;
+            }
+        
             if (this.checked) {
                 uangInput.style.display = 'block';
                 qtyInput.readOnly = true;
@@ -189,6 +173,7 @@
                 qtyInput.value = "";
             }
         });
+
           
         document.getElementById("hamburger").addEventListener("click", toggleSidebar);
         
