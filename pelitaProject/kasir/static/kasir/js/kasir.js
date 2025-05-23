@@ -150,7 +150,7 @@
         document.getElementById('toggle-nominal').addEventListener('change', function () {
             const uangInput = document.getElementById('input-uang');
             const qtyInput = document.getElementById('input-qty');
-
+                
             if (!selectedProduct) {
                 alert("Pilih produk terlebih dahulu.");
                 this.checked = false;
@@ -170,13 +170,17 @@
             
                 renderCart();
             
-                uangInput.addEventListener('input', function () {
+                uangInput.oninput = function () {
                     const hargaPerKg = selectedProduct.price;
                     const uang = parseFloat(this.value);
                 
                     if (!isNaN(uang) && hargaPerKg > 0) {
-                        const berat = uang / hargaPerKg;
-                        qtyInput.value = berat.toFixed(2);
+                        let berat = uang / hargaPerKg;
+                    
+                        // Bulatkan ke 2 desimal sebagai angka (bukan string)
+                        berat = parseFloat(berat.toFixed(2));
+                    
+                        qtyInput.value = berat;
                     
                         // Update cart langsung
                         const existing = cart.find(c => c.id === selectedProduct.id);
@@ -188,8 +192,7 @@
                     
                         renderCart();
                     }
-                });
-            
+                };
             } else {
                 // Mode normal manual qty
                 uangInput.style.display = 'none';
