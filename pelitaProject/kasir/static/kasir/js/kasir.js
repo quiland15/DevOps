@@ -42,7 +42,7 @@
                     alert("Berat produk tidak valid.");
                     return;
                 }
-                qty = qtyInput;
+                qty = 1;
             }
         
             const existing = cart.find(c => c.id === id);
