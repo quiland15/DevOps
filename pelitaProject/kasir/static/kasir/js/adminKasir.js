@@ -201,7 +201,32 @@
             }
         });
 
-        document.getElementById("hamburger").addEventListener("click", toggleSidebar);    
+        document.getElementById("hamburger").addEventListener("click", toggleSidebar);
+        
+        function renderFilteredProducts(filteredList) {
+            const list = document.getElementById('product-list');
+            list.innerHTML = "";
+        
+            if (filteredList.length === 0) {
+                list.innerHTML = `<p class="text-muted">Tidak ada produk ditemukan.</p>`;
+                return;
+            }
+        
+            filteredList.forEach(p => {
+                const div = document.createElement('div');
+                div.className = "col-md-6 col-lg-4 mb-3";
+                div.innerHTML = `
+                    <div class="card-product">
+                        <h6>${p.name}</h6>
+                        <small>${p.category}</small>
+                        <div class="price mt-1">Rp ${p.price.toLocaleString()}</div>
+                        <div class="product-stock">Stock: ${p.stock}</div>
+                        <button class="btn btn-sm btn-primary mt-2 w-100" onclick="addToCart(${p.id})">Tambah</button>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
 
 document.querySelector(".btn.btn-primary.w-100").addEventListener("click", function () {
     const namaPelanggan = document.querySelector('input[placeholder="Masukkan nama pelanggan"]').value.trim();
