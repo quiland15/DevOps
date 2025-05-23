@@ -232,7 +232,7 @@
 document.querySelector(".btn.btn-primary.w-100").addEventListener("click", function () {
     const namaPelanggan = document.querySelector('input[placeholder="Masukkan nama pelanggan"]').value.trim();
     const metodePembayaran = document.querySelector('input[name="payment"]:checked')?.id || "cash";
-    const totalPrice = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+    const totalPrice = cart.reduce((acc, item) => acc + (item.subtotal || (item.price * item.qty)), 0);
     const bayarDariInput = totalPrice; // bisa ganti dengan input field pembayaran nanti
 
     // Validasi keranjang
