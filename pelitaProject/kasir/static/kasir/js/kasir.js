@@ -150,7 +150,7 @@
         document.getElementById('toggle-nominal').addEventListener('change', function () {
             const uangInput = document.getElementById('input-uang');
             const qtyInput = document.getElementById('input-qty');
-                
+
             if (!selectedProduct) {
                 alert("Pilih produk terlebih dahulu.");
                 this.checked = false;
@@ -160,22 +160,43 @@
             if (this.checked) {
                 uangInput.style.display = 'block';
                 qtyInput.readOnly = true;
+                qtyInput.value = "";
+            
+                // Kosongkan dulu cart sementara
+                const idx = cart.findIndex(c => c.id === selectedProduct.id);
+                if (idx !== -1) {
+                    cart.splice(idx, 1);
+                }
+            
+                renderCart();
             
                 uangInput.addEventListener('input', function () {
-                    const hargaPerKg = selectedProduct?.price || 0;
+                    const hargaPerKg = selectedProduct.price;
                     const uang = parseFloat(this.value);
+                
                     if (!isNaN(uang) && hargaPerKg > 0) {
                         const berat = uang / hargaPerKg;
                         qtyInput.value = berat.toFixed(2);
+                    
+                        // Update cart langsung
+                        const existing = cart.find(c => c.id === selectedProduct.id);
+                        if (existing) {
+                            existing.qty = berat;
+                        } else {
+                            cart.push({ ...selectedProduct, qty: berat });
+                        }
+                    
+                        renderCart();
                     }
                 });
+            
             } else {
+                // Mode normal manual qty
                 uangInput.style.display = 'none';
                 qtyInput.readOnly = false;
                 qtyInput.value = "";
             }
         });
-
           
         document.getElementById("hamburger").addEventListener("click", toggleSidebar);
         
