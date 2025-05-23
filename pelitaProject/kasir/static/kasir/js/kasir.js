@@ -23,6 +23,8 @@
         function addToCart(id) {
             const product = products.find(p => p.id === id);
             if (!product) return;
+
+            selectedProduct = product;
         
             const isNominal = document.getElementById("toggle-nominal")?.checked || false;
             let qty = 1;
