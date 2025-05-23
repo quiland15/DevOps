@@ -23,7 +23,7 @@
         function addToCart(id) {
             const product = products.find(p => p.id === id);
             if (!product) return;
-
+        
             selectedProduct = product;
         
             const isNominal = document.getElementById("toggle-nominal")?.checked || false;
@@ -38,11 +38,12 @@
                 qty = uangInput / product.price;
             } else {
                 const qtyInput = parseFloat(document.getElementById("input-qty")?.value || "0");
-                if (isNaN(qtyInput) || qtyInput <= 0) {
-                    alert("Berat produk tidak valid.");
-                    return;
+                if (!isNaN(qtyInput) && qtyInput > 0) {
+                    qty = qtyInput;
+                } else {
+                    // fallback: tetap tambah 1 seperti biasa
+                    qty = 1;
                 }
-                qty = 1;
             }
         
             const existing = cart.find(c => c.id === id);
@@ -61,6 +62,7 @@
             document.getElementById("input-uang").style.display = "none";
             document.getElementById("input-qty").readOnly = false;
         }
+
 
     
         function updateQty(id, change) {
