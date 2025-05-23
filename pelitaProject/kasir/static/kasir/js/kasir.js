@@ -103,7 +103,7 @@
                             <button class="btn btn-sm btn-light" onclick="updateQty(${item.id}, 1)">+</button>
                         </div>
                     </td>
-                    <td>Rp ${(item.price * item.qty).toLocaleString()}</td>
+                    <td>Rp ${(item.subtotal || (item.price * item.qty)).toLocaleString()}</td>
                     <td><button class="btn btn-sm btn-danger" onclick="removeItem(${item.id})">&times;</button></td>
                 `;
                 tbody.appendChild(tr);
