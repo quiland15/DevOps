@@ -21,7 +21,7 @@
         }
     
         function addToCart(id) {
-            const product = products.find(p => p.id === id);
+            // const product = products.find(p => p.id === id);
             if (!product) return;
 
             selectedProduct = product;
@@ -148,7 +148,7 @@
         document.getElementById('toggle-nominal').addEventListener('change', function () {
             const uangInput = document.getElementById('input-uang');
             const qtyInput = document.getElementById('input-qty');
-                
+
             if (!selectedProduct) {
                 alert("Pilih produk terlebih dahulu.");
                 this.checked = false;
