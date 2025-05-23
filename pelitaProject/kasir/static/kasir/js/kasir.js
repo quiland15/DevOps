@@ -91,7 +91,7 @@
             let totalPrice = 0;
             cart.forEach(item => {
                 totalItems += item.qty;
-                totalPrice += item.price * item.qty;
+                totalPrice += item.subtotal || (item.price * item.qty);
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${item.name}</td>
