@@ -1,3 +1,4 @@
+    let selectedProduct = null;
     const cart = [];
 
         function renderProducts() {
@@ -21,14 +22,44 @@
     
         function addToCart(id) {
             const product = products.find(p => p.id === id);
+            if (!product) return;
+        
+            const isNominal = document.getElementById("toggle-nominal")?.checked || false;
+            let qty = 1;
+        
+            if (isNominal) {
+                const uangInput = parseFloat(document.getElementById("input-uang")?.value || "0");
+                if (isNaN(uangInput) || uangInput <= 0) {
+                    alert("Nominal uang tidak valid.");
+                    return;
+                }
+                qty = uangInput / product.price;
+            } else {
+                const qtyInput = parseFloat(document.getElementById("input-qty")?.value || "0");
+                if (isNaN(qtyInput) || qtyInput <= 0) {
+                    alert("Berat produk tidak valid.");
+                    return;
+                }
+                qty = qtyInput;
+            }
+        
             const existing = cart.find(c => c.id === id);
             if (existing) {
-                existing.qty++;
+                existing.qty += qty;
             } else {
-                cart.push({ ...product, qty: 1 });
+                cart.push({ ...product, qty });
             }
+        
             renderCart();
+        
+            // Reset input setelah menambahkan
+            document.getElementById("input-uang").value = "";
+            document.getElementById("input-qty").value = "";
+            document.getElementById("toggle-nominal").checked = false;
+            document.getElementById("input-uang").style.display = "none";
+            document.getElementById("input-qty").readOnly = false;
         }
+
     
         function updateQty(id, change) {
             const item = cart.find(c => c.id === id);
@@ -91,6 +122,28 @@
             }
         }
 
+        function confirmAddToCart() {
+            const qty = parseFloat(document.getElementById("input-qty").value);
+            if (!selectedProduct || isNaN(qty) || qty <= 0) {
+                alert("Input tidak valid.");
+                return;
+            }
+        
+            const existing = cart.find(c => c.id === selectedProduct.id);
+            if (existing) {
+                existing.qty += qty;
+            } else {
+                cart.push({ ...selectedProduct, qty });
+            }
+        
+            renderCart();
+            selectedProduct = null;
+        
+            // Reset form
+            document.getElementById("input-uang").value = "";
+            document.getElementById("input-qty").value = "";
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
             renderProducts(); // Tampilkan semua dulu
             renderCart();
@@ -110,6 +163,29 @@
           
               renderFilteredProducts(filtered);
             });
+        });
+
+        document.getElementById('toggle-nominal').addEventListener('change', function () {
+            const uangInput = document.getElementById('input-uang');
+            const qtyInput = document.getElementById('input-qty');
+
+            if (this.checked) {
+                uangInput.style.display = 'block';
+                qtyInput.readOnly = true;
+            
+                uangInput.addEventListener('input', function () {
+                    const hargaPerKg = selectedProduct?.price || 0;
+                    const uang = parseFloat(this.value);
+                    if (!isNaN(uang) && hargaPerKg > 0) {
+                        const berat = uang / hargaPerKg;
+                        qtyInput.value = berat.toFixed(2);
+                    }
+                });
+            } else {
+                uangInput.style.display = 'none';
+                qtyInput.readOnly = false;
+                qtyInput.value = "";
+            }
         });
           
         document.getElementById("hamburger").addEventListener("click", toggleSidebar);
