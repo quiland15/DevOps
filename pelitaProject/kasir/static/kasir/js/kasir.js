@@ -188,7 +188,7 @@
                             existing.qty = berat;
                             existing.subtotal = uang;
                         } else {
-                            cart.push({ ...selectedProduct, qty: berat });
+                            cart.push({ ...selectedProduct, qty: berat, subtotal: uang });
                         }
                     
                         renderCart();
