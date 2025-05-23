@@ -150,7 +150,7 @@
         document.getElementById('toggle-nominal').addEventListener('change', function () {
             const uangInput = document.getElementById('input-uang');
             const qtyInput = document.getElementById('input-qty');
-                
+
             if (!selectedProduct) {
                 alert("Pilih produk terlebih dahulu.");
                 this.checked = false;
@@ -186,6 +186,7 @@
                         const existing = cart.find(c => c.id === selectedProduct.id);
                         if (existing) {
                             existing.qty = berat;
+                            existing.subtotal = uang;
                         } else {
                             cart.push({ ...selectedProduct, qty: berat });
                         }
