@@ -74,6 +74,15 @@
                     <div class="col-md-4">
                         <div class="card p-3">
                             <h5><i class="bi bi-cart"></i> Keranjang</h5>
+                            <div class="mb-2">
+                              <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="toggle-nominal">
+                                <label class="form-check-label" for="toggle-nominal">Input berdasarkan uang</label>
+                              </div>
+                          
+                              <input type="number" class="form-control mb-2" id="input-uang" placeholder="Masukkan nominal (Rp)" style="display:none;">
+                              <input type="number" class="form-control" id="input-qty" placeholder="Masukkan berat (kg)">
+                            </div>
                             <div class="table-responsive">
                                 <table class="table" id="cart-table">
                                     <thead>
@@ -93,16 +102,6 @@
                             <p>Total Items: <span id="total-items">0</span></p>
                             <p><strong>Total:</strong> <span class="text-primary" id="total-price">Rp 0</span></p>
                             <input type="text" class="form-control mb-3" placeholder="Masukkan nama pelanggan">
-                            
-                            <div class="mb-2">
-                              <div class="form-check form-switch mb-2">
-                                <input class="form-check-input" type="checkbox" id="toggle-nominal">
-                                <label class="form-check-label" for="toggle-nominal">Input berdasarkan uang</label>
-                              </div>
-                          
-                              <input type="number" class="form-control mb-2" id="input-uang" placeholder="Masukkan nominal (Rp)" style="display:none;">
-                              <input type="number" class="form-control" id="input-qty" placeholder="Masukkan berat (kg)">
-                            </div>
 
                             <h6>Metode Pembayaran</h6>
                             <div class="form-check form-check-inline">
