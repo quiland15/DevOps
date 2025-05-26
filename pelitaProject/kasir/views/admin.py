@@ -367,10 +367,10 @@ def download_low_stock_pdf(request):
     p.line(2 * cm, y + 0.3 * cm, 18 * cm, y + 0.3 * cm)
 
     # Ambil data produk dengan stok <= 10
-    low_stock_products = Product.objects.filter(stock__lte=10)
+    low_stock_products = Product.objects.filter(stock__lte=5)
 
     # Tampilkan isi tabel
-    p.setFont("Helvetica", 5)
+    p.setFont("Helvetica", 10)
     no = 1
     for product in low_stock_products:
         if y < 3 * cm:
