@@ -396,11 +396,8 @@ def download_laporan_pdf(request):
     start_date = end_date = datetime.today()
 
     # Parse filter waktu
-try:
     if filter_type == "day":
         start_date = end_date = datetime.strptime(filter_date, "%Y-%m-%d")
-except ValueError:
-    return HttpResponse("Format tanggal tidak sesuai (YYYY-MM-DD).", status=400)
     elif filter_type == "week":
         ref_date = datetime.strptime(filter_date, "%Y-%m-%d")
         start_date = ref_date - timedelta(days=ref_date.weekday())
