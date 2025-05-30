@@ -417,79 +417,50 @@ def download_laporan_pdf(request):
 
     # PDF setup
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="laporan_filtered.pdf"'
+    response['Content-Disposition'] = 'attachment; filename="laporan_transaksi.pdf"'
     doc = SimpleDocTemplate(response, pagesize=A4, rightMargin=2*cm, leftMargin=2*cm, topMargin=2*cm, bottomMargin=2*cm)
     elements = []
     styles = getSampleStyleSheet()
 
     # Judul
-    elements.append(Paragraph("Laporan Transaksi Terfilter", styles['Title']))
-    elements.append(Spacer(1, 12))
-    elements.append(Paragraph(f"Periode: {start_date.strftime('%d/%m/%Y')} - {end_date.strftime('%d/%m/%Y')}", styles['Normal']))
+    elements.append(Paragraph("Laporan Transaksi", styles['Title']))
     elements.append(Spacer(1, 12))
 
-    # Bagian: Pengurangan Stok
-    elements.append(Paragraph("History Pengurangan Stok", styles['Heading3']))
-    data_stock = [["Tanggal", "Produk", "Jumlah", "Alasan"]]
-    for log in inventory_logs:
-        data_stock.append([
-            log.created_at.strftime('%d/%m/%Y'),
-            log.product.name,
-            str(log.quantity),
-            log.description
-        ])
-    table_stock = Table(data_stock, colWidths=[3.5*cm, 6*cm, 2*cm, 6*cm])
-    table_stock.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
-        ('GRID', (0,0), (-1,-1), 0.5, colors.grey),
-        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
-        ('ALIGN', (2,1), (2,-1), 'CENTER'),
-        ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-    ]))
-    elements.append(table_stock)
-    elements.append(Spacer(1, 12))
+    # Header tabel custom: ID | Tanggal | Produk | Jumlah | Total
+    elements.append(Paragraph("Detail Transaksi", styles['Heading3']))
+    table_data = [["ID", "Tanggal", "Produk", "Jumlah", "Total"]]
 
-    # Bagian: Pendapatan
-    elements.append(Paragraph("History Pendapatan", styles['Heading3']))
-    data_revenue = [["Tanggal", "Jumlah"]]
+    # Mapping transaksi
     for trx in transactions:
-        data_revenue.append([
-            trx.created_at.strftime('%d/%m/%Y'),
-            f"Rp {trx.total_amount:,.0f}"
-        ])
-    table_revenue = Table(data_revenue, colWidths=[5*cm, 10*cm])
-    table_revenue.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
-        ('GRID', (0,0), (-1,-1), 0.5, colors.grey),
-        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
-        ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-    ]))
-    elements.append(table_revenue)
-    elements.append(Spacer(1, 12))
+        trx_items = TransactionItem.objects.filter(transaction=trx)
+        for item in trx_items:
+            # Cari log pengurangan stok yang sesuai (optional)
+            log = inventory_logs.filter(product=item.product, created_at__date=trx.created_at.date()).first()
+            jumlah_log = log.quantity if log else item.quantity
+            table_data.append([
+                f"#{trx.id}",
+                trx.created_at.strftime('%d/%m/%Y'),
+                item.product.name,
+                str(jumlah_log),
+                f"Rp {item.subtotal:,.0f}"
+            ])
 
-    # Bagian: Transaksi Kasir
-    elements.append(Paragraph("History Transaksi Kasir", styles['Heading3']))
-    data_kasir = [["ID", "Tanggal", "Kasir", "Item", "Total"]]
-    for trx in transactions:
-        item_count = TransactionItem.objects.filter(transaction=trx).aggregate(total=Sum('quantity'))['total'] or 0
-        kasir = trx.cashier.username if trx.cashier else "Tidak diketahui"
-        data_kasir.append([
-            f"#{trx.id}",
-            trx.created_at.strftime('%d/%m/%Y'),
-            kasir,
-            str(item_count),
-            f"Rp {trx.total_amount:,.0f}"
-        ])
-    table_kasir = Table(data_kasir, colWidths=[2*cm, 3.5*cm, 4*cm, 2*cm, 5*cm])
-    table_kasir.setStyle(TableStyle([
+    # Buat tabel
+    table = Table(table_data, colWidths=[2*cm, 3.5*cm, 6*cm, 2*cm, 4*cm])
+    table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
         ('GRID', (0,0), (-1,-1), 0.5, colors.grey),
         ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
         ('ALIGN', (3,1), (3,-1), 'CENTER'),
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
     ]))
-    elements.append(table_kasir)
+    elements.append(table)
+    elements.append(Spacer(1, 24))
 
-    # Build document
+    # Total pendapatan
+    total_pendapatan = transactions.aggregate(total=Sum('total_amount'))['total'] or 0
+    elements.append(Paragraph(f"Total Pendapatan: Rp {total_pendapatan:,.0f}", styles['Heading2']))
+
+    # Build PDF
     doc.build(elements)
     return response
