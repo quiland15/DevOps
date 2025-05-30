@@ -175,7 +175,7 @@
       }
     
       // Format tanggal untuk query
-      const downloadLink = `laporan/laporan-pdf/?filter=${currentFilterType}&date=${currentFilterDate}`;
+      const downloadLink = `laporan-pdf/?filter=${currentFilterType}&date=${currentFilterDate}`;
       this.href = downloadLink;
     });
 
