@@ -20,5 +20,5 @@ urlpatterns = [
     path('checkout/', checkout, name='checkout'),
     path('kasir/low-stock-pdf/',download_low_stock_pdf, name='download_low_stock_pdf'),
     path('api/users/', manage_users, name='manage_users'),
-    path('laporan/pdf/', download_laporan_pdf, name='download_laporan_pdf'),
+    path('laporan/laporan-pdf/', download_laporan_pdf, name='download_laporan_pdf'),
 ]
