@@ -435,17 +435,12 @@ def download_laporan_pdf(request):
         trx_items = TransactionItem.objects.filter(transaction=trx)
         for item in trx_items:
             # Cari log pengurangan stok yang sesuai (optional)
-            # log = inventory_logs.filter(product=item.product, created_at__date=trx.created_at.date()).first()
-            log = inventory_logs.filter(
-                product=item.product,
-                created_at__date=trx.created_at.date()
-            ).order_by('-created_at').first()
-            jumlah_log = log.quantity if log else item.quantity
+            jumlah_log = item.quantity
             table_data.append([
                 f"#{trx.id}",
                 trx.created_at.strftime('%d/%m/%Y'),
                 item.product.name,
-                str(jumlah_log),
+                str(item.quantity),
                 f"Rp {item.subtotal:,.0f}"
             ])
 
