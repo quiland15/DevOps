@@ -166,6 +166,19 @@
       renderTransactions(filteredTransactions, document.getElementById("searchTransaction").value.trim());
     }
 
+    // Update URL download PDF berdasarkan filter aktif
+    document.getElementById("downloadLaporan").addEventListener("click", function (e) {
+      if (!currentFilterDate || !currentFilterType) {
+        alert("Silakan pilih filter dan tanggal terlebih dahulu!");
+        e.preventDefault();
+        return;
+      }
+    
+      // Format tanggal untuk query
+      const downloadLink = `/laporan/pdf/?filter=${currentFilterType}&date=${currentFilterDate}`;
+      this.href = downloadLink;
+    });
+
     // Initialize date input type and value based on filter type
     function updateDateInputType() {
       const filterTypeSelect = document.getElementById("filterType");

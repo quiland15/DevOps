@@ -385,3 +385,90 @@ def download_low_stock_pdf(request):
     p.showPage()
     p.save()
     return response
+
+def download_laporan_pdf(request):
+    filter_type = request.GET.get('filter')  # "day", "week", "month"
+    filter_date = request.GET.get('date')    # contoh: "2025-05-26" atau "2025-05"
+
+    start_date = end_date = datetime.today()
+
+    # Parse filter waktu
+    if filter_type == "day":
+        start_date = end_date = datetime.strptime(filter_date, "%Y-%m-%d")
+    elif filter_type == "week":
+        ref_date = datetime.strptime(filter_date, "%Y-%m-%d")
+        start_date = ref_date - timedelta(days=ref_date.weekday())
+        end_date = start_date + timedelta(days=6)
+    elif filter_type == "month":
+        year, month = map(int, filter_date.split('-'))
+        start_date = datetime(year, month, 1)
+        if month == 12:
+            end_date = datetime(year + 1, 1, 1) - timedelta(days=1)
+        else:
+            end_date = datetime(year, month + 1, 1) - timedelta(days=1)
+
+    # Ambil data dari database
+    inventory_logs = InventoryLog.objects.filter(created_at__range=(start_date, end_date))
+    transactions = Transaction.objects.filter(created_at__range=(start_date, end_date))
+    transaction_items = TransactionItem.objects.filter(transaction__in=transactions)
+
+    # PDF setup
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="laporan_filtered.pdf"'
+    p = canvas.Canvas(response, pagesize=A4)
+    width, height = A4
+    y = height - 3 * cm
+
+    # Header
+    p.setFont("Helvetica-Bold", 14)
+    p.drawString(2 * cm, y, "Laporan Transaksi Terfilter")
+    y -= 1 * cm
+    p.setFont("Helvetica", 10)
+    p.drawString(2 * cm, y, f"Periode: {start_date.strftime('%d/%m/%Y')} - {end_date.strftime('%d/%m/%Y')}")
+    y -= 1.2 * cm
+
+    # Section: History Pengurangan Stok
+    p.setFont("Helvetica-Bold", 12)
+    p.drawString(2 * cm, y, "History Pengurangan Stok")
+    y -= 0.8 * cm
+    p.setFont("Helvetica", 10)
+    for log in inventory_logs:
+        p.drawString(2 * cm, y, f"{log.created_at.strftime('%d/%m/%Y')} - {log.product.name} - {log.quantity} - {log.description}")
+        y -= 0.5 * cm
+        if y < 3 * cm:
+            p.showPage()
+            y = height - 3 * cm
+
+    y -= 0.7 * cm
+
+    # Section: Pendapatan
+    p.setFont("Helvetica-Bold", 12)
+    p.drawString(2 * cm, y, "History Pendapatan")
+    y -= 0.8 * cm
+    p.setFont("Helvetica", 10)
+    for trx in transactions:
+        p.drawString(2 * cm, y, f"{trx.created_at.strftime('%d/%m/%Y')} - Rp {trx.total_amount:,.0f}")
+        y -= 0.5 * cm
+        if y < 3 * cm:
+            p.showPage()
+            y = height - 3 * cm
+
+    y -= 0.7 * cm
+
+    # Section: History Transaksi Kasir
+    p.setFont("Helvetica-Bold", 12)
+    p.drawString(2 * cm, y, "History Transaksi Kasir")
+    y -= 0.8 * cm
+    p.setFont("Helvetica", 10)
+    for trx in transactions:
+        item_count = TransactionItem.objects.filter(transaction=trx).aggregate(total=Sum('quantity'))['total'] or 0
+        kasir = trx.cashier.username if trx.cashier else "Tidak diketahui"
+        p.drawString(2 * cm, y, f"{trx.id} - {trx.created_at.strftime('%d/%m/%Y')} - {kasir} - Item: {item_count} - Rp {trx.total_amount:,.0f}")
+        y -= 0.5 * cm
+        if y < 3 * cm:
+            p.showPage()
+            y = height - 3 * cm
+
+    p.showPage()
+    p.save()
+    return response
