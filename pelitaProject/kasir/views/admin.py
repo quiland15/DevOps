@@ -435,7 +435,8 @@ def download_laporan_pdf(request):
         trx_items = TransactionItem.objects.filter(transaction=trx)
         for item in trx_items:
             # Cari log pengurangan stok yang sesuai (optional)
-            log = inventory_logs.filter(product=item.product, created_at__date=trx.created_at.date()).first()
+            # log = inventory_logs.filter(product=item.product, created_at__date=trx.created_at.date()).first()
+            log = inventory_logs.filter(product=item.product, created_at__date=start_date.date()).first()
             jumlah_log = log.quantity if log else item.quantity
             table_data.append([
                 f"#{trx.id}",
