@@ -13,7 +13,7 @@ from reportlab.lib.pagesizes import A4
 from django.http import HttpResponse
 from decimal import Decimal
 from django.db.models import Sum
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.views.decorators.http import require_http_methods
 
 
