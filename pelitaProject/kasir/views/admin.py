@@ -397,7 +397,7 @@ def download_laporan_pdf(request):
 
     # Parse filter waktu
     if filter_type == "day":
-        start_date = end_date = datetime.strptime(filter_date, "%Y-%m-%d")
+        start_date = end_date = datetime.strptime(filter_date, "%m-%d-%y")
     elif filter_type == "week":
         ref_date = datetime.strptime(filter_date, "%Y-%m-%d")
         start_date = ref_date - timedelta(days=ref_date.weekday())
