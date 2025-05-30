@@ -15,6 +15,9 @@ from decimal import Decimal
 from django.db.models import Sum
 from datetime import datetime, timedelta
 from django.views.decorators.http import require_http_methods
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
 
 
 def is_admin(user):
@@ -415,60 +418,78 @@ def download_laporan_pdf(request):
     # PDF setup
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="laporan_filtered.pdf"'
-    p = canvas.Canvas(response, pagesize=A4)
-    width, height = A4
-    y = height - 3 * cm
+    doc = SimpleDocTemplate(response, pagesize=A4, rightMargin=2*cm, leftMargin=2*cm, topMargin=2*cm, bottomMargin=2*cm)
+    elements = []
+    styles = getSampleStyleSheet()
 
-    # Header
-    p.setFont("Helvetica-Bold", 14)
-    p.drawString(2 * cm, y, "Laporan Transaksi Terfilter")
-    y -= 1 * cm
-    p.setFont("Helvetica", 10)
-    p.drawString(2 * cm, y, f"Periode: {start_date.strftime('%d/%m/%Y')} - {end_date.strftime('%d/%m/%Y')}")
-    y -= 1.2 * cm
+    # Judul
+    elements.append(Paragraph("Laporan Transaksi Terfilter", styles['Title']))
+    elements.append(Spacer(1, 12))
+    elements.append(Paragraph(f"Periode: {start_date.strftime('%d/%m/%Y')} - {end_date.strftime('%d/%m/%Y')}", styles['Normal']))
+    elements.append(Spacer(1, 12))
 
-    # Section: History Pengurangan Stok
-    p.setFont("Helvetica-Bold", 12)
-    p.drawString(2 * cm, y, "History Pengurangan Stok")
-    y -= 0.8 * cm
-    p.setFont("Helvetica", 10)
+    # Bagian: Pengurangan Stok
+    elements.append(Paragraph("History Pengurangan Stok", styles['Heading3']))
+    data_stock = [["Tanggal", "Produk", "Jumlah", "Alasan"]]
     for log in inventory_logs:
-        p.drawString(2 * cm, y, f"{log.created_at.strftime('%d/%m/%Y')} - {log.product.name} - {log.quantity} - {log.description}")
-        y -= 0.5 * cm
-        if y < 3 * cm:
-            p.showPage()
-            y = height - 3 * cm
+        data_stock.append([
+            log.created_at.strftime('%d/%m/%Y'),
+            log.product.name,
+            str(log.quantity),
+            log.description
+        ])
+    table_stock = Table(data_stock, colWidths=[3.5*cm, 6*cm, 2*cm, 6*cm])
+    table_stock.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+        ('GRID', (0,0), (-1,-1), 0.5, colors.grey),
+        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+        ('ALIGN', (2,1), (2,-1), 'CENTER'),
+        ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+    ]))
+    elements.append(table_stock)
+    elements.append(Spacer(1, 12))
 
-    y -= 0.7 * cm
-
-    # Section: Pendapatan
-    p.setFont("Helvetica-Bold", 12)
-    p.drawString(2 * cm, y, "History Pendapatan")
-    y -= 0.8 * cm
-    p.setFont("Helvetica", 10)
+    # Bagian: Pendapatan
+    elements.append(Paragraph("History Pendapatan", styles['Heading3']))
+    data_revenue = [["Tanggal", "Jumlah"]]
     for trx in transactions:
-        p.drawString(2 * cm, y, f"{trx.created_at.strftime('%d/%m/%Y')} - Rp {trx.total_amount:,.0f}")
-        y -= 0.5 * cm
-        if y < 3 * cm:
-            p.showPage()
-            y = height - 3 * cm
+        data_revenue.append([
+            trx.created_at.strftime('%d/%m/%Y'),
+            f"Rp {trx.total_amount:,.0f}"
+        ])
+    table_revenue = Table(data_revenue, colWidths=[5*cm, 10*cm])
+    table_revenue.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+        ('GRID', (0,0), (-1,-1), 0.5, colors.grey),
+        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+        ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+    ]))
+    elements.append(table_revenue)
+    elements.append(Spacer(1, 12))
 
-    y -= 0.7 * cm
-
-    # Section: History Transaksi Kasir
-    p.setFont("Helvetica-Bold", 12)
-    p.drawString(2 * cm, y, "History Transaksi Kasir")
-    y -= 0.8 * cm
-    p.setFont("Helvetica", 10)
+    # Bagian: Transaksi Kasir
+    elements.append(Paragraph("History Transaksi Kasir", styles['Heading3']))
+    data_kasir = [["ID", "Tanggal", "Kasir", "Item", "Total"]]
     for trx in transactions:
         item_count = TransactionItem.objects.filter(transaction=trx).aggregate(total=Sum('quantity'))['total'] or 0
         kasir = trx.cashier.username if trx.cashier else "Tidak diketahui"
-        p.drawString(2 * cm, y, f"{trx.id} - {trx.created_at.strftime('%d/%m/%Y')} - {kasir} - Item: {item_count} - Rp {trx.total_amount:,.0f}")
-        y -= 0.5 * cm
-        if y < 3 * cm:
-            p.showPage()
-            y = height - 3 * cm
+        data_kasir.append([
+            f"#{trx.id}",
+            trx.created_at.strftime('%d/%m/%Y'),
+            kasir,
+            str(item_count),
+            f"Rp {trx.total_amount:,.0f}"
+        ])
+    table_kasir = Table(data_kasir, colWidths=[2*cm, 3.5*cm, 4*cm, 2*cm, 5*cm])
+    table_kasir.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+        ('GRID', (0,0), (-1,-1), 0.5, colors.grey),
+        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+        ('ALIGN', (3,1), (3,-1), 'CENTER'),
+        ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+    ]))
+    elements.append(table_kasir)
 
-    p.showPage()
-    p.save()
+    # Build document
+    doc.build(elements)
     return response
