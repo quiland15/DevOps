@@ -267,7 +267,6 @@ document.querySelector(".btn.btn-primary.w-100").addEventListener("click", funct
         if (data.status === "success") {
             alert("Transaksi berhasil!");
             const payload = {
-                logo: true, // Tambahan untuk sinyal cetak logo
                 header: [
                     "UD PELITA",
                     "Jl. Wolter Monginsidi",
