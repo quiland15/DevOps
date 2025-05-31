@@ -266,6 +266,17 @@ document.querySelector(".btn.btn-primary.w-100").addEventListener("click", funct
     .then(data => {
         if (data.status === "success") {
             alert("Transaksi berhasil!");
+            const payload = {
+                header: "TOKO UD PELITA",
+                address: "Jl. Perjuangan No.88",
+                datetime: new Date().toLocaleString("id-ID"),
+                items: [
+                    ...cart.map(item => `${item.name}     ${item.qty} x Rp ${item.price.toLocaleString()}`),
+                    `Subtotal   Rp ${totalPrice.toLocaleString()}`,
+                    `Bayar      ${metodePembayaran.charAt(0).toUpperCase() + metodePembayaran.slice(1)}`
+                ]
+            };
+            kirimStrukKePrinter(payload);
             cart.length = 0;
             renderCart();
             renderProducts(); // untuk update stok visual
@@ -292,4 +303,25 @@ function getCookie(name) {
         }
     }
     return cookieValue;
+}
+
+async function kirimStrukKePrinter(payload) {
+    try {
+        const res = await fetch("http://192.168.1.155:5000/print", {  // Ganti IP sesuai IP komputer kasir
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await res.json();
+        if (res.ok) {
+            alert("✅ Struk berhasil dicetak!");
+        } else {
+            alert("❌ Gagal cetak: " + (result.error || "Unknown error"));
+        }
+    } catch (err) {
+        alert("❌ Error koneksi ke printer: " + err.message);
+    }
 }
