@@ -267,9 +267,12 @@ document.querySelector(".btn.btn-primary.w-100").addEventListener("click", funct
         if (data.status === "success") {
             alert("Transaksi berhasil!");
             const payload = {
-                header: "TOKO UD PELITA",
-                address: "Jl. Perjuangan No.88",
-                datetime: new Date().toLocaleString("id-ID"),
+                logo: true, // Tambahan untuk sinyal cetak logo
+                header: [
+                    "UD PELITA",
+                    "Jl. Perjuangan No.88",
+                    `${new Date().toLocaleString("id-ID")} - ID#${Math.floor(Math.random() * 1000000)}`
+                ],
                 items: [
                     ...cart.map(item => `${item.name}     ${item.qty} x Rp ${item.price.toLocaleString()}`),
                     `Subtotal   Rp ${totalPrice.toLocaleString()}`,
