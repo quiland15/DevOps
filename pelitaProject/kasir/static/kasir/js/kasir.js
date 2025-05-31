@@ -270,7 +270,7 @@ document.querySelector(".btn.btn-primary.w-100").addEventListener("click", funct
                 logo: true, // Tambahan untuk sinyal cetak logo
                 header: [
                     "UD PELITA",
-                    "Jl. Perjuangan No.88",
+                    "Jl. Wolter Monginsidi",
                     `${new Date().toLocaleString("id-ID")} - ID#${Math.floor(Math.random() * 1000000)}`
                 ],
                 items: [
