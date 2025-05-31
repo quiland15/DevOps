@@ -309,7 +309,7 @@ function getCookie(name) {
 
 async function kirimStrukKePrinter(payload) {
     try {
-        const res = await fetch("http://192.168.1.155:5000/print", {  // Ganti IP sesuai IP komputer kasir
+        const res = await fetch("/print", {  // Ganti IP sesuai IP komputer kasir
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
